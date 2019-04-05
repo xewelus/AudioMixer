@@ -60,9 +60,17 @@ namespace AudioMixer
 			}
 
 			ListViewItem item = this.lvMixes.SelectedItems[0];
-			item.ImageIndex = 0;
-			item.Font = new Font(this.lvMixes.Font, FontStyle.Bold);
-			this.lastActivated = item;
+
+			if (this.lastActivated == item)
+			{
+				this.lastActivated = null;
+			}
+			else
+			{
+				item.ImageIndex = 0;
+				item.Font = new Font(this.lvMixes.Font, FontStyle.Bold);
+				this.lastActivated = item;
+			}
 
 			this.AdjustList(true);
 		}
