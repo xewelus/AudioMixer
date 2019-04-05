@@ -66,7 +66,7 @@ namespace AudioMixer
 			{
 				this.soundInfo = soundInfo;
 
-				this.waveOut = new DirectSoundOut(deviceInfo.Guid, 500);
+				this.waveOut = new DirectSoundOut(deviceInfo.Guid, 100);
 				this.waveOut.PlaybackStopped += this.OnPlaybackStopped;
 
 				this.AudioFileReader = new AudioFileReader(soundInfo.Path);
@@ -110,6 +110,11 @@ namespace AudioMixer
 				if (this.AudioFileReader != null)
 				{
 					this.AudioFileReader.Position = 0;
+
+					if (e.Exception == null)
+					{
+						this.waveOut.Play();
+					}
 				}
 				if (e.Exception != null)
 				{
