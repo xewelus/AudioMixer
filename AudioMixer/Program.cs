@@ -46,13 +46,11 @@ namespace AudioMixer
 					{
 						new SoundInfo
 						{
-							IsActive = true,
 							Path = "C:/somepath/super.mp3",
 							Volume = 0.5f
 						},
 						new SoundInfo
 						{
-							IsActive = true,
 							Path = "C:/somepath/mega voice.mp3",
 							Volume = 1f
 						}
@@ -66,13 +64,11 @@ namespace AudioMixer
 					{
 						new SoundInfo
 						{
-							IsActive = true,
 							Path = "C:/somepath/super.mp3",
 							Volume = 0.75f
 						},
 						new SoundInfo
 						{
-							IsActive = true,
 							Path = "C:/somepath/relax.mp3",
 							Volume = 1f
 						}

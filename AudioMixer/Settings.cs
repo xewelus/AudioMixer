@@ -97,8 +97,7 @@ namespace AudioMixer
 	public class SoundInfo
 	{
 		public string Path;
-		public bool IsActive;
-		public float Volume;
+		public float Volume = 1f;
 
 		public override string ToString()
 		{

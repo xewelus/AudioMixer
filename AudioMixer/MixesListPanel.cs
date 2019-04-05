@@ -38,8 +38,8 @@ namespace AudioMixer
 			Settings.Save(true);
 
 			item.Text = name;
-			this.lvMixes.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-			this.lvMixes.Sort();
+
+			this.AdjustList(true);
 		}
 
 		private ListViewItem AddListItem(MixInfo mixInfo)
@@ -63,7 +63,8 @@ namespace AudioMixer
 			item.ImageIndex = 0;
 			item.Font = new Font(this.lvMixes.Font, FontStyle.Bold);
 			this.lastActivated = item;
-			this.lvMixes.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+			this.AdjustList(true);
 		}
 
 		private void btnMixAdd_Click(object sender, EventArgs e)
@@ -74,6 +75,8 @@ namespace AudioMixer
 
 			ListViewItem item = this.AddListItem(mixInfo);
 			item.Selected = true;
+
+			this.AdjustList(true);
 		}
 
 		private void lvMixes_SelectedIndexChanged(object sender, EventArgs e)
@@ -112,7 +115,17 @@ namespace AudioMixer
 					Settings.Save(true);
 				}
 			}
+			this.AdjustList();
+		}
+
+		private void AdjustList(bool needSort = false)
+		{
 			this.lvMixes.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+			if (needSort)
+			{
+				this.lvMixes.Sort();
+			}
 		}
 	}
 }
