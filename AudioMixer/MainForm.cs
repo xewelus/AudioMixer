@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Common;
 
 namespace AudioMixer
 {
@@ -18,7 +19,14 @@ namespace AudioMixer
 
 		private void btnMixAdd_Click(object sender, EventArgs e)
 		{
+			try
+			{
 
+			}
+			catch (Exception ex)
+			{
+				ExcHandler.Catch(ex);
+			}
 		}
 	}
 }
