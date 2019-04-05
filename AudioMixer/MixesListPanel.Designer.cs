@@ -31,7 +31,6 @@
 			this.components = new System.ComponentModel.Container();
 			this.lvMixes = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.imageList = new System.Windows.Forms.ImageList(this.components);
 			this.tsMixes = new System.Windows.Forms.ToolStrip();
 			this.btnMixDelete = new System.Windows.Forms.ToolStripButton();
@@ -42,11 +41,12 @@
 			// lvMixes
 			// 
 			this.lvMixes.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
+            this.columnHeader1});
 			this.lvMixes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvMixes.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.lvMixes.FullRowSelect = true;
 			this.lvMixes.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this.lvMixes.HideSelection = false;
 			this.lvMixes.Location = new System.Drawing.Point(0, 25);
 			this.lvMixes.MultiSelect = false;
 			this.lvMixes.Name = "lvMixes";
@@ -61,11 +61,7 @@
 			// 
 			// columnHeader1
 			// 
-			this.columnHeader1.Width = 22;
-			// 
-			// columnHeader2
-			// 
-			this.columnHeader2.Width = 224;
+			this.columnHeader1.Width = 100;
 			// 
 			// imageList
 			// 
@@ -95,6 +91,7 @@
 			this.btnMixDelete.Name = "btnMixDelete";
 			this.btnMixDelete.Size = new System.Drawing.Size(23, 22);
 			this.btnMixDelete.Text = "toolStripButton2";
+			this.btnMixDelete.Click += new System.EventHandler(this.btnMixDelete_Click);
 			// 
 			// btnMixAdd
 			// 
@@ -125,7 +122,6 @@
 
 		private System.Windows.Forms.ListView lvMixes;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
-		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ToolStrip tsMixes;
 		private System.Windows.Forms.ToolStripButton btnMixDelete;
 		private System.Windows.Forms.ToolStripButton btnMixAdd;

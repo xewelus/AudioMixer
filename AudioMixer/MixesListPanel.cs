@@ -13,6 +13,7 @@ namespace AudioMixer
 			this.InitializeComponent();
 
 			this.imageList.Images.Add(Resources.play);
+			this.imageList.Images.Add(Resources.music);
 
 			this.lvMixes.BeginUpdate();
 			this.lvMixes.Items.Clear();
@@ -20,6 +21,7 @@ namespace AudioMixer
 			{
 				this.AddListItem(mixInfo);
 			}
+			this.lvMixes.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 			this.lvMixes.Sort();
 			this.lvMixes.EndUpdate();
 		}
@@ -35,13 +37,15 @@ namespace AudioMixer
 			mixInfo.Name = name;
 			Settings.Save(true);
 
-			item.SubItems[1].Text = name;
+			item.Text = name;
+			this.lvMixes.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+			this.lvMixes.Sort();
 		}
 
 		private ListViewItem AddListItem(MixInfo mixInfo)
 		{
-			ListViewItem item = this.lvMixes.Items.Add(string.Empty);
-			item.SubItems.Add(mixInfo.Name);
+			ListViewItem item = this.lvMixes.Items.Add(mixInfo.Name);
+			item.ImageIndex = 1;
 			item.Tag = mixInfo;
 			return item;
 		}
@@ -51,14 +55,15 @@ namespace AudioMixer
 		{
 			if (this.lastActivated != null)
 			{
-				this.lastActivated.ImageIndex = -1;
-				this.lastActivated.Font = DefaultFont;
+				this.lastActivated.ImageIndex = 1;
+				this.lastActivated.Font = this.lvMixes.Font;
 			}
 
 			ListViewItem item = this.lvMixes.SelectedItems[0];
 			item.ImageIndex = 0;
-			item.Font = new Font(DefaultFont, FontStyle.Bold);
+			item.Font = new Font(this.lvMixes.Font, FontStyle.Bold);
 			this.lastActivated = item;
+			this.lvMixes.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 		}
 
 		private void btnMixAdd_Click(object sender, EventArgs e)
@@ -69,7 +74,6 @@ namespace AudioMixer
 
 			ListViewItem item = this.AddListItem(mixInfo);
 			item.Selected = true;
-			this.lvMixes.Sort();
 		}
 
 		private void lvMixes_SelectedIndexChanged(object sender, EventArgs e)
@@ -91,9 +95,24 @@ namespace AudioMixer
 			}
 		}
 
-		private void SortList()
+		private void btnMixDelete_Click(object sender, EventArgs e)
 		{
+			foreach (ListViewItem item in this.lvMixes.SelectedItems)
+			{
+				MixInfo mixInfo = (MixInfo)item.Tag;
+				if (UIHelper.AskYesNo(string.Format("Вы уверены, что хотите удалить микс '{0}'?", mixInfo.Name)))
+				{
+					if (this.lastActivated == item)
+					{
+						this.lastActivated = null;
+					}
 
+					this.lvMixes.Items.Remove(item);
+					Settings.Current.Mixes.Remove(mixInfo);
+					Settings.Save(true);
+				}
+			}
+			this.lvMixes.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 		}
 	}
 }
