@@ -50,6 +50,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MixesListPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MixesListPanel.Designer.cs">
+      <DependentUpon>MixesListPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MixPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -67,6 +73,9 @@
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MixesListPanel.resx">
+      <DependentUpon>MixesListPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MixPanel.resx">
       <DependentUpon>MixPanel.cs</DependentUpon>

@@ -13,7 +13,30 @@ namespace AudioMixer
 	{
 		public MixPanel()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
+		}
+
+		public MixPanel(MixInfo mixInfo) : this()
+		{
+			this.tbName.Text = mixInfo.Name;
+		}
+
+		public event EventHandler NameChanged;
+
+		public string MixName
+		{
+			get
+			{
+				return this.tbName.Text;
+			}
+		}
+
+		private void tbName_TextChanged(object sender, EventArgs e)
+		{
+			if (this.NameChanged != null)
+			{
+				this.NameChanged.Invoke(this, EventArgs.Empty);
+			}
 		}
 	}
 }

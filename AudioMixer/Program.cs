@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 using Common;
 
@@ -12,6 +13,27 @@ namespace AudioMixer
 		/// </summary>
 		[STAThread]
 		static void Main()
+		{
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+
+			UIHelper.SetUnhandledExceptionSafe();
+
+			try
+			{
+				// TestSaveSettings();
+				Settings.Load();
+				UIHelper.MainForm = new MainForm();
+			}
+			catch (Exception ex)
+			{
+				ExcHandler.Catch(ex);
+			}
+
+			Application.Run(UIHelper.MainForm);
+		}
+
+		private static void TestSaveSettings()
 		{
 			Settings.Current.AudioDevice = "Device 1";
 			Settings.Current.Mixes = new List<MixInfo>
@@ -59,12 +81,6 @@ namespace AudioMixer
 			};
 
 			Settings.Save();
-
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-
-			UIHelper.MainForm = new MainForm();
-			Application.Run(UIHelper.MainForm);
 		}
 	}
 }

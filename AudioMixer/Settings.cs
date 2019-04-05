@@ -1,27 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Xml.Serialization;
 
 namespace AudioMixer
 {
 	public class Settings
 	{
-		public static Settings Current = new Settings();
+		private static Settings current = new Settings();
+		public static Settings Current
+		{
+			get
+			{
+				return current;
+			}
+		}
 
 		public string AudioDevice;
 		public List<MixInfo> Mixes = new List<MixInfo>();
 
 		private static readonly string PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.xml");
 
-		public static void Save()
+		private static readonly object locker = new object();
+		private static bool isSaving;
+
+		public static void Save(bool anotherThread = false)
 		{
-			XmlSerializer xs = new XmlSerializer(typeof(Settings));
-			using (FileStream fs = new FileStream(PATH, FileMode.OpenOrCreate, FileAccess.Write))
+			if (isSaving)
 			{
-				fs.SetLength(0);
-				xs.Serialize(fs, Current);
+				return;
 			}
+
+			if (anotherThread)
+			{
+				Thread thread = new Thread(SaveThread);
+				thread.Start();
+			}
+			else
+			{
+				lock (locker)
+				{
+					if (isSaving)
+					{
+						return;
+					}
+
+					try
+					{
+						isSaving = true;
+
+						XmlSerializer xs = new XmlSerializer(typeof(Settings));
+						using (FileStream fs = new FileStream(PATH, FileMode.OpenOrCreate, FileAccess.Write))
+						{
+							fs.SetLength(0);
+							xs.Serialize(fs, Current);
+						}
+					}
+					finally
+					{
+						isSaving = false;
+					}
+				}
+			}
+		}
+
+		private static void SaveThread()
+		{
+			Save();
 		}
 
 		public static void Load()
@@ -31,7 +77,7 @@ namespace AudioMixer
 			XmlSerializer xs = new XmlSerializer(typeof(Settings));
 			using (FileStream fs = new FileStream(PATH, FileMode.Open, FileAccess.Read))
 			{
-				Current = (Settings)xs.Deserialize(fs);
+				current = (Settings)xs.Deserialize(fs);
 			}
 		}
 	}
@@ -39,8 +85,13 @@ namespace AudioMixer
 	public class MixInfo
 	{
 		public string Name;
-		public float Volume;
+		public float Volume = 1f;
 		public List<SoundInfo> Sounds = new List<SoundInfo>();
+
+		public override string ToString()
+		{
+			return this.Name ?? "<пусто>";
+		}
 	}
 
 	public class SoundInfo
@@ -48,5 +99,10 @@ namespace AudioMixer
 		public string Path;
 		public bool IsActive;
 		public float Volume;
+
+		public override string ToString()
+		{
+			return this.Path ?? "<пусто>";
+		}
 	}
 }
