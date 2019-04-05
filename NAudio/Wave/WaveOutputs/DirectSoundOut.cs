@@ -923,6 +923,11 @@ namespace NAudio.Wave
         /// Device module name
         /// </summary>
         public string ModuleName { get; set; }
+
+	    public override string ToString()
+	    {
+		    return this.Description ?? "NULL";
+	    }
     }
 
 }

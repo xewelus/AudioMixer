@@ -27,7 +27,9 @@ namespace AudioMixer
 		}
 
 		public event EventHandler ItemSelected;
+		public event EventHandler ItemActivated;
 		public MixInfo SelectedMix;
+		public MixInfo ActivatedMix;
 
 		public void UpdateName(string name)
 		{
@@ -73,6 +75,12 @@ namespace AudioMixer
 			}
 
 			this.AdjustList(true);
+
+			this.ActivatedMix = (MixInfo)(this.lastActivated == null ? null : this.lastActivated.Tag);
+			if (this.ItemActivated != null)
+			{
+				this.ItemActivated.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		private void btnMixAdd_Click(object sender, EventArgs e)

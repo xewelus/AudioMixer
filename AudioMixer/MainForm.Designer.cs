@@ -30,11 +30,11 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
-			this.pnlMixes = new AudioMixer.MixesListPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.cbAudioDevice = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.saveTimer = new System.Windows.Forms.Timer(this.components);
+			this.pnlMixes = new AudioMixer.MixesListPanel();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.SuspendLayout();
@@ -58,15 +58,6 @@
 			this.splitContainer.SplitterDistance = 261;
 			this.splitContainer.TabIndex = 0;
 			// 
-			// pnlMixes
-			// 
-			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
-			this.pnlMixes.Name = "pnlMixes";
-			this.pnlMixes.Size = new System.Drawing.Size(261, 731);
-			this.pnlMixes.TabIndex = 0;
-			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
-			// 
 			// panel1
 			// 
 			this.panel1.Controls.Add(this.cbAudioDevice);
@@ -83,8 +74,9 @@
 			this.cbAudioDevice.FormattingEnabled = true;
 			this.cbAudioDevice.Location = new System.Drawing.Point(117, 6);
 			this.cbAudioDevice.Name = "cbAudioDevice";
-			this.cbAudioDevice.Size = new System.Drawing.Size(379, 21);
+			this.cbAudioDevice.Size = new System.Drawing.Size(354, 21);
 			this.cbAudioDevice.TabIndex = 1;
+			this.cbAudioDevice.SelectedIndexChanged += new System.EventHandler(this.cbAudioDevice_SelectedIndexChanged);
 			// 
 			// label1
 			// 
@@ -100,6 +92,16 @@
 			this.saveTimer.Enabled = true;
 			this.saveTimer.Interval = 60000;
 			this.saveTimer.Tick += new System.EventHandler(this.saveTimer_Tick);
+			// 
+			// pnlMixes
+			// 
+			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
+			this.pnlMixes.Name = "pnlMixes";
+			this.pnlMixes.Size = new System.Drawing.Size(261, 731);
+			this.pnlMixes.TabIndex = 0;
+			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
+			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
 			// 
 			// MainForm
 			// 
