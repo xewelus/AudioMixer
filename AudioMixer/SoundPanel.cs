@@ -27,6 +27,7 @@ namespace AudioMixer
 
 		public readonly SoundInfo SoundInfo;
 		public event EventHandler DeleteButtonClick;
+		public event EventHandler VolumeChanged;
 		private bool internalChanges;
 
 		private void btnDelete_Click(object sender, EventArgs e)
@@ -55,6 +56,12 @@ namespace AudioMixer
 			if (!this.internalChanges)
 			{
 				this.SoundInfo.Volume = this.tbVolume.Value / 100f;
+
+				if (this.VolumeChanged != null)
+				{
+					this.VolumeChanged.Invoke(this, EventArgs.Empty);
+				}
+
 				Settings.Save(true);
 			}
 		}

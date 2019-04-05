@@ -38,6 +38,7 @@ namespace AudioMixer
 		}
 
 		public event EventHandler NameChanged;
+		public event EventHandler VolumeChanged;
 		private readonly MixInfo mixInfo;
 		private bool internalChanges;
 
@@ -76,6 +77,7 @@ namespace AudioMixer
 			SoundPanel soundPanel = new SoundPanel(soundInfo);
 			soundPanel.Dock = DockStyle.Top;
 			soundPanel.DeleteButtonClick += this.SoundPanelOnDeleteButtonClick;
+			soundPanel.VolumeChanged += SoundPanel_VolumeChanged;
 
 			this.pnlSounds.Controls.Add(soundPanel);
 			this.pnlSounds.Controls.SetChildIndex(soundPanel, 0);
@@ -83,6 +85,14 @@ namespace AudioMixer
 			this.AdjustHeights();
 
 			this.lines.Add(soundPanel, line);
+		}
+
+		private void SoundPanel_VolumeChanged(object sender, EventArgs e)
+		{
+			if (this.VolumeChanged != null)
+			{
+				this.VolumeChanged.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		private void SoundPanelOnDeleteButtonClick(object sender, EventArgs eventArgs)
@@ -126,6 +136,12 @@ namespace AudioMixer
 			if (!this.internalChanges)
 			{
 				this.mixInfo.Volume = this.tbVolume.Value / 100f;
+
+				if (this.VolumeChanged != null)
+				{
+					this.VolumeChanged.Invoke(this, EventArgs.Empty);
+				}
+
 				Settings.Save(true);
 			}
 		}

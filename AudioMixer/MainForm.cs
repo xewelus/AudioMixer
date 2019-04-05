@@ -9,6 +9,7 @@ namespace AudioMixer
 	public partial class MainForm : Form
 	{
 		private MixPanel mixPanel;
+		private Player player;
 		private bool internalChanges;
 		public MainForm()
 		{
@@ -38,6 +39,13 @@ namespace AudioMixer
 		protected override void OnClosed(EventArgs e)
 		{
 			Settings.Save();
+
+			if (this.player != null)
+			{
+				this.player.Dispose();
+				this.player = null;
+			}
+
 			base.OnClosed(e);
 		}
 
@@ -54,6 +62,7 @@ namespace AudioMixer
 				this.mixPanel = new MixPanel(this.pnlMixes.SelectedMix);
 				this.mixPanel.Dock = DockStyle.Fill;
 				this.mixPanel.NameChanged += this.MixPanelOnNameChanged;
+				this.mixPanel.VolumeChanged += this.MixPanelOnVolumeChanged;
 				this.splitContainer.Panel2.Controls.Add(this.mixPanel);
 			}
 		}
@@ -61,6 +70,14 @@ namespace AudioMixer
 		private void MixPanelOnNameChanged(object sender, EventArgs eventArgs)
 		{
 			this.pnlMixes.UpdateName(this.mixPanel.MixName);
+		}
+
+		private void MixPanelOnVolumeChanged(object sender, EventArgs eventArgs)
+		{
+			if (this.player != null)
+			{
+				this.player.UpdateVolume();
+			}
 		}
 
 		private void saveTimer_Tick(object sender, EventArgs e)
@@ -77,112 +94,25 @@ namespace AudioMixer
 			Settings.Save(true);
 		}
 
-        private IWavePlayer waveOut;
-        private AudioFileReader audioFileReader;
-		private Action<float> setVolumeDelegate;
-
 		private void pnlMixes_ItemActivated(object sender, EventArgs e)
 		{
-			if (this.pnlMixes.ActivatedMix == null)
+			if (this.player != null)
 			{
-				if (waveOut != null)
+				this.player.Dispose();
+				this.player = null;
+			}
+
+			if (this.pnlMixes.ActivatedMix != null)
+			{
+				DirectSoundDeviceInfo deviceInfo = (DirectSoundDeviceInfo)this.cbAudioDevice.SelectedItem;
+				if (deviceInfo == null)
 				{
-					//waveOut.Stop();
-					CloseWaveOut();
+					UIHelper.ShowError("Необходимо выбрать аудио-устройство.");
+					return;
 				}
-				return;
-			}
 
-			try
-			{
-				this.CreateWaveOut();
-			}
-			catch (Exception driverCreateException)
-			{
-				MessageBox.Show(String.Format("{0}", driverCreateException.Message));
-				return;
-			}
-
-			ISampleProvider sampleProvider;
-			try
-			{
-				sampleProvider = this.CreateInputStream(this.pnlMixes.ActivatedMix.Sounds[0].Path);
-			}
-			catch (Exception createException)
-			{
-				MessageBox.Show(String.Format("{0}", createException.Message), "Error Loading File");
-				return;
-			}
-
-			try
-			{
-				this.waveOut.Init(sampleProvider);
-			}
-			catch (Exception initException)
-			{
-				MessageBox.Show(String.Format("{0}", initException.Message), "Error Initializing Output");
-				return;
-			}
-
-			this.setVolumeDelegate(this.pnlMixes.ActivatedMix.Volume);
-			this.waveOut.Play();
-		}
-
-		private void CreateWaveOut()
-		{
-			this.CloseWaveOut();
-
-			DirectSoundDeviceInfo deviceInfo = (DirectSoundDeviceInfo)this.cbAudioDevice.SelectedItem;
-			if (deviceInfo == null)
-			{
-				UIHelper.ShowError("Необходимо выбрать аудио-устройство.");
-				return;
-			}
-
-			this.waveOut = new DirectSoundOut(deviceInfo.Guid, 500);
-			this.waveOut.PlaybackStopped += this.OnPlaybackStopped;
-		}
-
-		private void CloseWaveOut()
-		{
-			if (this.waveOut != null)
-			{
-				this.waveOut.Stop();
-			}
-			if (this.audioFileReader != null)
-			{
-				// this one really closes the file and ACM conversion
-				this.audioFileReader.Dispose();
-				this.setVolumeDelegate = null;
-				this.audioFileReader = null;
-			}
-			if (this.waveOut != null)
-			{
-				this.waveOut.Dispose();
-				this.waveOut = null;
-			}
-		}
-
-		private ISampleProvider CreateInputStream(string fileName)
-		{
-			this.audioFileReader = new AudioFileReader(fileName);
-
-			SampleChannel sampleChannel = new SampleChannel(this.audioFileReader, true);
-			this.setVolumeDelegate = vol => sampleChannel.Volume = vol;
-			MeteringSampleProvider postVolumeMeter = new MeteringSampleProvider(sampleChannel);
-
-			return postVolumeMeter;
-		}
-
-		private void OnPlaybackStopped(object sender, StoppedEventArgs e)
-		{
-			if (this.audioFileReader != null)
-			{
-				this.audioFileReader.Position = 0;
-			}
-			if (e.Exception != null)
-			{
-				//throw new Exception("Playback Device Error", e.Exception);
+				this.player = new Player(deviceInfo, this.pnlMixes.ActivatedMix);
+				this.player.Play();
 			}
 		}
 	}
