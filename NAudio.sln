@@ -63,6 +63,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{BA7F6DBB-9
 		Docs\WaveProviders.md = Docs\WaveProviders.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioMixer", "AudioMixer\AudioMixer.csproj", "{010DE1EE-1C8D-4E51-8766-714B55405E57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,18 @@ Global
 		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Release|x64.ActiveCfg = Release|Any CPU
 		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Release|x86.ActiveCfg = Release|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Debug|x64.Build.0 = Debug|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Debug|x86.Build.0 = Debug|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Release|x64.ActiveCfg = Release|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Release|x64.Build.0 = Release|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Release|x86.ActiveCfg = Release|Any CPU
+		{010DE1EE-1C8D-4E51-8766-714B55405E57}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
