@@ -30,10 +30,10 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label1 = new System.Windows.Forms.Label();
-			this.cbAudioDevice = new System.Windows.Forms.ComboBox();
 			this.pnlMixes = new AudioMixer.MixesListPanel();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.cbAudioDevice = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.saveTimer = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
@@ -50,9 +50,22 @@
 			// splitContainer.Panel1
 			// 
 			this.splitContainer.Panel1.Controls.Add(this.pnlMixes);
+			// 
+			// splitContainer.Panel2
+			// 
+			this.splitContainer.Panel2.AutoScroll = true;
 			this.splitContainer.Size = new System.Drawing.Size(1291, 731);
 			this.splitContainer.SplitterDistance = 261;
 			this.splitContainer.TabIndex = 0;
+			// 
+			// pnlMixes
+			// 
+			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
+			this.pnlMixes.Name = "pnlMixes";
+			this.pnlMixes.Size = new System.Drawing.Size(261, 731);
+			this.pnlMixes.TabIndex = 0;
+			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
 			// 
 			// panel1
 			// 
@@ -64,15 +77,6 @@
 			this.panel1.Size = new System.Drawing.Size(1291, 32);
 			this.panel1.TabIndex = 1;
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(9, 9);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Аудио-устройство:";
-			// 
 			// cbAudioDevice
 			// 
 			this.cbAudioDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -82,14 +86,14 @@
 			this.cbAudioDevice.Size = new System.Drawing.Size(379, 21);
 			this.cbAudioDevice.TabIndex = 1;
 			// 
-			// pnlMixes
+			// label1
 			// 
-			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
-			this.pnlMixes.Name = "pnlMixes";
-			this.pnlMixes.Size = new System.Drawing.Size(261, 731);
-			this.pnlMixes.TabIndex = 0;
-			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(9, 9);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(100, 13);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Аудио-устройство:";
 			// 
 			// saveTimer
 			// 

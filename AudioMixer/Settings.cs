@@ -27,11 +27,6 @@ namespace AudioMixer
 
 		public static void Save(bool anotherThread = false)
 		{
-			if (isSaving)
-			{
-				return;
-			}
-
 			if (anotherThread)
 			{
 				Thread thread = new Thread(SaveThread);
@@ -41,11 +36,6 @@ namespace AudioMixer
 			{
 				lock (locker)
 				{
-					if (isSaving)
-					{
-						return;
-					}
-
 					try
 					{
 						isSaving = true;

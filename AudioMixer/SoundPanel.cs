@@ -13,7 +13,17 @@ namespace AudioMixer
 	{
 		public SoundPanel()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
+		}
+
+		public event EventHandler DeleteButtonClick;
+
+		private void btnDelete_Click(object sender, EventArgs e)
+		{
+			if (this.DeleteButtonClick != null)
+			{
+				this.DeleteButtonClick.Invoke(this, EventArgs.Empty);
+			}
 		}
 	}
 }

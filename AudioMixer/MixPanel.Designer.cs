@@ -31,14 +31,14 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbName = new System.Windows.Forms.TextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.tbVolume = new System.Windows.Forms.TrackBar();
+			this.lblVolume = new System.Windows.Forms.Label();
 			this.pnlSounds = new System.Windows.Forms.Panel();
 			this.tsMixes = new System.Windows.Forms.ToolStrip();
 			this.btnAdd = new System.Windows.Forms.ToolStripButton();
-			this.label2 = new System.Windows.Forms.Label();
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
 			this.panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).BeginInit();
 			this.tsMixes.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -56,30 +56,55 @@
 			this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tbName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.tbName.Location = new System.Drawing.Point(110, 3);
+			this.tbName.Location = new System.Drawing.Point(122, 3);
 			this.tbName.Name = "tbName";
-			this.tbName.Size = new System.Drawing.Size(367, 20);
+			this.tbName.Size = new System.Drawing.Size(355, 20);
 			this.tbName.TabIndex = 1;
 			this.tbName.TextChanged += new System.EventHandler(this.tbName_TextChanged);
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.trackBar1);
-			this.panel1.Controls.Add(this.label2);
+			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.panel1.Controls.Add(this.tbVolume);
+			this.panel1.Controls.Add(this.lblVolume);
 			this.panel1.Controls.Add(this.tbName);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(487, 48);
+			this.panel1.Size = new System.Drawing.Size(487, 55);
 			this.panel1.TabIndex = 2;
+			// 
+			// tbVolume
+			// 
+			this.tbVolume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbVolume.AutoSize = false;
+			this.tbVolume.LargeChange = 1;
+			this.tbVolume.Location = new System.Drawing.Point(118, 25);
+			this.tbVolume.Maximum = 100;
+			this.tbVolume.Name = "tbVolume";
+			this.tbVolume.Size = new System.Drawing.Size(366, 24);
+			this.tbVolume.TabIndex = 3;
+			this.tbVolume.Value = 100;
+			this.tbVolume.Scroll += new System.EventHandler(this.tbVolume_Scroll);
+			// 
+			// lblVolume
+			// 
+			this.lblVolume.AutoSize = true;
+			this.lblVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblVolume.Location = new System.Drawing.Point(5, 27);
+			this.lblVolume.Name = "lblVolume";
+			this.lblVolume.Size = new System.Drawing.Size(75, 13);
+			this.lblVolume.TabIndex = 2;
+			this.lblVolume.Text = "Громкость:";
 			// 
 			// pnlSounds
 			// 
 			this.pnlSounds.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pnlSounds.Location = new System.Drawing.Point(0, 48);
+			this.pnlSounds.Location = new System.Drawing.Point(0, 55);
 			this.pnlSounds.Name = "pnlSounds";
-			this.pnlSounds.Size = new System.Drawing.Size(487, 10);
+			this.pnlSounds.Size = new System.Drawing.Size(487, 0);
 			this.pnlSounds.TabIndex = 3;
 			// 
 			// tsMixes
@@ -87,7 +112,7 @@
 			this.tsMixes.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsMixes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnAdd});
-			this.tsMixes.Location = new System.Drawing.Point(0, 58);
+			this.tsMixes.Location = new System.Drawing.Point(0, 55);
 			this.tsMixes.Name = "tsMixes";
 			this.tsMixes.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.tsMixes.ShowItemToolTips = false;
@@ -102,43 +127,23 @@
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(23, 22);
 			this.btnAdd.Text = "toolStripButton1";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(5, 27);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(65, 13);
-			this.label2.TabIndex = 2;
-			this.label2.Text = "Громкость:";
-			// 
-			// trackBar1
-			// 
-			this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.trackBar1.AutoSize = false;
-			this.trackBar1.Location = new System.Drawing.Point(106, 25);
-			this.trackBar1.Maximum = 100;
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(378, 18);
-			this.trackBar1.TabIndex = 3;
-			this.trackBar1.TickFrequency = 2;
-			this.trackBar1.Value = 100;
+			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// MixPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScroll = true;
 			this.Controls.Add(this.tsMixes);
 			this.Controls.Add(this.pnlSounds);
 			this.Controls.Add(this.panel1);
 			this.Name = "MixPanel";
-			this.Size = new System.Drawing.Size(487, 155);
+			this.Size = new System.Drawing.Size(487, 95);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).EndInit();
 			this.tsMixes.ResumeLayout(false);
 			this.tsMixes.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -152,7 +157,7 @@
 		private System.Windows.Forms.Panel pnlSounds;
 		private System.Windows.Forms.ToolStrip tsMixes;
 		private System.Windows.Forms.ToolStripButton btnAdd;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TrackBar trackBar1;
+		private System.Windows.Forms.Label lblVolume;
+		private System.Windows.Forms.TrackBar tbVolume;
 	}
 }
