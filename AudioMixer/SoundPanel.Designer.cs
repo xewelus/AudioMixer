@@ -29,14 +29,14 @@
 		private void InitializeComponent()
 		{
 			this.label1 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.tbFile = new System.Windows.Forms.TextBox();
+			this.btnOpen = new System.Windows.Forms.Button();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
-			this.label2 = new System.Windows.Forms.Label();
+			this.tbVolume = new System.Windows.Forms.TrackBar();
+			this.lblVolume = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.btnDelete = new System.Windows.Forms.Button();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -48,46 +48,49 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Файл:";
 			// 
-			// textBox1
+			// tbFile
 			// 
-			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.tbFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Location = new System.Drawing.Point(79, 1);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(322, 20);
-			this.textBox1.TabIndex = 1;
+			this.tbFile.Location = new System.Drawing.Point(107, 1);
+			this.tbFile.Name = "tbFile";
+			this.tbFile.Size = new System.Drawing.Size(294, 20);
+			this.tbFile.TabIndex = 1;
+			this.tbFile.TextChanged += new System.EventHandler(this.tbFile_TextChanged);
 			// 
-			// button1
+			// btnOpen
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Image = global::AudioMixer.Properties.Resources.open;
-			this.button1.Location = new System.Drawing.Point(401, 0);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(22, 22);
-			this.button1.TabIndex = 2;
-			this.button1.UseVisualStyleBackColor = true;
+			this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOpen.Image = global::AudioMixer.Properties.Resources.open;
+			this.btnOpen.Location = new System.Drawing.Point(401, 0);
+			this.btnOpen.Name = "btnOpen";
+			this.btnOpen.Size = new System.Drawing.Size(22, 22);
+			this.btnOpen.TabIndex = 2;
+			this.btnOpen.UseVisualStyleBackColor = true;
+			this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
 			// 
-			// trackBar1
+			// tbVolume
 			// 
-			this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.tbVolume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.trackBar1.AutoSize = false;
-			this.trackBar1.Location = new System.Drawing.Point(75, 24);
-			this.trackBar1.Maximum = 100;
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(355, 18);
-			this.trackBar1.TabIndex = 5;
-			this.trackBar1.TickFrequency = 2;
-			this.trackBar1.Value = 100;
+			this.tbVolume.AutoSize = false;
+			this.tbVolume.LargeChange = 1;
+			this.tbVolume.Location = new System.Drawing.Point(103, 24);
+			this.tbVolume.Maximum = 100;
+			this.tbVolume.Name = "tbVolume";
+			this.tbVolume.Size = new System.Drawing.Size(327, 18);
+			this.tbVolume.TabIndex = 5;
+			this.tbVolume.Value = 100;
+			this.tbVolume.Scroll += new System.EventHandler(this.tbVolume_Scroll);
 			// 
-			// label2
+			// lblVolume
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(5, 24);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(65, 13);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "Громкость:";
+			this.lblVolume.AutoSize = true;
+			this.lblVolume.Location = new System.Drawing.Point(5, 24);
+			this.lblVolume.Name = "lblVolume";
+			this.lblVolume.Size = new System.Drawing.Size(65, 13);
+			this.lblVolume.TabIndex = 4;
+			this.lblVolume.Text = "Громкость:";
 			// 
 			// groupBox1
 			// 
@@ -119,14 +122,14 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.trackBar1);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.button1);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.tbVolume);
+			this.Controls.Add(this.lblVolume);
+			this.Controls.Add(this.btnOpen);
+			this.Controls.Add(this.tbFile);
 			this.Controls.Add(this.label1);
 			this.Name = "SoundPanel";
 			this.Size = new System.Drawing.Size(463, 46);
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -135,11 +138,11 @@
 		#endregion
 
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.TextBox tbFile;
+		private System.Windows.Forms.Button btnOpen;
 		private System.ComponentModel.BackgroundWorker backgroundWorker1;
-		private System.Windows.Forms.TrackBar trackBar1;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.TrackBar tbVolume;
+		private System.Windows.Forms.Label lblVolume;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Button btnDelete;
 	}

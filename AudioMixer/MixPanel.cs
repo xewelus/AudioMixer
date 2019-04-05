@@ -21,13 +21,25 @@ namespace AudioMixer
 		{
 			this.mixInfo = mixInfo;
 
+			this.internalChanges = true;
+
 			this.tbName.Text = mixInfo.Name;
 			this.tbVolume.Value = (int)(mixInfo.Volume * 100);
 			this.tbVolume_Scroll(null, null);
+
+			this.pnlSounds.SuspendLayout();
+			foreach (SoundInfo soundInfo in mixInfo.Sounds)
+			{
+				this.AddSound(soundInfo);
+			}
+			this.pnlSounds.ResumeLayout();
+
+			this.internalChanges = false;
 		}
 
 		public event EventHandler NameChanged;
 		private readonly MixInfo mixInfo;
+		private bool internalChanges;
 
 		public string MixName
 		{
@@ -39,6 +51,8 @@ namespace AudioMixer
 
 		private void tbName_TextChanged(object sender, EventArgs e)
 		{
+			if (this.internalChanges) return;
+
 			if (this.NameChanged != null)
 			{
 				this.NameChanged.Invoke(this, EventArgs.Empty);
@@ -48,9 +62,18 @@ namespace AudioMixer
 		private readonly Dictionary<SoundPanel, Control> lines = new Dictionary<SoundPanel, Control>();
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
+			SoundInfo soundInfo = new SoundInfo();
+			this.mixInfo.Sounds.Add(soundInfo);
+			Settings.Save(true);
+
+			this.AddSound(soundInfo);
+		}
+
+		private void AddSound(SoundInfo soundInfo)
+		{
 			Control line = this.AddLine();
 
-			SoundPanel soundPanel = new SoundPanel();
+			SoundPanel soundPanel = new SoundPanel(soundInfo);
 			soundPanel.Dock = DockStyle.Top;
 			soundPanel.DeleteButtonClick += this.SoundPanelOnDeleteButtonClick;
 
@@ -75,6 +98,9 @@ namespace AudioMixer
 			}
 
 			this.AdjustHeights();
+
+			this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
+			Settings.Save(true);
 		}
 
 		private void AdjustHeights()
@@ -96,8 +122,12 @@ namespace AudioMixer
 		private void tbVolume_Scroll(object sender, EventArgs e)
 		{
 			this.lblVolume.Text = string.Format("Громкость ({0}%):", this.tbVolume.Value);
-			this.mixInfo.Volume = this.tbVolume.Value / 100f;
-			Settings.Save(true);
+
+			if (!this.internalChanges)
+			{
+				this.mixInfo.Volume = this.tbVolume.Value / 100f;
+				Settings.Save(true);
+			}
 		}
 	}
 }
