@@ -18,9 +18,10 @@ namespace AudioMixer
 
 			foreach (SoundInfo soundInfo in mixInfo.Sounds)
 			{
-				if (!File.Exists(soundInfo.Path))
+				string path = soundInfo.GetFullPath();
+				if (!File.Exists(path))
 				{
-					UIHelper.ShowError(string.Format("Не найден файл '{0}'.", soundInfo.Path));
+					UIHelper.ShowError(string.Format("Не найден файл '{0}'.", path));
 					return;
 				}
 				PlayerItem readerInfo = new PlayerItem(deviceInfo, soundInfo);
@@ -69,7 +70,7 @@ namespace AudioMixer
 				this.waveOut = new DirectSoundOut(deviceInfo.Guid, 100);
 				this.waveOut.PlaybackStopped += this.OnPlaybackStopped;
 
-				this.AudioFileReader = new AudioFileReader(soundInfo.Path);
+				this.AudioFileReader = new AudioFileReader(soundInfo.GetFullPath());
 				this.sampleChannel = new SampleChannel(this.AudioFileReader, true);
 				MeteringSampleProvider postVolumeMeter = new MeteringSampleProvider(this.sampleChannel);
 				this.waveOut.Init(postVolumeMeter);

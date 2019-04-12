@@ -93,5 +93,14 @@ namespace AudioMixer
 		{
 			return this.Path ?? "<пусто>";
 		}
+
+		public string GetFullPath()
+		{
+			if (System.IO.Path.IsPathRooted(this.Path))
+			{
+				return this.Path;
+			}
+			return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.Path);
+		}
 	}
 }

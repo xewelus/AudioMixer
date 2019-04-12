@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using Common;
 
@@ -45,7 +44,13 @@ namespace AudioMixer
 			{
 				if (dlg.ShowDialog(UIHelper.TopForm) == DialogResult.OK)
 				{
-					return dlg.FileName;
+					string dir = AppDomain.CurrentDomain.BaseDirectory;
+					string filename = dlg.FileName;
+					if (filename.StartsWith(dir))
+					{
+						filename = filename.Substring(dir.Length);
+					}
+					return filename;
 				}
 				return null;
 			}
@@ -57,7 +62,6 @@ namespace AudioMixer
 			if (file != null)
 			{
 				this.tbFile.Text = file;
-				Settings.Save(true);
 			}
 		}
 
