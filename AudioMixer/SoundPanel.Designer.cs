@@ -32,7 +32,7 @@
 			this.tbFile = new System.Windows.Forms.TextBox();
 			this.btnOpen = new System.Windows.Forms.Button();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-			this.tbVolume = new System.Windows.Forms.TrackBar();
+			this.tbVolume = new Common.Controls.XwTrackBar();
 			this.lblVolume = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.btnDelete = new System.Windows.Forms.Button();
@@ -83,7 +83,7 @@
 			this.tbVolume.Size = new System.Drawing.Size(327, 18);
 			this.tbVolume.TabIndex = 5;
 			this.tbVolume.Value = 100;
-			this.tbVolume.Scroll += new System.EventHandler(this.tbVolume_Scroll);
+			this.tbVolume.ValueChanged += new System.EventHandler(this.tbVolume_ValueChanged);
 			this.tbVolume.KeyDown += new System.Windows.Forms.KeyEventHandler(this.controls_KeyDown);
 			// 
 			// lblVolume
@@ -145,7 +145,7 @@
 		private System.Windows.Forms.TextBox tbFile;
 		private System.Windows.Forms.Button btnOpen;
 		private System.ComponentModel.BackgroundWorker backgroundWorker1;
-		private System.Windows.Forms.TrackBar tbVolume;
+		private Common.Controls.XwTrackBar tbVolume;
 		private System.Windows.Forms.Label lblVolume;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Button btnDelete;

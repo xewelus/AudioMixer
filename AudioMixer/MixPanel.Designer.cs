@@ -31,7 +31,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbName = new System.Windows.Forms.TextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.tbVolume = new System.Windows.Forms.TrackBar();
+			this.tbVolume = new Common.Controls.XwTrackBar();
 			this.lblVolume = new System.Windows.Forms.Label();
 			this.pnlSounds = new System.Windows.Forms.Panel();
 			this.tsMixes = new System.Windows.Forms.ToolStrip();
@@ -87,7 +87,7 @@
 			this.tbVolume.Size = new System.Drawing.Size(366, 24);
 			this.tbVolume.TabIndex = 3;
 			this.tbVolume.Value = 100;
-			this.tbVolume.Scroll += new System.EventHandler(this.tbVolume_Scroll);
+			this.tbVolume.ValueChanged += new System.EventHandler(this.tbVolume_ValueChanged);
 			this.tbVolume.KeyDown += new System.Windows.Forms.KeyEventHandler(this.controls_KeyDown);
 			// 
 			// lblVolume
@@ -161,6 +161,6 @@
 		private System.Windows.Forms.ToolStrip tsMixes;
 		private System.Windows.Forms.ToolStripButton btnAdd;
 		private System.Windows.Forms.Label lblVolume;
-		private System.Windows.Forms.TrackBar tbVolume;
+		private Common.Controls.XwTrackBar tbVolume;
 	}
 }

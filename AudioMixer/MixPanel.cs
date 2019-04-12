@@ -25,7 +25,7 @@ namespace AudioMixer
 
 			this.tbName.Text = mixInfo.Name;
 			this.tbVolume.Value = (int)(mixInfo.Volume * 100);
-			this.tbVolume_Scroll(null, null);
+			this.tbVolume_ValueChanged(null, null);
 
 			this.pnlSounds.SuspendLayout();
 			foreach (SoundInfo soundInfo in mixInfo.Sounds)
@@ -139,7 +139,7 @@ namespace AudioMixer
 			return line;
 		}
 
-		private void tbVolume_Scroll(object sender, EventArgs e)
+		private void tbVolume_ValueChanged(object sender, EventArgs e)
 		{
 			this.lblVolume.Text = string.Format("Громкость ({0}%):", this.tbVolume.Value);
 

@@ -20,7 +20,7 @@ namespace AudioMixer
 
 			this.tbFile.Text = soundInfo.Path;
 			this.tbVolume.Value = (int)(soundInfo.Volume * 100);
-			this.tbVolume_Scroll(null, null);
+			this.tbVolume_ValueChanged(null, null);
 
 			this.internalChanges = false;
 		}
@@ -51,7 +51,7 @@ namespace AudioMixer
 			}
 		}
 
-		private void tbVolume_Scroll(object sender, EventArgs e)
+		private void tbVolume_ValueChanged(object sender, EventArgs e)
 		{
 			this.lblVolume.Text = string.Format("Громкость ({0}%):", this.tbVolume.Value);
 			if (!this.internalChanges)
