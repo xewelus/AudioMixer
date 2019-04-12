@@ -88,6 +88,7 @@
 			this.tbVolume.TabIndex = 3;
 			this.tbVolume.Value = 100;
 			this.tbVolume.Scroll += new System.EventHandler(this.tbVolume_Scroll);
+			this.tbVolume.KeyDown += new System.Windows.Forms.KeyEventHandler(this.controls_KeyDown);
 			// 
 			// lblVolume
 			// 
@@ -118,6 +119,7 @@
 			this.tsMixes.ShowItemToolTips = false;
 			this.tsMixes.Size = new System.Drawing.Size(487, 25);
 			this.tsMixes.TabIndex = 4;
+			this.tsMixes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.controls_KeyDown);
 			// 
 			// btnAdd
 			// 
@@ -139,6 +141,7 @@
 			this.Controls.Add(this.panel1);
 			this.Name = "MixPanel";
 			this.Size = new System.Drawing.Size(487, 95);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.controls_KeyDown);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).EndInit();

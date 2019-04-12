@@ -39,6 +39,7 @@ namespace AudioMixer
 
 		public event EventHandler NameChanged;
 		public event EventHandler VolumeChanged;
+		public event EventHandler PlayChanged;
 		private readonly MixInfo mixInfo;
 		private bool internalChanges;
 
@@ -76,8 +77,9 @@ namespace AudioMixer
 
 			SoundPanel soundPanel = new SoundPanel(soundInfo);
 			soundPanel.Dock = DockStyle.Top;
-			soundPanel.DeleteButtonClick += this.SoundPanelOnDeleteButtonClick;
-			soundPanel.VolumeChanged += SoundPanel_VolumeChanged;
+			soundPanel.DeleteButtonClick += this.SoundPanel_DeleteButtonClick;
+			soundPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
+			soundPanel.PlayChanged += this.SoundPanel_PlayChanged;
 
 			this.pnlSounds.Controls.Add(soundPanel);
 			this.pnlSounds.Controls.SetChildIndex(soundPanel, 0);
@@ -95,7 +97,7 @@ namespace AudioMixer
 			}
 		}
 
-		private void SoundPanelOnDeleteButtonClick(object sender, EventArgs eventArgs)
+		private void SoundPanel_DeleteButtonClick(object sender, EventArgs eventArgs)
 		{
 			SoundPanel soundPanel = (SoundPanel)sender;
 			this.pnlSounds.Controls.Remove(soundPanel);
@@ -111,6 +113,14 @@ namespace AudioMixer
 
 			this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
 			Settings.Save(true);
+		}
+
+		private void SoundPanel_PlayChanged(object sender, EventArgs e)
+		{
+			if (this.PlayChanged != null)
+			{
+				this.PlayChanged.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		private void AdjustHeights()
@@ -143,6 +153,17 @@ namespace AudioMixer
 				}
 
 				Settings.Save(true);
+			}
+		}
+
+		private void controls_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (MainForm.IsPlayChangeKey(e))
+			{
+				if (this.PlayChanged != null)
+				{
+					this.PlayChanged.Invoke(this, EventArgs.Empty);
+				}
 			}
 		}
 	}

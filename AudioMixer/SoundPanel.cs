@@ -28,7 +28,8 @@ namespace AudioMixer
 		public readonly SoundInfo SoundInfo;
 		public event EventHandler DeleteButtonClick;
 		public event EventHandler VolumeChanged;
-		private bool internalChanges;
+		public event EventHandler PlayChanged;
+		private readonly bool internalChanges;
 
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
@@ -72,6 +73,17 @@ namespace AudioMixer
 			{
 				this.SoundInfo.Path = this.tbFile.Text;
 				Settings.Save(true);
+			}
+		}
+
+		private void controls_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (MainForm.IsPlayChangeKey(e))
+			{
+				if (this.PlayChanged != null)
+				{
+					this.PlayChanged.Invoke(this, EventArgs.Empty);
+				}
 			}
 		}
 	}

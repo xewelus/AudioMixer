@@ -66,8 +66,10 @@
 			this.btnOpen.Name = "btnOpen";
 			this.btnOpen.Size = new System.Drawing.Size(22, 22);
 			this.btnOpen.TabIndex = 2;
+			this.btnOpen.TabStop = false;
 			this.btnOpen.UseVisualStyleBackColor = true;
 			this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+			this.btnOpen.KeyDown += new System.Windows.Forms.KeyEventHandler(this.controls_KeyDown);
 			// 
 			// tbVolume
 			// 
@@ -82,6 +84,7 @@
 			this.tbVolume.TabIndex = 5;
 			this.tbVolume.Value = 100;
 			this.tbVolume.Scroll += new System.EventHandler(this.tbVolume_Scroll);
+			this.tbVolume.KeyDown += new System.Windows.Forms.KeyEventHandler(this.controls_KeyDown);
 			// 
 			// lblVolume
 			// 
@@ -129,6 +132,7 @@
 			this.Controls.Add(this.label1);
 			this.Name = "SoundPanel";
 			this.Size = new System.Drawing.Size(463, 46);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.controls_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

@@ -44,6 +44,11 @@ namespace AudioMixer
 			this.AdjustList(true);
 		}
 
+		public void PlayChange()
+		{
+			this.lvMixes_ItemActivate(null, null);
+		}
+
 		private ListViewItem AddListItem(MixInfo mixInfo)
 		{
 			ListViewItem item = this.lvMixes.Items.Add(mixInfo.Name);
@@ -61,7 +66,7 @@ namespace AudioMixer
 				this.lastActivated.Font = this.lvMixes.Font;
 			}
 
-			ListViewItem item = this.lvMixes.SelectedItems[0];
+			ListViewItem item = this.lvMixes.SelectedItems.Count == 0 ? null : this.lvMixes.SelectedItems[0];
 
 			if (this.lastActivated == item)
 			{
@@ -69,8 +74,11 @@ namespace AudioMixer
 			}
 			else
 			{
-				item.ImageIndex = 0;
-				item.Font = new Font(this.lvMixes.Font, FontStyle.Bold);
+				if (item != null)
+				{
+					item.ImageIndex = 0;
+					item.Font = new Font(this.lvMixes.Font, FontStyle.Bold);
+				}
 				this.lastActivated = item;
 			}
 
@@ -141,6 +149,14 @@ namespace AudioMixer
 			if (needSort)
 			{
 				this.lvMixes.Sort();
+			}
+		}
+
+		private void lvMixes_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (MainForm.IsPlayChangeKey(e))
+			{
+				this.PlayChange();
 			}
 		}
 	}

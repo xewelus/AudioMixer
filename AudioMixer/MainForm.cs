@@ -63,6 +63,7 @@ namespace AudioMixer
 				this.mixPanel.Dock = DockStyle.Fill;
 				this.mixPanel.NameChanged += this.MixPanelOnNameChanged;
 				this.mixPanel.VolumeChanged += this.MixPanelOnVolumeChanged;
+				this.mixPanel.PlayChanged += this.MixPanelOnPlayChanged;
 				this.splitContainer.Panel2.Controls.Add(this.mixPanel);
 			}
 		}
@@ -78,6 +79,16 @@ namespace AudioMixer
 			{
 				this.player.UpdateVolume();
 			}
+		}
+
+		private void MixPanelOnPlayChanged(object sender, EventArgs eventArgs)
+		{
+			this.pnlMixes.PlayChange();
+		}
+
+		public static bool IsPlayChangeKey(KeyEventArgs e)
+		{
+			return e.KeyData.In(Keys.Enter, Keys.Space);
 		}
 
 		private void saveTimer_Tick(object sender, EventArgs e)
