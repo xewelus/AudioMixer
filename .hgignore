@@ -19,3 +19,4 @@ _ReSharper*/
 .gitignore
 
 Tools/NuGet.exe
+*.DotSettings
