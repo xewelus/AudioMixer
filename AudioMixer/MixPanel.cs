@@ -64,7 +64,14 @@ namespace AudioMixer
 		private readonly Dictionary<SoundPanel, Control> lines = new Dictionary<SoundPanel, Control>();
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
+			string file = SoundPanel.AskFile();
+			if (file == null)
+			{
+				return;
+			}
+
 			SoundInfo soundInfo = new SoundInfo();
+			soundInfo.Path = file;
 			this.mixInfo.Sounds.Add(soundInfo);
 			Settings.Save(true);
 

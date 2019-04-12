@@ -39,15 +39,25 @@ namespace AudioMixer
 			}
 		}
 
-		private void btnOpen_Click(object sender, EventArgs e)
+		public static string AskFile()
 		{
 			using (OpenFileDialog dlg = new OpenFileDialog())
 			{
 				if (dlg.ShowDialog(UIHelper.TopForm) == DialogResult.OK)
 				{
-					this.tbFile.Text = dlg.FileName;
-					Settings.Save(true);
+					return dlg.FileName;
 				}
+				return null;
+			}
+		}
+
+		private void btnOpen_Click(object sender, EventArgs e)
+		{
+			string file = AskFile();
+			if (file != null)
+			{
+				this.tbFile.Text = file;
+				Settings.Save(true);
 			}
 		}
 
