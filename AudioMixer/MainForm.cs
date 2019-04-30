@@ -218,5 +218,26 @@ namespace AudioMixer
 				this.WindowState = FormWindowState.Normal;
 			}
 		}
+
+		private void cmSysTray_Opening(object sender, CancelEventArgs e)
+		{
+			this.miSysTrayPlay.Enabled = this.pnlMixes.ActivatedMix == null && this.pnlMixes.SelectedMix != null;
+			this.miSysTrayStop.Enabled = this.pnlMixes.ActivatedMix != null;
+		}
+
+		private void miSysTrayPlay_Click(object sender, EventArgs e)
+		{
+			this.pnlMixes.PlayChange();
+		}
+
+		private void miSysTrayStop_Click(object sender, EventArgs e)
+		{
+			this.pnlMixes.PlayChange();
+		}
+
+		private void miSysTrayQuit_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
 	}
 }
