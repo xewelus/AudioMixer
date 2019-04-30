@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 using Common;
 using NAudio.Wave;
@@ -11,31 +13,65 @@ namespace AudioMixer
 	{
 		private MixPanel mixPanel;
 		private Player player;
-		private readonly bool internalChanges;
+		private bool internalChanges;
+		private DeviceInfo currentDevice;
 		public MainForm()
 		{
 			this.InitializeComponent();
 
 			Settings.OnNeedSave += this.OnNeedSave;
 
+			this.InitDevice();
+		}
+
+		private void InitDevice()
+		{
 			this.internalChanges = true;
-
-			DirectSoundDeviceInfo toSelect = null;
-			foreach (DirectSoundDeviceInfo deviceInfo in DirectSoundOut.Devices)
+			StringBuilder sb = new StringBuilder();
+			foreach (DirectSoundDeviceInfo di in DirectSoundOut.Devices)
 			{
-				this.cbAudioDevice.Items.Add(deviceInfo);
+				this.cbAudioDevice.Items.Add(di);
 
-				if (deviceInfo.Description == Settings.Current.AudioDevice)
+				if (sb.Length > 0)
 				{
-					toSelect = deviceInfo;
+					sb.AppendLine();
+				}
+				sb.Append(di.Description);
+			}
+
+			byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
+			SHA256 sha = SHA256.Create();
+			byte[] hashBytes = sha.ComputeHash(bytes);
+			string hash = Convert.ToBase64String(hashBytes);
+
+			foreach (DeviceInfo deviceInfo in Settings.Current.AudioDevices)
+			{
+				if (deviceInfo.Hash == hash)
+				{
+					this.currentDevice = deviceInfo;
+					break;
 				}
 			}
 
-			if (toSelect != null)
+			if (this.currentDevice == null)
 			{
-				this.cbAudioDevice.SelectedItem = toSelect;
+				this.currentDevice = new DeviceInfo();
+				this.currentDevice.Hash = hash;
+				Settings.Current.AudioDevices.Add(this.currentDevice);
+				Settings.SetNeedSave();
 			}
 
+			if (this.currentDevice != null)
+			{
+				foreach (DirectSoundDeviceInfo deviceInfo in this.cbAudioDevice.Items)
+				{
+					if (deviceInfo.Description == this.currentDevice.Name)
+					{
+						this.cbAudioDevice.SelectedItem = deviceInfo;
+						break;
+					}
+				}
+			}
 			this.internalChanges = false;
 		}
 
@@ -107,7 +143,7 @@ namespace AudioMixer
 			if (this.internalChanges) return;
 
 			DirectSoundDeviceInfo deviceInfo = (DirectSoundDeviceInfo)this.cbAudioDevice.SelectedItem;
-			Settings.Current.AudioDevice = deviceInfo.Description;
+			this.currentDevice.Name = deviceInfo.Description;
 			Settings.SetNeedSave();
 		}
 

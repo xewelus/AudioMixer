@@ -17,7 +17,7 @@ namespace AudioMixer
 			}
 		}
 
-		public string AudioDevice;
+		public List<DeviceInfo> AudioDevices = new List<DeviceInfo>();
 		public List<MixInfo> Mixes = new List<MixInfo>();
 
 		private static readonly string PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.xml");
@@ -89,5 +89,11 @@ namespace AudioMixer
 			}
 			return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.Path);
 		}
+	}
+
+	public class DeviceInfo
+	{
+		public string Hash;
+		public string Name;
 	}
 }

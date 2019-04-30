@@ -35,7 +35,7 @@ namespace AudioMixer
 
 		private static void TestSaveSettings()
 		{
-			Settings.Current.AudioDevice = "Device 1";
+			//Settings.Current.AudioDevice = "Device 1";
 			Settings.Current.Mixes = new List<MixInfo>
 			{
 				new MixInfo
