@@ -59,6 +59,8 @@
 			this.lvMixes.ItemActivate += new System.EventHandler(this.lvMixes_ItemActivate);
 			this.lvMixes.SelectedIndexChanged += new System.EventHandler(this.lvMixes_SelectedIndexChanged);
 			this.lvMixes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvMixes_KeyDown);
+			this.lvMixes.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvMixes_MouseClick);
+			this.lvMixes.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvMixes_MouseMove);
 			// 
 			// columnHeader1
 			// 

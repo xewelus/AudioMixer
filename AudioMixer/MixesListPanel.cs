@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using AudioMixer.Properties;
@@ -14,6 +15,7 @@ namespace AudioMixer
 
 			this.imageList.Images.Add(Resources.play);
 			this.imageList.Images.Add(Resources.music);
+			this.imageList.Images.Add(Resources.pause);
 
 			this.lvMixes.BeginUpdate();
 			this.lvMixes.Items.Clear();
@@ -30,6 +32,10 @@ namespace AudioMixer
 		public event EventHandler ItemActivated;
 		public MixInfo SelectedMix;
 		public MixInfo ActivatedMix;
+
+		private const int IMAGE_PLAY = 0;
+		private const int IMAGE_DEFAULT = 1;
+		private const int IMAGE_PAUSE = 2;
 
 		public void UpdateName(string name)
 		{
@@ -60,13 +66,16 @@ namespace AudioMixer
 		private ListViewItem lastActivated;
 		private void lvMixes_ItemActivate(object sender, System.EventArgs e)
 		{
+			this.ActivateItem(this.lvMixes.SelectedItems.Count == 0 ? null : this.lvMixes.SelectedItems[0]);
+		}
+
+		private void ActivateItem(ListViewItem item)
+		{
 			if (this.lastActivated != null)
 			{
-				this.lastActivated.ImageIndex = 1;
+				this.lastActivated.ImageIndex = IMAGE_DEFAULT;
 				this.lastActivated.Font = this.lvMixes.Font;
 			}
-
-			ListViewItem item = this.lvMixes.SelectedItems.Count == 0 ? null : this.lvMixes.SelectedItems[0];
 
 			if (this.lastActivated == item)
 			{
@@ -76,13 +85,15 @@ namespace AudioMixer
 			{
 				if (item != null)
 				{
-					item.ImageIndex = 0;
+					item.ImageIndex = IMAGE_PLAY;
 					item.Font = new Font(this.lvMixes.Font, FontStyle.Bold);
 				}
 				this.lastActivated = item;
 			}
 
 			this.AdjustList(true);
+
+			Application.DoEvents();
 
 			this.ActivatedMix = (MixInfo)(this.lastActivated == null ? null : this.lastActivated.Tag);
 			if (this.ItemActivated != null)
@@ -158,6 +169,44 @@ namespace AudioMixer
 			{
 				this.PlayChange();
 			}
+		}
+
+		private ListViewItem mouseItem;
+		private void lvMixes_MouseMove(object sender, MouseEventArgs e)
+		{
+			this.mouseItem = e.X >= 16 ? null : this.lvMixes.GetItemAt(e.X, e.Y);
+			foreach (ListViewItem item in this.lvMixes.Items)
+			{
+				if (item == null) throw new NullReferenceException(); // bad VS suggestion
+
+				if (this.mouseItem == item)
+				{
+					if (item == this.lastActivated)
+					{
+						item.ImageIndex = IMAGE_PAUSE;
+					}
+					else
+					{
+						item.ImageIndex = IMAGE_PLAY;
+					}
+				}
+				else
+				{
+					if (item == this.lastActivated)
+					{
+						item.ImageIndex = IMAGE_PLAY;
+					}
+					else
+					{
+						item.ImageIndex = IMAGE_DEFAULT;
+					}
+				}
+			}
+		}
+
+		private void lvMixes_MouseClick(object sender, MouseEventArgs e)
+		{
+			this.ActivateItem(this.mouseItem == this.lastActivated ? null : this.mouseItem);
 		}
 	}
 }
