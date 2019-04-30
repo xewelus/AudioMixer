@@ -206,7 +206,10 @@ namespace AudioMixer
 
 		private void lvMixes_MouseClick(object sender, MouseEventArgs e)
 		{
-			this.ActivateItem(this.mouseItem == this.lastActivated ? null : this.mouseItem);
+			if (this.mouseItem != null)
+			{
+				this.ActivateItem(this.mouseItem == this.lastActivated ? null : this.mouseItem);
+			}
 		}
 	}
 }
