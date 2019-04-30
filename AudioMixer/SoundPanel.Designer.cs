@@ -28,14 +28,16 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbFile = new System.Windows.Forms.TextBox();
 			this.btnOpen = new System.Windows.Forms.Button();
-			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.tbVolume = new Common.Controls.XwTrackBar();
 			this.lblVolume = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.btnDelete = new System.Windows.Forms.Button();
+			this.cbRelative = new System.Windows.Forms.CheckBox();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -54,7 +56,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tbFile.Location = new System.Drawing.Point(107, 1);
 			this.tbFile.Name = "tbFile";
-			this.tbFile.Size = new System.Drawing.Size(294, 20);
+			this.tbFile.Size = new System.Drawing.Size(278, 20);
 			this.tbFile.TabIndex = 1;
 			this.tbFile.TextChanged += new System.EventHandler(this.tbFile_TextChanged);
 			// 
@@ -62,7 +64,7 @@
 			// 
 			this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOpen.Image = global::AudioMixer.Properties.Resources.open;
-			this.btnOpen.Location = new System.Drawing.Point(401, 0);
+			this.btnOpen.Location = new System.Drawing.Point(382, 0);
 			this.btnOpen.Name = "btnOpen";
 			this.btnOpen.Size = new System.Drawing.Size(22, 22);
 			this.btnOpen.TabIndex = 2;
@@ -119,10 +121,25 @@
 			this.btnDelete.UseVisualStyleBackColor = true;
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
+			// cbRelative
+			// 
+			this.cbRelative.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cbRelative.Appearance = System.Windows.Forms.Appearance.Button;
+			this.cbRelative.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.cbRelative.Location = new System.Drawing.Point(402, 0);
+			this.cbRelative.Name = "cbRelative";
+			this.cbRelative.Size = new System.Drawing.Size(22, 22);
+			this.cbRelative.TabIndex = 8;
+			this.cbRelative.Text = "/";
+			this.toolTip.SetToolTip(this.cbRelative, "Относительный путь.");
+			this.cbRelative.UseVisualStyleBackColor = true;
+			this.cbRelative.CheckedChanged += new System.EventHandler(this.cbRelative_CheckedChanged);
+			// 
 			// SoundPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.cbRelative);
 			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.tbVolume);
@@ -144,10 +161,11 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox tbFile;
 		private System.Windows.Forms.Button btnOpen;
-		private System.ComponentModel.BackgroundWorker backgroundWorker1;
 		private Common.Controls.XwTrackBar tbVolume;
 		private System.Windows.Forms.Label lblVolume;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Button btnDelete;
+		private System.Windows.Forms.CheckBox cbRelative;
+		private System.Windows.Forms.ToolTip toolTip;
 	}
 }

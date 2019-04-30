@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using Common;
 
@@ -88,6 +89,19 @@ namespace AudioMixer
 				this.SoundInfo.Path = this.tbFile.Text;
 				Settings.Save(true);
 			}
+
+			this.cbRelativeIgnore = true;
+			if (Path.IsPathRooted(this.tbFile.Text))
+			{
+				this.cbRelative.Checked = false;
+				this.cbRelative.Enabled = !FS.IsAnotherDrive(this.tbFile.Text, AppDomain.CurrentDomain.BaseDirectory);
+			}
+			else
+			{
+				this.cbRelative.Checked = true;
+				this.cbRelative.Enabled = true;
+			}
+			this.cbRelativeIgnore = false;
 		}
 
 		private void controls_KeyDown(object sender, KeyEventArgs e)
@@ -98,6 +112,27 @@ namespace AudioMixer
 				{
 					this.PlayChanged.Invoke(this, EventArgs.Empty);
 				}
+			}
+		}
+
+		private bool cbRelativeIgnore;
+		private void cbRelative_CheckedChanged(object sender, EventArgs e)
+		{
+			if (this.cbRelativeIgnore) return;
+
+			string path = this.tbFile.Text;
+			if (!Path.IsPathRooted(this.tbFile.Text))
+			{
+				path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.tbFile.Text));
+			}
+
+			if (this.cbRelative.Checked)
+			{
+				this.tbFile.Text = FS.GetRelativePath(path, AppDomain.CurrentDomain.BaseDirectory);
+			}
+			else
+			{
+				this.tbFile.Text = path;
 			}
 		}
 	}
