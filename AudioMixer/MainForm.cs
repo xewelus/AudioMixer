@@ -3,13 +3,13 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using AudioMixer.Properties;
 using Common;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 
 namespace AudioMixer
 {
-	public partial class MainForm : Form
+	public sealed partial class MainForm : Form
 	{
 		private MixPanel mixPanel;
 		private Player player;
@@ -18,6 +18,14 @@ namespace AudioMixer
 		public MainForm()
 		{
 			this.InitializeComponent();
+
+			this.Icon = Resources.app;
+			this.ShowIcon = true;
+
+			this.Text = string.Format("{0} ({1})", this.Text, AssemblyInfo.VERSION);
+
+			this.notifyIcon.Icon = this.Icon;
+			this.notifyIcon.Text = this.Text;
 
 			Settings.OnNeedSave += this.OnNeedSave;
 
@@ -191,6 +199,23 @@ namespace AudioMixer
 				this.btnSave.Enabled = true;
 				this.needSave = true;
 				throw;
+			}
+		}
+
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+
+			bool minimized = this.WindowState == FormWindowState.Minimized;
+			this.notifyIcon.Visible = minimized;
+			this.ShowInTaskbar = !minimized;
+		}
+
+		private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				this.WindowState = FormWindowState.Normal;
 			}
 		}
 	}
