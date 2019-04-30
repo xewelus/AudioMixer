@@ -73,7 +73,7 @@ namespace AudioMixer
 			SoundInfo soundInfo = new SoundInfo();
 			soundInfo.Path = file;
 			this.mixInfo.Sounds.Add(soundInfo);
-			Settings.Save(true);
+			Settings.SetNeedSave();
 
 			this.AddSound(soundInfo);
 		}
@@ -119,7 +119,7 @@ namespace AudioMixer
 			this.AdjustHeights();
 
 			this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
-			Settings.Save(true);
+			Settings.SetNeedSave();
 		}
 
 		private void SoundPanel_PlayChanged(object sender, EventArgs e)
@@ -159,7 +159,7 @@ namespace AudioMixer
 					this.VolumeChanged.Invoke(this, EventArgs.Empty);
 				}
 
-				Settings.Save(true);
+				Settings.SetNeedSave();
 			}
 		}
 

@@ -43,7 +43,7 @@ namespace AudioMixer
 
 			MixInfo mixInfo = (MixInfo)item.Tag;
 			mixInfo.Name = name;
-			Settings.Save(true);
+			Settings.SetNeedSave();
 
 			item.Text = name;
 
@@ -106,7 +106,7 @@ namespace AudioMixer
 		{
 			MixInfo mixInfo = new MixInfo { Name = "<новый>" };
 			Settings.Current.Mixes.Add(mixInfo);
-			Settings.Save(true);
+			Settings.SetNeedSave();
 
 			ListViewItem item = this.AddListItem(mixInfo);
 			item.Selected = true;
@@ -147,7 +147,7 @@ namespace AudioMixer
 
 					this.lvMixes.Items.Remove(item);
 					Settings.Current.Mixes.Remove(mixInfo);
-					Settings.Save(true);
+					Settings.SetNeedSave();
 				}
 			}
 			this.AdjustList();

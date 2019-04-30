@@ -23,41 +23,28 @@ namespace AudioMixer
 		private static readonly string PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.xml");
 
 		private static readonly object locker = new object();
-		private static bool isSaving;
 
-		public static void Save(bool anotherThread = false)
+		public static EventHandler OnNeedSave;
+
+		public static void SetNeedSave()
 		{
-			if (anotherThread)
+			if (OnNeedSave != null)
 			{
-				Thread thread = new Thread(SaveThread);
-				thread.Start();
-			}
-			else
-			{
-				lock (locker)
-				{
-					try
-					{
-						isSaving = true;
-
-						XmlSerializer xs = new XmlSerializer(typeof(Settings));
-						using (FileStream fs = new FileStream(PATH, FileMode.OpenOrCreate, FileAccess.Write))
-						{
-							fs.SetLength(0);
-							xs.Serialize(fs, Current);
-						}
-					}
-					finally
-					{
-						isSaving = false;
-					}
-				}
+				OnNeedSave.Invoke(null, EventArgs.Empty);
 			}
 		}
 
-		private static void SaveThread()
+		public static void Save()
 		{
-			Save();
+			lock (locker)
+			{
+				XmlSerializer xs = new XmlSerializer(typeof(Settings));
+				using (FileStream fs = new FileStream(PATH, FileMode.OpenOrCreate, FileAccess.Write))
+				{
+					fs.SetLength(0);
+					xs.Serialize(fs, Current);
+				}
+			}
 		}
 
 		public static void Load()

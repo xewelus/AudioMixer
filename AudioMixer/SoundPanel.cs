@@ -78,7 +78,7 @@ namespace AudioMixer
 					this.VolumeChanged.Invoke(this, EventArgs.Empty);
 				}
 
-				Settings.Save(true);
+				Settings.SetNeedSave();
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace AudioMixer
 			if (!this.internalChanges)
 			{
 				this.SoundInfo.Path = this.tbFile.Text;
-				Settings.Save(true);
+				Settings.SetNeedSave();
 			}
 
 			this.cbRelativeIgnore = true;

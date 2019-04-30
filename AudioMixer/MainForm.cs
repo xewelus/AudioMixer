@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Common;
 using NAudio.Wave;
@@ -10,10 +11,12 @@ namespace AudioMixer
 	{
 		private MixPanel mixPanel;
 		private Player player;
-		private bool internalChanges;
+		private readonly bool internalChanges;
 		public MainForm()
 		{
 			this.InitializeComponent();
+
+			Settings.OnNeedSave += this.OnNeedSave;
 
 			this.internalChanges = true;
 
@@ -36,10 +39,18 @@ namespace AudioMixer
 			this.internalChanges = false;
 		}
 
+		protected override void OnClosing(CancelEventArgs e)
+		{
+			if (this.needSave && !UIHelper.AskYesNo("Вы уверены, что хотите закрыть форму без сохранения настроек?"))
+			{
+				e.Cancel = true;
+			}
+
+			base.OnClosing(e);
+		}
+
 		protected override void OnClosed(EventArgs e)
 		{
-			Settings.Save();
-
 			if (this.player != null)
 			{
 				this.player.Dispose();
@@ -91,18 +102,13 @@ namespace AudioMixer
 			return e.KeyData.In(Keys.Enter, Keys.Space);
 		}
 
-		private void saveTimer_Tick(object sender, EventArgs e)
-		{
-			Settings.Save(true);
-		}
-
 		private void cbAudioDevice_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (this.internalChanges) return;
 
 			DirectSoundDeviceInfo deviceInfo = (DirectSoundDeviceInfo)this.cbAudioDevice.SelectedItem;
 			Settings.Current.AudioDevice = deviceInfo.Description;
-			Settings.Save(true);
+			Settings.SetNeedSave();
 		}
 
 		private void pnlMixes_ItemActivated(object sender, EventArgs e)
@@ -124,6 +130,31 @@ namespace AudioMixer
 
 				this.player = new Player(deviceInfo, this.pnlMixes.ActivatedMix);
 				this.player.Play();
+			}
+		}
+
+		private bool needSave;
+		private void OnNeedSave(object sender, EventArgs eventArgs)
+		{
+			this.btnSave.Enabled = true;
+			this.needSave = true;
+		}
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				this.btnSave.Enabled = false;
+				this.needSave = false;
+
+				Application.DoEvents();
+				Settings.Save();
+			}
+			catch
+			{
+				this.btnSave.Enabled = true;
+				this.needSave = true;
+				throw;
 			}
 		}
 	}
