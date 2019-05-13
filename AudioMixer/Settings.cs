@@ -17,9 +17,9 @@ namespace AudioMixer
 			}
 		}
 
-		public readonly List<DeviceInfo> AudioDevices = new List<DeviceInfo>();
+		public List<DeviceInfo> AudioDevices = new List<DeviceInfo>();
 		public List<MixInfo> Mixes = new List<MixInfo>();
-		public readonly DockSettings DockSettings = new DockSettings();
+		public DockSettings DockSettings = new DockSettings();
 
 		private static readonly string PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.xml");
 
