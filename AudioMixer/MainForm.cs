@@ -287,7 +287,6 @@ namespace AudioMixer
 			if (this.currentMachine == null) return;
 
 			bool minimized = this.WindowState == FormWindowState.Minimized;
-			this.notifyIcon.Visible = minimized;
 			this.ShowInTaskbar = !minimized;
 
 			bool save = false;
