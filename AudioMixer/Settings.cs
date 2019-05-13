@@ -17,8 +17,9 @@ namespace AudioMixer
 			}
 		}
 
-		public List<DeviceInfo> AudioDevices = new List<DeviceInfo>();
+		public readonly List<DeviceInfo> AudioDevices = new List<DeviceInfo>();
 		public List<MixInfo> Mixes = new List<MixInfo>();
+		public readonly DockSettings DockSettings = new DockSettings();
 
 		private static readonly string PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.xml");
 
@@ -95,5 +96,12 @@ namespace AudioMixer
 	{
 		public string Hash;
 		public string Name;
+	}
+
+	public class DockSettings
+	{
+		public bool IsVertical = true;
+		public int Width = 220;
+		public int Height = 100;
 	}
 }

@@ -19,22 +19,47 @@ namespace AudioMixer
 		{
 			this.InitializeComponent();
 
-			this.Icon = Resources.app;
-			this.ShowIcon = true;
+			try
+			{
+				this.internalChanges = true;
 
-			this.Text = string.Format("{0} ({1})", this.Text, AssemblyInfo.VERSION);
+				this.Icon = Resources.app;
+				this.ShowIcon = true;
 
-			this.notifyIcon.Icon = Resources.app_play;
-			this.notifyIcon.Text = this.Text;
+				this.Text = string.Format("{0} ({1})", this.Text, AssemblyInfo.VERSION);
 
-			Settings.OnNeedSave += this.OnNeedSave;
+				this.notifyIcon.Icon = Resources.app_play;
+				this.notifyIcon.Text = this.Text;
 
-			this.InitDevice();
+				this.SetupOrientation();
+
+				Settings.OnNeedSave += this.OnNeedSave;
+
+				this.InitDevice();
+			}
+			finally
+			{
+				this.internalChanges = false;
+			}
+		}
+
+		private void SetupOrientation()
+		{
+			this.ignoreSplitterMoved = true;
+			this.splitContainer.Orientation = Settings.Current.DockSettings.IsVertical ? Orientation.Vertical : Orientation.Horizontal;
+			if (Settings.Current.DockSettings.IsVertical)
+			{
+				this.splitContainer.SplitterDistance = Settings.Current.DockSettings.Width;
+			}
+			else
+			{
+				this.splitContainer.SplitterDistance = Settings.Current.DockSettings.Height;
+			}
+			this.ignoreSplitterMoved = false;
 		}
 
 		private void InitDevice()
 		{
-			this.internalChanges = true;
 			StringBuilder sb = new StringBuilder();
 			foreach (DirectSoundDeviceInfo di in DirectSoundOut.Devices)
 			{
@@ -80,7 +105,6 @@ namespace AudioMixer
 					}
 				}
 			}
-			this.internalChanges = false;
 		}
 
 		protected override void OnClosing(CancelEventArgs e)
@@ -253,6 +277,32 @@ namespace AudioMixer
 		private void miSysTrayQuit_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void pnlMixes_DockButtonClick(object sender, EventArgs e)
+		{
+			Settings.Current.DockSettings.IsVertical = !Settings.Current.DockSettings.IsVertical;
+			Settings.SetNeedSave();
+
+			this.SetupOrientation();
+
+			this.pnlMixes.PanelOrientation = this.splitContainer.Orientation;
+		}
+
+		private bool ignoreSplitterMoved;
+		private void splitContainer_SplitterMoved(object sender, SplitterEventArgs e)
+		{
+			if (this.ignoreSplitterMoved) return;
+
+			if (Settings.Current.DockSettings.IsVertical)
+			{
+				Settings.Current.DockSettings.Width = this.splitContainer.SplitterDistance;
+			}
+			else
+			{
+				Settings.Current.DockSettings.Height = this.splitContainer.SplitterDistance;
+			}
+			Settings.SetNeedSave();
 		}
 	}
 }

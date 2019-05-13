@@ -35,6 +35,8 @@
 			this.tsMixes = new System.Windows.Forms.ToolStrip();
 			this.btnMixDelete = new System.Windows.Forms.ToolStripButton();
 			this.btnMixAdd = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnDock = new System.Windows.Forms.ToolStripButton();
 			this.tsMixes.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -77,7 +79,9 @@
 			this.tsMixes.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tsMixes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnMixDelete,
-            this.btnMixAdd});
+            this.btnMixAdd,
+            this.toolStripSeparator1,
+            this.btnDock});
 			this.tsMixes.Location = new System.Drawing.Point(0, 0);
 			this.tsMixes.Name = "tsMixes";
 			this.tsMixes.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -106,6 +110,21 @@
 			this.btnMixAdd.Text = "toolStripButton1";
 			this.btnMixAdd.Click += new System.EventHandler(this.btnMixAdd_Click);
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// btnDock
+			// 
+			this.btnDock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnDock.Image = global::AudioMixer.Properties.Resources.dock_top;
+			this.btnDock.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDock.Name = "btnDock";
+			this.btnDock.Size = new System.Drawing.Size(23, 22);
+			this.btnDock.Text = "Изменить расположение окна";
+			this.btnDock.Click += new System.EventHandler(this.btnDock_Click);
+			// 
 			// MixesListPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -129,5 +148,7 @@
 		private System.Windows.Forms.ToolStripButton btnMixDelete;
 		private System.Windows.Forms.ToolStripButton btnMixAdd;
 		private System.Windows.Forms.ImageList imageList;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton btnDock;
 	}
 }

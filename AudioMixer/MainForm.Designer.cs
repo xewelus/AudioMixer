@@ -30,7 +30,6 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
-			this.pnlMixes = new AudioMixer.MixesListPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.cbAudioDevice = new System.Windows.Forms.ComboBox();
@@ -41,6 +40,7 @@
 			this.miSysTrayStop = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.miSysTrayQuit = new System.Windows.Forms.ToolStripMenuItem();
+			this.pnlMixes = new AudioMixer.MixesListPanel();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.SuspendLayout();
@@ -64,16 +64,7 @@
 			this.splitContainer.Size = new System.Drawing.Size(655, 451);
 			this.splitContainer.SplitterDistance = 217;
 			this.splitContainer.TabIndex = 0;
-			// 
-			// pnlMixes
-			// 
-			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
-			this.pnlMixes.Name = "pnlMixes";
-			this.pnlMixes.Size = new System.Drawing.Size(217, 451);
-			this.pnlMixes.TabIndex = 0;
-			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
-			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
+			this.splitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer_SplitterMoved);
 			// 
 			// panel1
 			// 
@@ -92,11 +83,10 @@
 			this.btnSave.Enabled = false;
 			this.btnSave.Image = global::AudioMixer.Properties.Resources.save;
 			this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSave.Location = new System.Drawing.Point(525, 4);
+			this.btnSave.Location = new System.Drawing.Point(629, 4);
 			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(127, 23);
+			this.btnSave.Size = new System.Drawing.Size(23, 23);
 			this.btnSave.TabIndex = 2;
-			this.btnSave.Text = "   Сохранить";
 			this.btnSave.UseVisualStyleBackColor = true;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
@@ -164,6 +154,17 @@
 			this.miSysTrayQuit.Size = new System.Drawing.Size(171, 22);
 			this.miSysTrayQuit.Text = "Выход";
 			this.miSysTrayQuit.Click += new System.EventHandler(this.miSysTrayQuit_Click);
+			// 
+			// pnlMixes
+			// 
+			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
+			this.pnlMixes.Name = "pnlMixes";
+			this.pnlMixes.Size = new System.Drawing.Size(217, 451);
+			this.pnlMixes.TabIndex = 0;
+			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
+			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
+			this.pnlMixes.DockButtonClick += new System.EventHandler(this.pnlMixes_DockButtonClick);
 			// 
 			// MainForm
 			// 

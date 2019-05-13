@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -30,12 +31,28 @@ namespace AudioMixer
 
 		public event EventHandler ItemSelected;
 		public event EventHandler ItemActivated;
+		public event EventHandler DockButtonClick;
 		public MixInfo SelectedMix;
 		public MixInfo ActivatedMix;
 
 		private const int IMAGE_PLAY = 0;
 		private const int IMAGE_DEFAULT = 1;
 		private const int IMAGE_PAUSE = 2;
+
+		private Orientation panelOrientation = Orientation.Vertical;
+		[DefaultValue(Orientation.Vertical)]
+		public Orientation PanelOrientation
+		{
+			get
+			{
+				return this.panelOrientation;
+			}
+			set
+			{
+				this.panelOrientation = value;
+				this.btnDock.Image = value == Orientation.Vertical ? Resources.dock_top : Resources.dock_left;
+			}
+		}
 
 		public void UpdateName(string name)
 		{
@@ -209,6 +226,14 @@ namespace AudioMixer
 			if (this.mouseItem != null)
 			{
 				this.ActivateItem(this.mouseItem == this.lastActivated ? null : this.mouseItem);
+			}
+		}
+
+		private void btnDock_Click(object sender, EventArgs e)
+		{
+			if (this.DockButtonClick != null)
+			{
+				this.DockButtonClick(this, EventArgs.Empty);
 			}
 		}
 	}
