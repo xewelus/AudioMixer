@@ -37,5 +37,5 @@ using AudioMixer;
 
 public static class AssemblyInfo
 {
-	public const string VERSION = "1.3.0.1";
+	public const string VERSION = "1.3.1.0";
 }

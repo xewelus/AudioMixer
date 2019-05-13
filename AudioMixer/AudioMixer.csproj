@@ -149,6 +149,7 @@
     <Content Include="app.ico" />
     <Content Include="Resources\app_play.ico" />
     <Content Include="Resources\app_stop.ico" />
+    <None Include="Resources\copy.png" />
     <None Include="Resources\dock-top.png" />
     <None Include="Resources\dock-left.png" />
     <None Include="Resources\save.gif" />

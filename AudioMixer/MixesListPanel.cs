@@ -121,7 +121,11 @@ namespace AudioMixer
 
 		private void btnMixAdd_Click(object sender, EventArgs e)
 		{
-			MixInfo mixInfo = new MixInfo { Name = "<новый>" };
+			this.AddNewMix(new MixInfo { Name = "<новый>" });
+		}
+
+		private void AddNewMix(MixInfo mixInfo)
+		{
 			Settings.Current.Mixes.Add(mixInfo);
 			Settings.SetNeedSave();
 
@@ -235,6 +239,51 @@ namespace AudioMixer
 			{
 				this.DockButtonClick(this, EventArgs.Empty);
 			}
+		}
+
+		private void cmList_Opening(object sender, CancelEventArgs e)
+		{
+			bool selected = this.SelectedMix != null;
+			this.miCopy.Enabled = selected;
+			this.miDelete.Enabled = selected;
+			this.miPlay.Enabled = selected && this.SelectedMix != this.ActivatedMix;
+			this.miPause.Enabled = selected && this.SelectedMix == this.ActivatedMix;
+		}
+
+		private void miNew_Click(object sender, EventArgs e)
+		{
+			this.btnMixAdd_Click(this, EventArgs.Empty);
+		}
+
+		private void miDelete_Click(object sender, EventArgs e)
+		{
+			this.btnMixDelete_Click(this, EventArgs.Empty);
+		}
+
+		private void miCopy_Click(object sender, EventArgs e)
+		{
+			MixInfo mix = this.SelectedMix;
+			MixInfo newMix = new MixInfo();
+			newMix.Name = mix.Name + " - копия";
+			newMix.Volume = mix.Volume;
+			foreach (SoundInfo sound in mix.Sounds)
+			{
+				SoundInfo newSound = new SoundInfo();
+				newSound.Path = sound.Path;
+				newSound.Volume = sound.Volume;
+				newMix.Sounds.Add(newSound);
+			}
+			this.AddNewMix(newMix);
+		}
+
+		private void miPlay_Click(object sender, EventArgs e)
+		{
+			this.lvMixes_ItemActivate(this, EventArgs.Empty);
+		}
+
+		private void miPause_Click(object sender, EventArgs e)
+		{
+			this.lvMixes_ItemActivate(this, EventArgs.Empty);
 		}
 	}
 }
