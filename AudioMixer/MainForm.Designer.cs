@@ -136,34 +136,34 @@
             this.toolStripSeparator1,
             this.miSysTrayQuit});
 			this.cmSysTray.Name = "cmSysTray";
-			this.cmSysTray.Size = new System.Drawing.Size(172, 76);
+			this.cmSysTray.Size = new System.Drawing.Size(181, 98);
 			this.cmSysTray.Opening += new System.ComponentModel.CancelEventHandler(this.cmSysTray_Opening);
 			// 
 			// miSysTrayPlay
 			// 
 			this.miSysTrayPlay.Image = global::AudioMixer.Properties.Resources.play;
 			this.miSysTrayPlay.Name = "miSysTrayPlay";
-			this.miSysTrayPlay.Size = new System.Drawing.Size(171, 22);
-			this.miSysTrayPlay.Text = "Воспроизведение";
+			this.miSysTrayPlay.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayPlay.Text = "Воспроизвести";
 			this.miSysTrayPlay.Click += new System.EventHandler(this.miSysTrayPlay_Click);
 			// 
 			// miSysTrayStop
 			// 
-			this.miSysTrayStop.Image = global::AudioMixer.Properties.Resources.stop;
+			this.miSysTrayStop.Image = global::AudioMixer.Properties.Resources.pause2;
 			this.miSysTrayStop.Name = "miSysTrayStop";
-			this.miSysTrayStop.Size = new System.Drawing.Size(171, 22);
-			this.miSysTrayStop.Text = "Отключить";
+			this.miSysTrayStop.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayStop.Text = "Остановить";
 			this.miSysTrayStop.Click += new System.EventHandler(this.miSysTrayStop_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
 			// 
 			// miSysTrayQuit
 			// 
 			this.miSysTrayQuit.Name = "miSysTrayQuit";
-			this.miSysTrayQuit.Size = new System.Drawing.Size(171, 22);
+			this.miSysTrayQuit.Size = new System.Drawing.Size(180, 22);
 			this.miSysTrayQuit.Text = "Выход";
 			this.miSysTrayQuit.Click += new System.EventHandler(this.miSysTrayQuit_Click);
 			// 
