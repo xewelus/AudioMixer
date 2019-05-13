@@ -13,8 +13,11 @@ namespace AudioMixer
 	{
 		private MixPanel mixPanel;
 		private Player player;
-		private bool internalChanges;
+		private readonly bool internalChanges;
 		private DeviceInfo currentDevice;
+		private Machine currentMachine;
+		private FormWindowState prevFormState;
+
 		public MainForm()
 		{
 			this.InitializeComponent();
@@ -31,11 +34,11 @@ namespace AudioMixer
 				this.notifyIcon.Icon = Resources.app_play;
 				this.notifyIcon.Text = this.Text;
 
-				this.SetupOrientation();
-
 				Settings.OnNeedSave += this.OnNeedSave;
 
-				this.InitDevice();
+				this.InitMachine();
+
+				this.prevFormState = this.WindowState;
 			}
 			finally
 			{
@@ -46,14 +49,14 @@ namespace AudioMixer
 		private void SetupOrientation()
 		{
 			this.ignoreSplitterMoved = true;
-			this.splitContainer.Orientation = Settings.Current.DockSettings.IsVertical ? Orientation.Vertical : Orientation.Horizontal;
-			if (Settings.Current.DockSettings.IsVertical)
+			this.splitContainer.Orientation = this.currentMachine.Dock.IsVertical ? Orientation.Vertical : Orientation.Horizontal;
+			if (this.currentMachine.Dock.IsVertical)
 			{
-				this.splitContainer.SplitterDistance = Settings.Current.DockSettings.Width;
+				this.splitContainer.SplitterDistance = this.currentMachine.Dock.Width;
 			}
 			else
 			{
-				this.splitContainer.SplitterDistance = Settings.Current.DockSettings.Height;
+				this.splitContainer.SplitterDistance = this.currentMachine.Dock.Height;
 			}
 			this.ignoreSplitterMoved = false;
 		}
@@ -77,7 +80,7 @@ namespace AudioMixer
 			byte[] hashBytes = sha.ComputeHash(bytes);
 			string hash = Convert.ToBase64String(hashBytes);
 
-			foreach (DeviceInfo deviceInfo in Settings.Current.AudioDevices)
+			foreach (DeviceInfo deviceInfo in this.currentMachine.AudioDevices)
 			{
 				if (deviceInfo.Hash == hash)
 				{
@@ -90,7 +93,7 @@ namespace AudioMixer
 			{
 				this.currentDevice = new DeviceInfo();
 				this.currentDevice.Hash = hash;
-				Settings.Current.AudioDevices.Add(this.currentDevice);
+				this.currentMachine.AudioDevices.Add(this.currentDevice);
 				Settings.SetNeedSave();
 			}
 
@@ -105,6 +108,40 @@ namespace AudioMixer
 					}
 				}
 			}
+		}
+
+		private void InitMachine()
+		{
+			string machineName = Environment.MachineName;
+			foreach (Machine machine in Settings.Current.Machines)
+			{
+				if (machine.Name == machineName)
+				{
+					this.currentMachine = machine;
+					break;
+				}
+			}
+
+			if (this.currentMachine == null)
+			{
+				this.currentMachine = new Machine();
+				this.currentMachine.Name = machineName;
+				Settings.Current.Machines.Add(this.currentMachine);
+				Settings.SetNeedSave();
+			}
+
+			WindowSettings window = this.currentMachine.Window;
+
+			this.Location = window.Location;
+			this.Size = window.Size;
+
+			if (window.IsMaximized)
+			{
+				this.WindowState = FormWindowState.Maximized;
+			}
+
+			this.InitDevice();
+			this.SetupOrientation();
 		}
 
 		protected override void OnClosing(CancelEventArgs e)
@@ -235,11 +272,42 @@ namespace AudioMixer
 
 		protected override void OnResize(EventArgs e)
 		{
+			this.ignoreSplitterMoved = true;
 			base.OnResize(e);
+			this.ignoreSplitterMoved = false;
+
+			if (this.currentMachine == null) return;
 
 			bool minimized = this.WindowState == FormWindowState.Minimized;
 			this.notifyIcon.Visible = minimized;
 			this.ShowInTaskbar = !minimized;
+
+			bool save = false;
+			if (!minimized)
+			{
+				if (this.prevFormState != this.WindowState)
+				{
+					this.prevFormState = this.WindowState;
+					this.currentMachine.Window.IsMaximized = this.WindowState == FormWindowState.Maximized;
+					save = true;
+
+					if (!this.currentMachine.Window.IsMaximized)
+					{
+						this.Location = this.currentMachine.Window.Location;
+					}
+				}
+			}
+
+			if (this.WindowState == FormWindowState.Normal && this.currentMachine.Window.Size != this.Size)
+			{
+				this.currentMachine.Window.Size = this.Size;
+				save = true;
+			}
+
+			if (save)
+			{
+				Settings.SetNeedSave();
+			}
 		}
 
 		private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
@@ -281,7 +349,7 @@ namespace AudioMixer
 
 		private void pnlMixes_DockButtonClick(object sender, EventArgs e)
 		{
-			Settings.Current.DockSettings.IsVertical = !Settings.Current.DockSettings.IsVertical;
+			this.currentMachine.Dock.IsVertical = !this.currentMachine.Dock.IsVertical;
 			Settings.SetNeedSave();
 
 			this.SetupOrientation();
@@ -294,15 +362,34 @@ namespace AudioMixer
 		{
 			if (this.ignoreSplitterMoved) return;
 
-			if (Settings.Current.DockSettings.IsVertical)
+			if (this.currentMachine.Dock.IsVertical)
 			{
-				Settings.Current.DockSettings.Width = this.splitContainer.SplitterDistance;
+				if (this.currentMachine.Dock.Width != this.splitContainer.SplitterDistance)
+				{
+					this.currentMachine.Dock.Width = this.splitContainer.SplitterDistance;
+					Settings.SetNeedSave();
+				}
 			}
 			else
 			{
-				Settings.Current.DockSettings.Height = this.splitContainer.SplitterDistance;
+				if (this.currentMachine.Dock.Height != this.splitContainer.SplitterDistance)
+				{
+					this.currentMachine.Dock.Height = this.splitContainer.SplitterDistance;
+					Settings.SetNeedSave();
+				}
 			}
-			Settings.SetNeedSave();
+		}
+
+		private void MainForm_LocationChanged(object sender, EventArgs e)
+		{
+			if (this.internalChanges) return;
+			if (this.WindowState != FormWindowState.Normal) return;
+
+			if (this.currentMachine.Window.Location != this.Location)
+			{
+				this.currentMachine.Window.Location = this.Location;
+				Settings.SetNeedSave();
+			}
 		}
 	}
 }

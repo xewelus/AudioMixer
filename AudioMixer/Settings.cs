@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Xml.Serialization;
@@ -17,9 +18,8 @@ namespace AudioMixer
 			}
 		}
 
-		public List<DeviceInfo> AudioDevices = new List<DeviceInfo>();
 		public List<MixInfo> Mixes = new List<MixInfo>();
-		public DockSettings DockSettings = new DockSettings();
+		public List<Machine> Machines = new List<Machine>();
 
 		private static readonly string PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.xml");
 
@@ -103,5 +103,20 @@ namespace AudioMixer
 		public bool IsVertical = true;
 		public int Width = 220;
 		public int Height = 100;
+	}
+
+	public class WindowSettings
+	{
+		public Point Location = new Point(100, 100);
+		public Size Size = new Size(600, 600);
+		public bool IsMaximized;
+	}
+
+	public class Machine
+	{
+		public string Name;
+		public WindowSettings Window = new WindowSettings();
+		public DockSettings Dock = new DockSettings();
+		public List<DeviceInfo> AudioDevices = new List<DeviceInfo>();
 	}
 }
