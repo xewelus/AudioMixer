@@ -146,9 +146,17 @@ namespace AudioMixer
 
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			if (this.needSave && !UIHelper.AskYesNo("Вы уверены, что хотите закрыть форму без сохранения настроек?"))
+			if (this.needSave)
 			{
-				e.Cancel = true;
+				DialogResult result = UIHelper.ShowMessageBox("Сохранить настройки перед выходом?", buttons: MessageBoxButtons.YesNoCancel);
+				if (result == DialogResult.Cancel)
+				{
+					e.Cancel = true;
+				}
+				else if (result == DialogResult.Yes)
+				{
+					this.btnSave_Click(this, EventArgs.Empty);
+				}
 			}
 
 			base.OnClosing(e);
