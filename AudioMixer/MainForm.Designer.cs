@@ -30,12 +30,12 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
+			this.pnlMixes = new AudioMixer.MixesListPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.cbAudioDevice = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.pnlMixes = new AudioMixer.MixesListPanel();
 			this.cmSysTray = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.miSysTrayPlay = new System.Windows.Forms.ToolStripMenuItem();
 			this.miSysTrayStop = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +64,16 @@
 			this.splitContainer.Size = new System.Drawing.Size(655, 451);
 			this.splitContainer.SplitterDistance = 217;
 			this.splitContainer.TabIndex = 0;
+			// 
+			// pnlMixes
+			// 
+			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
+			this.pnlMixes.Name = "pnlMixes";
+			this.pnlMixes.Size = new System.Drawing.Size(217, 451);
+			this.pnlMixes.TabIndex = 0;
+			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
+			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
 			// 
 			// panel1
 			// 
@@ -114,16 +124,7 @@
 			this.notifyIcon.ContextMenuStrip = this.cmSysTray;
 			this.notifyIcon.Text = "AudioMixer";
 			this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
-			// 
-			// pnlMixes
-			// 
-			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
-			this.pnlMixes.Name = "pnlMixes";
-			this.pnlMixes.Size = new System.Drawing.Size(217, 451);
-			this.pnlMixes.TabIndex = 0;
-			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
-			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
+			this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
 			// 
 			// cmSysTray
 			// 
@@ -133,14 +134,14 @@
             this.toolStripSeparator1,
             this.miSysTrayQuit});
 			this.cmSysTray.Name = "cmSysTray";
-			this.cmSysTray.Size = new System.Drawing.Size(181, 98);
+			this.cmSysTray.Size = new System.Drawing.Size(172, 76);
 			this.cmSysTray.Opening += new System.ComponentModel.CancelEventHandler(this.cmSysTray_Opening);
 			// 
 			// miSysTrayPlay
 			// 
 			this.miSysTrayPlay.Image = global::AudioMixer.Properties.Resources.play;
 			this.miSysTrayPlay.Name = "miSysTrayPlay";
-			this.miSysTrayPlay.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayPlay.Size = new System.Drawing.Size(171, 22);
 			this.miSysTrayPlay.Text = "Воспроизведение";
 			this.miSysTrayPlay.Click += new System.EventHandler(this.miSysTrayPlay_Click);
 			// 
@@ -148,19 +149,19 @@
 			// 
 			this.miSysTrayStop.Image = global::AudioMixer.Properties.Resources.stop;
 			this.miSysTrayStop.Name = "miSysTrayStop";
-			this.miSysTrayStop.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayStop.Size = new System.Drawing.Size(171, 22);
 			this.miSysTrayStop.Text = "Отключить";
 			this.miSysTrayStop.Click += new System.EventHandler(this.miSysTrayStop_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
 			// 
 			// miSysTrayQuit
 			// 
 			this.miSysTrayQuit.Name = "miSysTrayQuit";
-			this.miSysTrayQuit.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayQuit.Size = new System.Drawing.Size(171, 22);
 			this.miSysTrayQuit.Text = "Выход";
 			this.miSysTrayQuit.Click += new System.EventHandler(this.miSysTrayQuit_Click);
 			// 

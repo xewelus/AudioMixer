@@ -24,7 +24,7 @@ namespace AudioMixer
 
 			this.Text = string.Format("{0} ({1})", this.Text, AssemblyInfo.VERSION);
 
-			this.notifyIcon.Icon = this.Icon;
+			this.notifyIcon.Icon = Resources.app_play;
 			this.notifyIcon.Text = this.Text;
 
 			Settings.OnNeedSave += this.OnNeedSave;
@@ -175,6 +175,13 @@ namespace AudioMixer
 				this.player = new Player(deviceInfo, this.pnlMixes.ActivatedMix);
 				this.player.Play();
 			}
+
+			this.UpdateNotifyIcon();
+		}
+
+		private void UpdateNotifyIcon()
+		{
+			this.notifyIcon.Icon = this.pnlMixes.ActivatedMix == null ? Resources.app_stop : Resources.app_play;
 		}
 
 		private bool needSave;
@@ -212,6 +219,14 @@ namespace AudioMixer
 		}
 
 		private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				this.pnlMixes.PlayChange();
+			}
+		}
+
+		private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
