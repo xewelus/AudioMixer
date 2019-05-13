@@ -228,11 +228,22 @@ namespace AudioMixer
 		{
 			if (this.player != null)
 			{
-				this.player.Dispose();
-				this.player = null;
+				if (this.pnlMixes.ActivatedMix == null)
+				{
+					this.player.Pause();
+				}
+				else if (this.pnlMixes.ActivatedMix == this.player.Mix)
+				{
+					this.player.Play();
+				}
+				else
+				{
+					this.player.Dispose();
+					this.player = null;
+				}
 			}
 
-			if (this.pnlMixes.ActivatedMix != null)
+			if (this.player == null && this.pnlMixes.ActivatedMix != null)
 			{
 				DirectSoundDeviceInfo deviceInfo = (DirectSoundDeviceInfo)this.cbAudioDevice.SelectedItem;
 				if (deviceInfo == null)

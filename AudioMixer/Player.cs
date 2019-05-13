@@ -9,12 +9,12 @@ namespace AudioMixer
 {
 	public class Player : IDisposable
 	{
-		private readonly MixInfo mixInfo;
+		public readonly MixInfo Mix;
 		private readonly List<PlayerItem> items = new List<PlayerItem>();
 
 		public Player(DirectSoundDeviceInfo deviceInfo, MixInfo mixInfo)
 		{
-			this.mixInfo = mixInfo;
+			this.Mix = mixInfo;
 
 			foreach (SoundInfo soundInfo in mixInfo.Sounds)
 			{
@@ -39,11 +39,19 @@ namespace AudioMixer
 			}
 		}
 
+		public void Pause()
+		{
+			foreach (PlayerItem item in this.items)
+			{
+				item.Pause();
+			}
+		}
+
 		public void UpdateVolume()
 		{
 			foreach (PlayerItem readerInfo in this.items)
 			{
-				readerInfo.UpdateVolume(this.mixInfo.Volume);
+				readerInfo.UpdateVolume(this.Mix.Volume);
 			}
 		}
 
@@ -99,6 +107,11 @@ namespace AudioMixer
 			public void Play()
 			{
 				this.waveOut.Play();
+			}
+
+			public void Pause()
+			{
+				this.waveOut.Pause();
 			}
 
 			public void UpdateVolume(float globalVolume)
