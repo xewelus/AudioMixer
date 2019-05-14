@@ -71,13 +71,14 @@ namespace AudioMixer
 				using (FileStream fs = new FileStream(PATH, FileMode.Open, FileAccess.Read))
 				{
 					current = (Settings)xs.Deserialize(fs);
-					bool updated = current.UpdateIds();
-					if (updated)
-					{
-						Save();
-					}
-					previuos = current.DeepCopy();
 				}
+
+				bool updated = current.UpdateIds();
+				if (updated)
+				{
+					Save();
+				}
+				previuos = current.DeepCopy();
 			}
 		}
 
