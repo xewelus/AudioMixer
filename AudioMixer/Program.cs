@@ -12,6 +12,11 @@ namespace AudioMixer
 		[STAThread]
 		static void Main()
 		{
+			if (Misc.IsSameProcessExists())
+			{
+				return;
+			}
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
