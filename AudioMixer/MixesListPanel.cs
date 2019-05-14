@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using AudioMixer.Properties;
 using Common;
@@ -121,7 +123,21 @@ namespace AudioMixer
 
 		private void btnMixAdd_Click(object sender, EventArgs e)
 		{
-			this.AddNewMix(new MixInfo { Name = "<новый>" });
+			List<string> files = MixPanel.AskFiles();
+			if (files == null)
+			{
+				return;
+			}
+
+			MixInfo mixInfo = new MixInfo();
+			mixInfo.Name = Path.GetFileNameWithoutExtension(files[0]);
+			foreach (string file in files)
+			{
+				SoundInfo soundInfo = new SoundInfo();
+				soundInfo.Path = file;
+				mixInfo.Sounds.Add(soundInfo);
+			}
+			this.AddNewMix(mixInfo);
 		}
 
 		private void AddNewMix(MixInfo mixInfo)
