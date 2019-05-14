@@ -129,7 +129,7 @@ namespace AudioMixer
 				return;
 			}
 
-			MixInfo mixInfo = new MixInfo();
+			MixInfo mixInfo = MixInfo.Create();
 			mixInfo.Name = Path.GetFileNameWithoutExtension(files[0]);
 			foreach (string file in files)
 			{
@@ -279,7 +279,7 @@ namespace AudioMixer
 		private void miCopy_Click(object sender, EventArgs e)
 		{
 			MixInfo mix = this.SelectedMix;
-			MixInfo newMix = new MixInfo();
+			MixInfo newMix = MixInfo.Create();
 			newMix.Name = mix.Name + " - копия";
 			newMix.Volume = mix.Volume;
 			foreach (SoundInfo sound in mix.Sounds)

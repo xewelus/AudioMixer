@@ -56,19 +56,37 @@ namespace AudioMixer
 			using (FileStream fs = new FileStream(PATH, FileMode.Open, FileAccess.Read))
 			{
 				current = (Settings)xs.Deserialize(fs);
+				current.UpdateIds();
+			}
+		}
+
+		private void UpdateIds()
+		{
+			foreach (MixInfo mixInfo in this.Mixes)
+			{
+				if (mixInfo.ID == 0)
+				{
+					mixInfo.ID = MixIdsCollection.GetFreeID();
+				}
 			}
 		}
 	}
 
 	public class MixInfo
 	{
+		public int ID;
 		public string Name;
 		public float Volume = 1f;
 		public List<SoundInfo> Sounds = new List<SoundInfo>();
 
+		public static MixInfo Create()
+		{
+			return new MixInfo {ID = MixIdsCollection.GetFreeID()};
+		}
+
 		public override string ToString()
 		{
-			return this.Name ?? "<пусто>";
+			return string.Format("{0} [{1}]", this.Name ?? "<пусто>", this.ID);
 		}
 	}
 

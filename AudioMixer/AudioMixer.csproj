@@ -66,6 +66,7 @@
     <Compile Include="MixesListPanel.Designer.cs">
       <DependentUpon>MixesListPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="MixIdsCollection.cs" />
     <Compile Include="MixPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
