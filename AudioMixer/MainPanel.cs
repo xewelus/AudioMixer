@@ -273,5 +273,14 @@ namespace AudioMixer
 				this.UpdateVolume();
 			}
 		}
+
+		public void OnClosed()
+		{
+			if (this.player != null)
+			{
+				this.player.Dispose();
+				this.player = null;
+			}
+		}
 	}
 }

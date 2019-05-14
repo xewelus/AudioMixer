@@ -8,7 +8,6 @@ namespace AudioMixer
 {
 	public sealed partial class MainForm : Form
 	{
-		private Player player;
 		private readonly Machine currentMachine;
 		private readonly WindowController windowController;
 
@@ -74,12 +73,7 @@ namespace AudioMixer
 
 		protected override void OnClosed(EventArgs e)
 		{
-			if (this.player != null)
-			{
-				this.player.Dispose();
-				this.player = null;
-			}
-
+			this.mainPanel.OnClosed();
 			base.OnClosed(e);
 		}
 
