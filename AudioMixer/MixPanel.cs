@@ -88,8 +88,14 @@ namespace AudioMixer
 			soundPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
 			soundPanel.PlayChanged += this.SoundPanel_PlayChanged;
 
-			this.pnlSounds.Controls.Add(soundPanel);
-			this.pnlSounds.Controls.SetChildIndex(soundPanel, 0);
+			Panel panel = new Panel();
+			panel.Height = soundPanel.Height;
+			panel.Dock = DockStyle.Top;
+			panel.Padding = new Padding(20, 0, 0, 0);
+			panel.Controls.Add(soundPanel);
+
+			this.pnlSounds.Controls.Add(panel);
+			this.pnlSounds.Controls.SetChildIndex(panel, 0);
 
 			this.AdjustHeights();
 

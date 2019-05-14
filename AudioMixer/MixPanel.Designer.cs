@@ -64,7 +64,7 @@
 			// 
 			// panel1
 			// 
-			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.panel1.BackColor = System.Drawing.Color.Silver;
 			this.panel1.Controls.Add(this.tbVolume);
 			this.panel1.Controls.Add(this.lblVolume);
 			this.panel1.Controls.Add(this.tbName);
