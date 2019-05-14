@@ -142,6 +142,9 @@ namespace AudioMixer
 
 			this.InitDevice();
 			this.SetupOrientation();
+
+			this.tbVolume.Value = (int)(this.currentMachine.Volume * 100);
+			this.tbVolume_ValueChanged(null, null);
 		}
 
 		protected override void OnClosing(CancelEventArgs e)
@@ -197,12 +200,17 @@ namespace AudioMixer
 			this.pnlMixes.UpdateName(this.mixPanel.MixName);
 		}
 
-		private void MixPanelOnVolumeChanged(object sender, EventArgs eventArgs)
+		private void UpdateVolume()
 		{
 			if (this.player != null)
 			{
-				this.player.UpdateVolume();
+				this.player.UpdateVolume(this.currentMachine.Volume);
 			}
+		}
+
+		private void MixPanelOnVolumeChanged(object sender, EventArgs eventArgs)
+		{
+			this.UpdateVolume();
 		}
 
 		private void MixPanelOnPlayChanged(object sender, EventArgs eventArgs)
@@ -252,7 +260,7 @@ namespace AudioMixer
 					return;
 				}
 
-				this.player = new Player(deviceInfo, this.pnlMixes.ActivatedMix);
+				this.player = new Player(deviceInfo, this.pnlMixes.ActivatedMix, this.currentMachine.Volume);
 				this.player.Play();
 			}
 
@@ -407,6 +415,27 @@ namespace AudioMixer
 			{
 				this.currentMachine.Window.Location = this.Location;
 				Settings.SetNeedSave();
+			}
+		}
+
+		private void tbVolume_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (IsPlayChangeKey(e))
+			{
+				this.UpdateVolume();
+			}
+		}
+
+		private void tbVolume_ValueChanged(object sender, EventArgs e)
+		{
+			this.lblVolume.Text = string.Format("Громкость ({0}%):", this.tbVolume.Value);
+
+			if (!this.internalChanges)
+			{
+				this.currentMachine.Volume = this.tbVolume.Value / 100f;
+				Settings.SetNeedSave();
+
+				this.UpdateVolume();
 			}
 		}
 	}

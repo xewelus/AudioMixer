@@ -115,6 +115,7 @@ namespace AudioMixer
 	public class Machine
 	{
 		public string Name;
+		public float Volume = 1f;
 		public WindowSettings Window = new WindowSettings();
 		public DockSettings Dock = new DockSettings();
 		public List<DeviceInfo> AudioDevices = new List<DeviceInfo>();

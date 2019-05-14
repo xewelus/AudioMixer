@@ -30,7 +30,6 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
-			this.pnlMixes = new AudioMixer.MixesListPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.cbAudioDevice = new System.Windows.Forms.ComboBox();
@@ -41,17 +40,21 @@
 			this.miSysTrayStop = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.miSysTrayQuit = new System.Windows.Forms.ToolStripMenuItem();
+			this.pnlMixes = new AudioMixer.MixesListPanel();
+			this.tbVolume = new Common.Controls.XwTrackBar();
+			this.lblVolume = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.cmSysTray.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// splitContainer
 			// 
 			this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer.Location = new System.Drawing.Point(0, 32);
+			this.splitContainer.Location = new System.Drawing.Point(0, 61);
 			this.splitContainer.Name = "splitContainer";
 			// 
 			// splitContainer.Panel1
@@ -61,31 +64,22 @@
 			// splitContainer.Panel2
 			// 
 			this.splitContainer.Panel2.AutoScroll = true;
-			this.splitContainer.Size = new System.Drawing.Size(655, 451);
+			this.splitContainer.Size = new System.Drawing.Size(655, 422);
 			this.splitContainer.SplitterDistance = 217;
 			this.splitContainer.TabIndex = 0;
 			this.splitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer_SplitterMoved);
 			// 
-			// pnlMixes
-			// 
-			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
-			this.pnlMixes.Name = "pnlMixes";
-			this.pnlMixes.Size = new System.Drawing.Size(217, 451);
-			this.pnlMixes.TabIndex = 0;
-			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
-			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
-			this.pnlMixes.DockButtonClick += new System.EventHandler(this.pnlMixes_DockButtonClick);
-			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.lblVolume);
+			this.panel1.Controls.Add(this.tbVolume);
 			this.panel1.Controls.Add(this.btnSave);
 			this.panel1.Controls.Add(this.cbAudioDevice);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(655, 32);
+			this.panel1.Size = new System.Drawing.Size(655, 61);
 			this.panel1.TabIndex = 1;
 			// 
 			// btnSave
@@ -136,14 +130,14 @@
             this.toolStripSeparator1,
             this.miSysTrayQuit});
 			this.cmSysTray.Name = "cmSysTray";
-			this.cmSysTray.Size = new System.Drawing.Size(181, 98);
+			this.cmSysTray.Size = new System.Drawing.Size(158, 76);
 			this.cmSysTray.Opening += new System.ComponentModel.CancelEventHandler(this.cmSysTray_Opening);
 			// 
 			// miSysTrayPlay
 			// 
 			this.miSysTrayPlay.Image = global::AudioMixer.Properties.Resources.play;
 			this.miSysTrayPlay.Name = "miSysTrayPlay";
-			this.miSysTrayPlay.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayPlay.Size = new System.Drawing.Size(157, 22);
 			this.miSysTrayPlay.Text = "Воспроизвести";
 			this.miSysTrayPlay.Click += new System.EventHandler(this.miSysTrayPlay_Click);
 			// 
@@ -151,21 +145,56 @@
 			// 
 			this.miSysTrayStop.Image = global::AudioMixer.Properties.Resources.pause2;
 			this.miSysTrayStop.Name = "miSysTrayStop";
-			this.miSysTrayStop.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayStop.Size = new System.Drawing.Size(157, 22);
 			this.miSysTrayStop.Text = "Остановить";
 			this.miSysTrayStop.Click += new System.EventHandler(this.miSysTrayStop_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
 			// 
 			// miSysTrayQuit
 			// 
 			this.miSysTrayQuit.Name = "miSysTrayQuit";
-			this.miSysTrayQuit.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayQuit.Size = new System.Drawing.Size(157, 22);
 			this.miSysTrayQuit.Text = "Выход";
 			this.miSysTrayQuit.Click += new System.EventHandler(this.miSysTrayQuit_Click);
+			// 
+			// pnlMixes
+			// 
+			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
+			this.pnlMixes.Name = "pnlMixes";
+			this.pnlMixes.Size = new System.Drawing.Size(217, 422);
+			this.pnlMixes.TabIndex = 0;
+			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
+			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
+			this.pnlMixes.DockButtonClick += new System.EventHandler(this.pnlMixes_DockButtonClick);
+			// 
+			// tbVolume
+			// 
+			this.tbVolume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbVolume.AutoSize = false;
+			this.tbVolume.LargeChange = 1;
+			this.tbVolume.Location = new System.Drawing.Point(111, 28);
+			this.tbVolume.Maximum = 100;
+			this.tbVolume.Name = "tbVolume";
+			this.tbVolume.Size = new System.Drawing.Size(366, 24);
+			this.tbVolume.TabIndex = 4;
+			this.tbVolume.Value = 100;
+			this.tbVolume.ValueChanged += new System.EventHandler(this.tbVolume_ValueChanged);
+			this.tbVolume.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbVolume_KeyDown);
+			// 
+			// lblVolume
+			// 
+			this.lblVolume.AutoSize = true;
+			this.lblVolume.Location = new System.Drawing.Point(9, 32);
+			this.lblVolume.Name = "lblVolume";
+			this.lblVolume.Size = new System.Drawing.Size(65, 13);
+			this.lblVolume.TabIndex = 5;
+			this.lblVolume.Text = "Громкость:";
 			// 
 			// MainForm
 			// 
@@ -185,6 +214,7 @@
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.cmSysTray.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -203,6 +233,8 @@
 		private System.Windows.Forms.ToolStripMenuItem miSysTrayStop;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem miSysTrayQuit;
+		private System.Windows.Forms.Label lblVolume;
+		private Common.Controls.XwTrackBar tbVolume;
 	}
 }
 

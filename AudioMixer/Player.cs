@@ -12,7 +12,7 @@ namespace AudioMixer
 		public readonly MixInfo Mix;
 		private readonly List<PlayerItem> items = new List<PlayerItem>();
 
-		public Player(DirectSoundDeviceInfo deviceInfo, MixInfo mixInfo)
+		public Player(DirectSoundDeviceInfo deviceInfo, MixInfo mixInfo, float globalVolume)
 		{
 			this.Mix = mixInfo;
 
@@ -28,7 +28,7 @@ namespace AudioMixer
 				this.items.Add(readerInfo);
 			}
 
-			this.UpdateVolume();
+			this.UpdateVolume(globalVolume);
 		}
 
 		public void Play()
@@ -47,11 +47,11 @@ namespace AudioMixer
 			}
 		}
 
-		public void UpdateVolume()
+		public void UpdateVolume(float globalVolume)
 		{
 			foreach (PlayerItem readerInfo in this.items)
 			{
-				readerInfo.UpdateVolume(this.Mix.Volume);
+				readerInfo.UpdateVolume(this.Mix.Volume * globalVolume);
 			}
 		}
 
