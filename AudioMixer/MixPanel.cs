@@ -61,21 +61,49 @@ namespace AudioMixer
 			}
 		}
 
+		public static List<string> AskFiles(bool multiselect = true)
+		{
+			using (OpenFileDialog dlg = new OpenFileDialog())
+			{
+				dlg.Multiselect = multiselect;
+				if (dlg.ShowDialog(UIHelper.TopForm) == DialogResult.OK)
+				{
+					List<string> result = new List<string>();
+					string dir = AppDomain.CurrentDomain.BaseDirectory;
+
+					foreach (string file in dlg.FileNames)
+					{
+						string filename = file;
+						if (filename.StartsWith(dir))
+						{
+							filename = filename.Substring(dir.Length);
+						}
+						result.Add(filename);
+					}
+					return result;
+				}
+			}
+			return null;
+		}
+
 		private readonly Dictionary<SoundPanel, Control> lines = new Dictionary<SoundPanel, Control>();
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			string file = SoundPanel.AskFile();
-			if (file == null)
+			List<string> files = AskFiles();
+			if (files == null)
 			{
 				return;
 			}
 
-			SoundInfo soundInfo = new SoundInfo();
-			soundInfo.Path = file;
-			this.mixInfo.Sounds.Add(soundInfo);
-			Settings.SetNeedSave();
+			foreach (string file in files)
+			{
+				SoundInfo soundInfo = new SoundInfo();
+				soundInfo.Path = file;
+				this.mixInfo.Sounds.Add(soundInfo);
+				Settings.SetNeedSave();
 
-			this.AddSound(soundInfo);
+				this.AddSound(soundInfo);
+			}
 		}
 
 		private void AddSound(SoundInfo soundInfo)

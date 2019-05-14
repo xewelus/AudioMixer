@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Common;
@@ -39,22 +40,14 @@ namespace AudioMixer
 			}
 		}
 
-		public static string AskFile()
+		private static string AskFile()
 		{
-			using (OpenFileDialog dlg = new OpenFileDialog())
+			List<string> files = MixPanel.AskFiles(false);
+			if (files == null || files.Count == 0)
 			{
-				if (dlg.ShowDialog(UIHelper.TopForm) == DialogResult.OK)
-				{
-					string dir = AppDomain.CurrentDomain.BaseDirectory;
-					string filename = dlg.FileName;
-					if (filename.StartsWith(dir))
-					{
-						filename = filename.Substring(dir.Length);
-					}
-					return filename;
-				}
 				return null;
 			}
+			return files[0];
 		}
 
 		private void btnOpen_Click(object sender, EventArgs e)
