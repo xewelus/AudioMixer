@@ -76,6 +76,10 @@
     <Compile Include="SoundPanel.Designer.cs">
       <DependentUpon>SoundPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="WindowController.cs" />
+    <EmbeddedResource Include="MainPanel.resx">
+      <DependentUpon>MainPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
