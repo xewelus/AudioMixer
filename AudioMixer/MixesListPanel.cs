@@ -88,6 +88,19 @@ namespace AudioMixer
 			this.ActivateItem(this.lvMixes.SelectedItems.Count == 0 ? null : this.lvMixes.SelectedItems[0]);
 		}
 
+		public void SelectItemByID(int mixID)
+		{
+			foreach (ListViewItem item in this.lvMixes.Items)
+			{
+				MixInfo mixInfo = (MixInfo)item.Tag;
+				if (mixInfo.ID == mixID)
+				{
+					item.Selected = true;
+					break;
+				}
+			}
+		}
+
 		private void ActivateItem(ListViewItem item)
 		{
 			if (this.lastActivated != null)

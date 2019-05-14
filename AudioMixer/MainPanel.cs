@@ -57,6 +57,11 @@ namespace AudioMixer
 				this.tbVolume_ValueChanged(null, null);
 
 				this.pnlMixes.PanelOrientation = this.splitContainer.Orientation;
+
+				if (machine.LastMixID != null)
+				{
+					this.pnlMixes.SelectItemByID(machine.LastMixID.Value);
+				}
 			}
 			finally
 			{
@@ -191,6 +196,9 @@ namespace AudioMixer
 					UIHelper.ShowError("Необходимо выбрать аудио-устройство.");
 					return;
 				}
+
+				this.currentMachine.LastMixID = this.pnlMixes.ActivatedMix.ID;
+				Settings.SetNeedSave();
 
 				this.player = new Player(deviceInfo, this.pnlMixes.ActivatedMix, this.currentMachine.Volume);
 				this.player.Play();
