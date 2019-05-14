@@ -174,8 +174,6 @@
 			// 
 			// tbVolume
 			// 
-			this.tbVolume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tbVolume.AutoSize = false;
 			this.tbVolume.LargeChange = 1;
 			this.tbVolume.Location = new System.Drawing.Point(111, 28);
