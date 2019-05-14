@@ -141,7 +141,7 @@ namespace AudioMixer
 		private void SoundPanel_DeleteButtonClick(object sender, EventArgs eventArgs)
 		{
 			SoundPanel soundPanel = (SoundPanel)sender;
-			this.pnlSounds.Controls.Remove(soundPanel);
+			this.pnlSounds.Controls.Remove(soundPanel.Parent);
 
 			Control line = this.lines.Get(soundPanel);
 			if (line != null)
