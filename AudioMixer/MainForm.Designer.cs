@@ -37,6 +37,7 @@
 			this.miSysTrayStop = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.miSysTrayQuit = new System.Windows.Forms.ToolStripMenuItem();
+			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.mainPanel = new AudioMixer.MainPanel();
 			this.cmSysTray.SuspendLayout();
 			this.SuspendLayout();
@@ -59,27 +60,27 @@
             this.toolStripSeparator1,
             this.miSysTrayQuit});
 			this.cmSysTray.Name = "cmSysTray";
-			this.cmSysTray.Size = new System.Drawing.Size(181, 126);
+			this.cmSysTray.Size = new System.Drawing.Size(158, 104);
 			this.cmSysTray.Opening += new System.ComponentModel.CancelEventHandler(this.cmSysTray_Opening);
 			// 
 			// miOpenForm
 			// 
 			this.miOpenForm.Image = global::AudioMixer.Properties.Resources.app_png;
 			this.miOpenForm.Name = "miOpenForm";
-			this.miOpenForm.Size = new System.Drawing.Size(180, 22);
+			this.miOpenForm.Size = new System.Drawing.Size(157, 22);
 			this.miOpenForm.Text = "Открыть";
 			this.miOpenForm.Click += new System.EventHandler(this.miOpenForm_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
 			// 
 			// miSysTrayPlay
 			// 
 			this.miSysTrayPlay.Image = global::AudioMixer.Properties.Resources.play;
 			this.miSysTrayPlay.Name = "miSysTrayPlay";
-			this.miSysTrayPlay.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayPlay.Size = new System.Drawing.Size(157, 22);
 			this.miSysTrayPlay.Text = "Воспроизвести";
 			this.miSysTrayPlay.Click += new System.EventHandler(this.miSysTrayPlay_Click);
 			// 
@@ -87,21 +88,25 @@
 			// 
 			this.miSysTrayStop.Image = global::AudioMixer.Properties.Resources.pause2;
 			this.miSysTrayStop.Name = "miSysTrayStop";
-			this.miSysTrayStop.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayStop.Size = new System.Drawing.Size(157, 22);
 			this.miSysTrayStop.Text = "Остановить";
 			this.miSysTrayStop.Click += new System.EventHandler(this.miSysTrayStop_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
 			// 
 			// miSysTrayQuit
 			// 
 			this.miSysTrayQuit.Name = "miSysTrayQuit";
-			this.miSysTrayQuit.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayQuit.Size = new System.Drawing.Size(157, 22);
 			this.miSysTrayQuit.Text = "Выход";
 			this.miSysTrayQuit.Click += new System.EventHandler(this.miSysTrayQuit_Click);
+			// 
+			// timer
+			// 
+			this.timer.Tick += new System.EventHandler(this.timer_Tick);
 			// 
 			// mainPanel
 			// 
@@ -139,6 +144,7 @@
 		private MainPanel mainPanel;
 		private System.Windows.Forms.ToolStripMenuItem miOpenForm;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.Timer timer;
 	}
 }
 

@@ -109,7 +109,7 @@ namespace AudioMixer
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				this.pnlMixes.PlayChange();
+				this.timer.Start();
 			}
 		}
 
@@ -117,6 +117,7 @@ namespace AudioMixer
 		{
 			if (e.Button == MouseButtons.Left)
 			{
+				this.timer.Stop();
 				this.miOpenForm_Click(null, null);
 			}
 		}
@@ -151,6 +152,12 @@ namespace AudioMixer
 		{
 			this.WindowState = FormWindowState.Normal;
 			this.Activate();
+		}
+
+		private void timer_Tick(object sender, EventArgs e)
+		{
+			this.timer.Stop();
+			this.pnlMixes.PlayChange();
 		}
 	}
 }
