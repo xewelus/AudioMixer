@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Forms;
 using AudioMixer.Properties;
 using Common;
@@ -109,7 +111,7 @@ namespace AudioMixer
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				this.timer.Start();
+				this.clickDelayTimer.Start();
 			}
 		}
 
@@ -117,7 +119,7 @@ namespace AudioMixer
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				this.timer.Stop();
+				this.clickDelayTimer.Stop();
 				this.miOpenForm_Click(null, null);
 			}
 		}
@@ -154,10 +156,29 @@ namespace AudioMixer
 			this.Activate();
 		}
 
-		private void timer_Tick(object sender, EventArgs e)
+		private void clickDelayTimer_Tick(object sender, EventArgs e)
 		{
-			this.timer.Stop();
+			this.clickDelayTimer.Stop();
 			this.pnlMixes.PlayChange();
+		}
+
+		private void processCheckTimer_Tick(object sender, EventArgs e)
+		{
+			try
+			{
+				List<Process> processes = Misc.GetSameProcesses();
+				if (processes.Count > 0)
+				{
+					this.miOpenForm_Click(null, null);
+					foreach (Process process in processes)
+					{
+						process.Kill();
+					}
+				}
+			}
+			catch
+			{
+			}
 		}
 	}
 }

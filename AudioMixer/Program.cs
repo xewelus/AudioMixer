@@ -14,7 +14,10 @@ namespace AudioMixer
 		{
 			if (Misc.IsSameProcessExists())
 			{
-				return;
+				while (true)
+				{
+					Application.DoEvents();
+				}
 			}
 
 			Application.EnableVisualStyles();

@@ -37,8 +37,9 @@
 			this.miSysTrayStop = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.miSysTrayQuit = new System.Windows.Forms.ToolStripMenuItem();
-			this.timer = new System.Windows.Forms.Timer(this.components);
+			this.clickDelayTimer = new System.Windows.Forms.Timer(this.components);
 			this.mainPanel = new AudioMixer.MainPanel();
+			this.processCheckTimer = new System.Windows.Forms.Timer(this.components);
 			this.cmSysTray.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -104,9 +105,9 @@
 			this.miSysTrayQuit.Text = "Выход";
 			this.miSysTrayQuit.Click += new System.EventHandler(this.miSysTrayQuit_Click);
 			// 
-			// timer
+			// clickDelayTimer
 			// 
-			this.timer.Tick += new System.EventHandler(this.timer_Tick);
+			this.clickDelayTimer.Tick += new System.EventHandler(this.clickDelayTimer_Tick);
 			// 
 			// mainPanel
 			// 
@@ -117,6 +118,11 @@
 			this.mainPanel.Size = new System.Drawing.Size(655, 483);
 			this.mainPanel.TabIndex = 1;
 			this.mainPanel.PlayStateChanged += new System.EventHandler(this.mainPanel_PlayStateChanged);
+			// 
+			// processCheckTimer
+			// 
+			this.processCheckTimer.Enabled = true;
+			this.processCheckTimer.Tick += new System.EventHandler(this.processCheckTimer_Tick);
 			// 
 			// MainForm
 			// 
@@ -144,7 +150,8 @@
 		private MainPanel mainPanel;
 		private System.Windows.Forms.ToolStripMenuItem miOpenForm;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.Timer timer;
+		private System.Windows.Forms.Timer clickDelayTimer;
+		private System.Windows.Forms.Timer processCheckTimer;
 	}
 }
 
