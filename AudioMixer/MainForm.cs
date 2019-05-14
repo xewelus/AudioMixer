@@ -50,7 +50,7 @@ namespace AudioMixer
 			Machine newMachine = new Machine();
 			newMachine.Name = machineName;
 			Settings.Current.Machines.Add(newMachine);
-			Settings.SetNeedSave();
+			Settings.SaveAppearance();
 			return newMachine;
 		}
 

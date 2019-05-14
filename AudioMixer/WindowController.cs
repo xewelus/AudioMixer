@@ -89,14 +89,14 @@ namespace AudioMixer
 
 			if (save)
 			{
-				Settings.SetNeedSave();
+				Settings.SaveAppearance();
 			}
 		}
 
 		public void SwitchOrientation()
 		{
 			this.dock.IsVertical = !this.dock.IsVertical;
-			Settings.SetNeedSave();
+			Settings.SaveAppearance();
 
 			this.SetupOrientation();
 		}
@@ -110,7 +110,7 @@ namespace AudioMixer
 				if (this.dock.Width != this.splitContainer.SplitterDistance)
 				{
 					this.dock.Width = this.splitContainer.SplitterDistance;
-					Settings.SetNeedSave();
+					Settings.SaveAppearance();
 				}
 			}
 			else
@@ -118,7 +118,7 @@ namespace AudioMixer
 				if (this.dock.Height != this.splitContainer.SplitterDistance)
 				{
 					this.dock.Height = this.splitContainer.SplitterDistance;
-					Settings.SetNeedSave();
+					Settings.SaveAppearance();
 				}
 			}
 		}
@@ -131,7 +131,7 @@ namespace AudioMixer
 			if (this.window.Location != this.form.Location)
 			{
 				this.window.Location = this.form.Location;
-				Settings.SetNeedSave();
+				Settings.SaveAppearance();
 			}
 		}
 	}

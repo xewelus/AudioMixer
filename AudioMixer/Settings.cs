@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 using System.Xml.Serialization;
+using Common;
 
 namespace AudioMixer
 {
+	[Serializable]
 	public class Settings
 	{
+		private static Settings previuos;
 		private static Settings current = new Settings();
 		public static Settings Current
 		{
@@ -18,14 +20,12 @@ namespace AudioMixer
 			}
 		}
 
+		private static readonly string PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.xml");
+		private static readonly object locker = new object();
+		public static EventHandler OnNeedSave;
+
 		public List<MixInfo> Mixes = new List<MixInfo>();
 		public List<Machine> Machines = new List<Machine>();
-
-		private static readonly string PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.xml");
-
-		private static readonly object locker = new object();
-
-		public static EventHandler OnNeedSave;
 
 		public static void SetNeedSave()
 		{
@@ -35,7 +35,20 @@ namespace AudioMixer
 			}
 		}
 
+		public static void SaveAppearance()
+		{
+			Settings settings = current.DeepCopy();
+			settings.Mixes = previuos.Mixes;
+			settings.InternalSave();
+		}
+
 		public static void Save()
+		{
+			Current.InternalSave();
+			previuos = Current.DeepCopy();
+		}
+
+		private void InternalSave()
 		{
 			lock (locker)
 			{
@@ -43,35 +56,47 @@ namespace AudioMixer
 				using (FileStream fs = new FileStream(PATH, FileMode.OpenOrCreate, FileAccess.Write))
 				{
 					fs.SetLength(0);
-					xs.Serialize(fs, Current);
+					xs.Serialize(fs, this);
 				}
 			}
 		}
 
 		public static void Load()
 		{
-			if (!File.Exists(PATH)) return;
-
-			XmlSerializer xs = new XmlSerializer(typeof(Settings));
-			using (FileStream fs = new FileStream(PATH, FileMode.Open, FileAccess.Read))
+			lock (locker)
 			{
-				current = (Settings)xs.Deserialize(fs);
-				current.UpdateIds();
+				if (!File.Exists(PATH)) return;
+
+				XmlSerializer xs = new XmlSerializer(typeof(Settings));
+				using (FileStream fs = new FileStream(PATH, FileMode.Open, FileAccess.Read))
+				{
+					current = (Settings)xs.Deserialize(fs);
+					bool updated = current.UpdateIds();
+					if (updated)
+					{
+						Save();
+					}
+					previuos = current.DeepCopy();
+				}
 			}
 		}
 
-		private void UpdateIds()
+		private bool UpdateIds()
 		{
+			bool updated = false;
 			foreach (MixInfo mixInfo in this.Mixes)
 			{
 				if (mixInfo.ID == 0)
 				{
 					mixInfo.ID = MixIdsCollection.GetFreeID();
+					updated = true;
 				}
 			}
+			return updated;
 		}
 	}
 
+	[Serializable]
 	public class MixInfo
 	{
 		public int ID;
@@ -90,6 +115,7 @@ namespace AudioMixer
 		}
 	}
 
+	[Serializable]
 	public class SoundInfo
 	{
 		public string Path;
@@ -110,12 +136,14 @@ namespace AudioMixer
 		}
 	}
 
+	[Serializable]
 	public class DeviceInfo
 	{
 		public string Hash;
 		public string Name;
 	}
 
+	[Serializable]
 	public class DockSettings
 	{
 		public bool IsVertical = true;
@@ -123,6 +151,7 @@ namespace AudioMixer
 		public int Height = 100;
 	}
 
+	[Serializable]
 	public class WindowSettings
 	{
 		public Point Location = new Point(100, 100);
@@ -130,6 +159,7 @@ namespace AudioMixer
 		public bool IsMaximized;
 	}
 
+	[Serializable]
 	public class Machine
 	{
 		public string Name;

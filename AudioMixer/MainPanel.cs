@@ -102,7 +102,7 @@ namespace AudioMixer
 				this.currentDevice = new DeviceInfo();
 				this.currentDevice.Hash = hash;
 				this.currentMachine.AudioDevices.Add(this.currentDevice);
-				Settings.SetNeedSave();
+				Settings.SaveAppearance();
 			}
 
 			if (this.currentDevice != null)
@@ -166,7 +166,7 @@ namespace AudioMixer
 
 			DirectSoundDeviceInfo deviceInfo = (DirectSoundDeviceInfo)this.cbAudioDevice.SelectedItem;
 			this.currentDevice.Name = deviceInfo.Description;
-			Settings.SetNeedSave();
+			Settings.SaveAppearance();
 		}
 
 		private void pnlMixes_ItemActivated(object sender, EventArgs e)
@@ -198,7 +198,7 @@ namespace AudioMixer
 				}
 
 				this.currentMachine.LastMixID = this.pnlMixes.ActivatedMix.ID;
-				Settings.SetNeedSave();
+				Settings.SaveAppearance();
 
 				this.player = new Player(deviceInfo, this.pnlMixes.ActivatedMix, this.currentMachine.Volume);
 				this.player.Play();
@@ -268,7 +268,7 @@ namespace AudioMixer
 			if (!this.internalChanges)
 			{
 				this.currentMachine.Volume = this.tbVolume.Value / 100f;
-				Settings.SetNeedSave();
+				Settings.SaveAppearance();
 
 				this.UpdateVolume();
 			}
