@@ -158,6 +158,7 @@
   <ItemGroup>
     <Content Include="app.ico" />
     <Content Include="Resources\app_play.ico" />
+    <None Include="Resources\app_png.png" />
     <Content Include="Resources\app_stop.ico" />
     <None Include="Resources\copy.png" />
     <None Include="Resources\dock-top.png" />

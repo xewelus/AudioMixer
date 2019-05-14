@@ -123,7 +123,7 @@ namespace AudioMixer
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				this.WindowState = FormWindowState.Normal;
+				this.miOpenForm_Click(null, null);
 			}
 		}
 
@@ -151,6 +151,12 @@ namespace AudioMixer
 		private void mainPanel_PlayStateChanged(object sender, EventArgs e)
 		{
 			this.notifyIcon.Icon = this.pnlMixes.ActivatedMix == null ? Resources.app_stop : Resources.app_play;
+		}
+
+		private void miOpenForm_Click(object sender, EventArgs e)
+		{
+			this.WindowState = FormWindowState.Normal;
+			this.Activate();
 		}
 	}
 }
