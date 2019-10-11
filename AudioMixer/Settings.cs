@@ -131,9 +131,9 @@ namespace AudioMixer
 		{
 			if (System.IO.Path.IsPathRooted(this.Path))
 			{
-				return this.Path;
+				return System.IO.Path.GetFullPath(this.Path);
 			}
-			return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.Path);
+			return System.IO.Path.GetFullPath(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.Path));
 		}
 	}
 
