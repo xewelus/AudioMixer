@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Common;
@@ -20,6 +21,8 @@ namespace AudioMixer
 			this.internalChanges = true;
 
 			this.tbFile.Text = soundInfo.Path;
+			this.RefreshFileState();
+
 			this.tbVolume.Value = (int)(soundInfo.Volume * 100);
 			this.tbVolume_ValueChanged(null, null);
 
@@ -56,6 +59,7 @@ namespace AudioMixer
 			if (file != null)
 			{
 				this.tbFile.Text = file;
+				this.RefreshFileState();
 			}
 		}
 
@@ -95,6 +99,7 @@ namespace AudioMixer
 				this.cbRelative.Enabled = true;
 			}
 			this.cbRelativeIgnore = false;
+			this.RefreshFileState();
 		}
 
 		private void controls_KeyDown(object sender, KeyEventArgs e)
@@ -113,11 +118,7 @@ namespace AudioMixer
 		{
 			if (this.cbRelativeIgnore) return;
 
-			string path = this.tbFile.Text;
-			if (!Path.IsPathRooted(this.tbFile.Text))
-			{
-				path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.tbFile.Text));
-			}
+			string path = this.GetFilePath();
 
 			if (this.cbRelative.Checked)
 			{
@@ -127,6 +128,23 @@ namespace AudioMixer
 			{
 				this.tbFile.Text = path;
 			}
+			this.RefreshFileState();
+		}
+
+		private string GetFilePath()
+		{
+			string path = this.tbFile.Text;
+			if (!Path.IsPathRooted(this.tbFile.Text))
+			{
+				path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.tbFile.Text));
+			}
+			return path;
+		}
+
+		private void RefreshFileState()
+		{
+			string path = this.GetFilePath();
+			this.tbFile.ForeColor = File.Exists(path) ? DefaultForeColor : Color.Red;
 		}
 	}
 }
