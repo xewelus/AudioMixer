@@ -1,0 +1,4 @@
+[submodule "Common"]
+	path = Common
+	url = https://xewelus@bitbucket.org/xewelus/cscommon.git
+	branch = hg
