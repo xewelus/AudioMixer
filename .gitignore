@@ -6,3 +6,4 @@ code/UpgradeLog.htm
 */**/obj/Debug
 */**/obj/Release
 _ReSharper.Caches/
+*.suo
