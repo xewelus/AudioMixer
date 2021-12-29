@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Common;
+using CommonWinForms;
+using CommonWinForms.Extensions;
 
 namespace AudioMixer
 {

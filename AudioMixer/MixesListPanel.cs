@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows.Forms;
 using AudioMixer.Properties;
 using Common;
+using CommonWinForms;
 
 namespace AudioMixer
 {

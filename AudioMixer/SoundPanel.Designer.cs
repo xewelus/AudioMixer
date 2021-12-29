@@ -32,7 +32,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbFile = new System.Windows.Forms.TextBox();
 			this.btnOpen = new System.Windows.Forms.Button();
-			this.tbVolume = new Common.Controls.XwTrackBar();
+			this.tbVolume = new CommonWinForms.Controls.XwTrackBar();
 			this.lblVolume = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.btnDelete = new System.Windows.Forms.Button();
@@ -161,7 +161,7 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox tbFile;
 		private System.Windows.Forms.Button btnOpen;
-		private Common.Controls.XwTrackBar tbVolume;
+		private CommonWinForms.Controls.XwTrackBar tbVolume;
 		private System.Windows.Forms.Label lblVolume;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Button btnDelete;
