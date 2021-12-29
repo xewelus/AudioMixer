@@ -7,3 +7,4 @@ code/UpgradeLog.htm
 */**/obj/Release
 _ReSharper.Caches/
 *.suo
+/packages/
