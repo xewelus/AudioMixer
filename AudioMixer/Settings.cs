@@ -38,7 +38,10 @@ namespace AudioMixer
 		public static void SaveAppearance()
 		{
 			Settings settings = current.DeepCopy();
-			settings.Mixes = previuos.Mixes;
+			if (previuos != null)
+			{
+				settings.Mixes = previuos.Mixes;
+			}
 			settings.InternalSave();
 		}
 
