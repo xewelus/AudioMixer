@@ -32,7 +32,7 @@
 			this.pnlMixes = new AudioMixer.MixesListPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.lblVolume = new System.Windows.Forms.Label();
-			this.tbVolume = new Common.Controls.XwTrackBar();
+			this.tbVolume = new CommonWinForms.Controls.XwTrackBar();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.cbAudioDevice = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -166,7 +166,7 @@
 		private MixesListPanel pnlMixes;
 		private System.Windows.Forms.Button btnSave;
 		private System.Windows.Forms.Label lblVolume;
-		private Common.Controls.XwTrackBar tbVolume;
+		private CommonWinForms.Controls.XwTrackBar tbVolume;
 	}
 }
 

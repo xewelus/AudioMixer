@@ -2,7 +2,8 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
-using Common;
+using CommonWinForms;
+using CommonWinForms.Extensions;
 using NAudio.Wave;
 
 namespace AudioMixer

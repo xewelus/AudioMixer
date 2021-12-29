@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Common;
+using CommonWinForms;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 

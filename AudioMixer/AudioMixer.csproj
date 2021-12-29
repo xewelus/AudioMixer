@@ -8,9 +8,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>AudioMixer</RootNamespace>
     <AssemblyName>AudioMixer</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>4</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>app.ico</ApplicationIcon>
@@ -109,6 +112,7 @@
     <EmbeddedResource Include="SoundPanel.resx">
       <DependentUpon>SoundPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -144,8 +148,12 @@
     <None Include="Resources\stop.gif" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\CommonWinForms\CommonWinForms.csproj">
+      <Project>{4d3558c4-c9aa-4025-848e-68d14ff106a2}</Project>
+      <Name>CommonWinForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common\Common.csproj">
-      <Project>{F611885D-38B2-4C9C-B736-08312C0F19DD}</Project>
+      <Project>{f611885d-38b2-4c9c-b736-08312c0f19dd}</Project>
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\NAudio\NAudio.csproj">

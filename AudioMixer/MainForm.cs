@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using AudioMixer.Properties;
 using Common;
+using CommonWinForms;
 
 namespace AudioMixer
 {
@@ -75,7 +76,13 @@ namespace AudioMixer
 
 		protected override void OnClosed(EventArgs e)
 		{
-			this.mainPanel.OnClosed();
+			try
+			{
+				this.mainPanel.OnClosed();
+			}
+			catch
+			{
+			}
 			base.OnClosed(e);
 		}
 

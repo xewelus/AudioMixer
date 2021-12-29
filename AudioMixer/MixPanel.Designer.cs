@@ -31,7 +31,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbName = new System.Windows.Forms.TextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.tbVolume = new Common.Controls.XwTrackBar();
+			this.tbVolume = new CommonWinForms.Controls.XwTrackBar();
 			this.lblVolume = new System.Windows.Forms.Label();
 			this.pnlSounds = new System.Windows.Forms.Panel();
 			this.tsMixes = new System.Windows.Forms.ToolStrip();
@@ -161,6 +161,6 @@
 		private System.Windows.Forms.ToolStrip tsMixes;
 		private System.Windows.Forms.ToolStripButton btnAdd;
 		private System.Windows.Forms.Label lblVolume;
-		private Common.Controls.XwTrackBar tbVolume;
+		private CommonWinForms.Controls.XwTrackBar tbVolume;
 	}
 }
