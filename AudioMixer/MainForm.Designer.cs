@@ -39,7 +39,6 @@
 			this.miSysTrayQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.clickDelayTimer = new System.Windows.Forms.Timer(this.components);
 			this.mainPanel = new AudioMixer.MainPanel();
-			this.processCheckTimer = new System.Windows.Forms.Timer(this.components);
 			this.cmSysTray.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -119,11 +118,6 @@
 			this.mainPanel.TabIndex = 1;
 			this.mainPanel.PlayStateChanged += new System.EventHandler(this.mainPanel_PlayStateChanged);
 			// 
-			// processCheckTimer
-			// 
-			this.processCheckTimer.Enabled = true;
-			this.processCheckTimer.Tick += new System.EventHandler(this.processCheckTimer_Tick);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -151,7 +145,6 @@
 		private System.Windows.Forms.ToolStripMenuItem miOpenForm;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.Timer clickDelayTimer;
-		private System.Windows.Forms.Timer processCheckTimer;
 	}
 }
 

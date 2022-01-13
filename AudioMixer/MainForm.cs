@@ -168,24 +168,5 @@ namespace AudioMixer
 			this.clickDelayTimer.Stop();
 			this.pnlMixes.PlayChange();
 		}
-
-		private void processCheckTimer_Tick(object sender, EventArgs e)
-		{
-			try
-			{
-				List<Process> processes = Misc.GetSameProcesses();
-				if (processes.Count > 0)
-				{
-					this.miOpenForm_Click(null, null);
-					foreach (Process process in processes)
-					{
-						process.Kill();
-					}
-				}
-			}
-			catch
-			{
-			}
-		}
 	}
 }

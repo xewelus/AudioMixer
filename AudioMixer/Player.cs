@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using Common;
 using CommonWinForms;
+using CommonWinForms.Extensions;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
@@ -13,6 +14,8 @@ namespace AudioMixer
 	{
 		public readonly MixInfo Mix;
 		private readonly List<PlayerItem> items = new List<PlayerItem>();
+		private Thread checkPauseThread;
+		private bool isPaused;
 
 		public Player(DirectSoundDeviceInfo deviceInfo, MixInfo mixInfo, float globalVolume)
 		{
@@ -35,6 +38,7 @@ namespace AudioMixer
 
 		public void Play()
 		{
+			this.isPaused = false;
 			foreach (PlayerItem item in this.items)
 			{
 				item.Play();
@@ -43,9 +47,34 @@ namespace AudioMixer
 
 		public void Pause()
 		{
-			foreach (PlayerItem item in this.items)
+			this.isPaused = true;
+			if (this.checkPauseThread == null)
 			{
-				item.Pause();
+				this.checkPauseThread = new Thread(this.CheckPause);
+				this.checkPauseThread.Start();
+			}
+		}
+
+		private void CheckPause()
+		{
+			try
+			{
+				while (true)
+				{
+					if (this.isPaused)
+					{
+						foreach (PlayerItem item in this.items)
+						{
+							item.Pause();
+						}
+
+						Thread.Sleep(50);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				UIHelper.MainForm.BeginInvoke(() => ExcHandler.Catch(ex));
 			}
 		}
 
