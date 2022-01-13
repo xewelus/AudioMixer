@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Common;
 using CommonWinForms;
 
@@ -13,12 +14,9 @@ namespace AudioMixer
 		[STAThread]
 		static void Main()
 		{
-			if (Misc.IsSameProcessExists())
+			if (Misc.IsAlreadyStarted("0A2E00D5-8D96-467B-8E0F-2B032EA916EA"))
 			{
-				while (true)
-				{
-					Application.DoEvents();
-				}
+				return;
 			}
 
 			Application.EnableVisualStyles();
