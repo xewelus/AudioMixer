@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Common;
 using CommonWinForms;
 using CommonWinForms.Extensions;
-using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
+using CSCore;
+using CSCore.Codecs;
+using CSCore.CoreAudioAPI;
+using CSCore.SoundOut;
 
 namespace AudioMixer
 {
@@ -17,7 +18,7 @@ namespace AudioMixer
 		private Thread checkPauseThread;
 		private bool isPaused;
 
-		public Player(DirectSoundDeviceInfo deviceInfo, MixInfo mixInfo, float globalVolume)
+		public Player(MMDevice device, MixInfo mixInfo, float globalVolume)
 		{
 			this.Mix = mixInfo;
 
@@ -29,7 +30,7 @@ namespace AudioMixer
 					UIHelper.ShowError(string.Format("Не найден файл '{0}'.", path));
 					return;
 				}
-				PlayerItem readerInfo = new PlayerItem(deviceInfo, soundInfo);
+				PlayerItem readerInfo = new PlayerItem(device, soundInfo);
 				this.items.Add(readerInfo);
 			}
 
@@ -97,74 +98,68 @@ namespace AudioMixer
 
 		private class PlayerItem : IDisposable
 		{
-			private IWavePlayer waveOut;
 			private readonly SoundInfo soundInfo;
-			public AudioFileReader AudioFileReader;
-			private readonly SampleChannel sampleChannel;
+			private readonly IWaveSource waveSource;
+			private readonly ISoundOut soundOut;
 
-			public PlayerItem(DirectSoundDeviceInfo deviceInfo, SoundInfo soundInfo)
+			public PlayerItem(MMDevice device, SoundInfo soundInfo)
 			{
-				this.soundInfo = soundInfo;
+				try
+				{
+					this.soundInfo = soundInfo;
 
-				this.waveOut = new DirectSoundOut(deviceInfo.Guid, 100);
-				this.waveOut.PlaybackStopped += this.OnPlaybackStopped;
+					string file = soundInfo.GetFullPath();
+					this.waveSource = CodecFactory.Instance.GetCodec(file);
 
-				this.AudioFileReader = new AudioFileReader(soundInfo.GetFullPath());
-				this.sampleChannel = new SampleChannel(this.AudioFileReader, true);
-				MeteringSampleProvider postVolumeMeter = new MeteringSampleProvider(this.sampleChannel);
-				this.waveOut.Init(postVolumeMeter);
+					if (WasapiOut.IsSupportedOnCurrentPlatform)
+					{
+						WasapiOut wasapiOut = new WasapiOut();
+						wasapiOut.Device = device;
+						this.soundOut = wasapiOut;
+					}
+					else
+					{
+						DirectSoundOut directSoundOut = new DirectSoundOut();
+						directSoundOut.Device = new Guid(device.DeviceID);
+						this.soundOut = directSoundOut;
+					}
+
+					this.soundOut.Initialize(this.waveSource);
+				}
+				catch
+				{
+					this.Dispose();
+					throw;
+				}
 			}
 
 			public void Dispose()
 			{
-				if (this.waveOut != null)
+				if (this.soundOut != null)
 				{
-					this.waveOut.Stop();
+					this.soundOut.Stop();
+					this.soundOut.Dispose();
 				}
 
-				if (this.AudioFileReader != null)
+				if (this.waveSource != null)
 				{
-					this.AudioFileReader.Dispose();
-				}
-				this.AudioFileReader = null;
-
-				if (this.waveOut != null)
-				{
-					this.waveOut.Dispose();
-					this.waveOut = null;
+					this.waveSource.Dispose();
 				}
 			}
 
 			public void Play()
 			{
-				this.waveOut.Play();
+				this.soundOut.Play();
 			}
 
 			public void Pause()
 			{
-				this.waveOut.Pause();
+				this.soundOut.Pause();
 			}
 
 			public void UpdateVolume(float globalVolume)
 			{
-				this.sampleChannel.Volume = globalVolume * this.soundInfo.Volume;
-			}
-
-			private void OnPlaybackStopped(object sender, StoppedEventArgs e)
-			{
-				if (this.AudioFileReader != null)
-				{
-					this.AudioFileReader.Position = 0;
-
-					if (e.Exception == null)
-					{
-						this.waveOut.Play();
-					}
-				}
-				if (e.Exception != null)
-				{
-					//throw new Exception("Playback Device Error", e.Exception);
-				}
+				this.soundOut.Volume = globalVolume * this.soundInfo.Volume;
 			}
 		}
 	}

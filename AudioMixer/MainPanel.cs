@@ -4,7 +4,9 @@ using System.Text;
 using System.Windows.Forms;
 using CommonWinForms;
 using CommonWinForms.Extensions;
-using NAudio.Wave;
+using CSCore.CoreAudioAPI;
+using CSCore.DirectSound;
+using CSCore.SoundOut;
 
 namespace AudioMixer
 {
@@ -73,15 +75,15 @@ namespace AudioMixer
 		private void InitDevice()
 		{
 			StringBuilder sb = new StringBuilder();
-			foreach (DirectSoundDeviceInfo di in DirectSoundOut.Devices)
+			foreach (MMDevice device in MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active))
 			{
-				this.cbAudioDevice.Items.Add(di);
+				this.cbAudioDevice.Items.Add(device);
 
 				if (sb.Length > 0)
 				{
 					sb.AppendLine();
 				}
-				sb.Append(di.Description);
+				sb.Append(device.FriendlyName);
 			}
 
 			byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
@@ -108,11 +110,11 @@ namespace AudioMixer
 
 			if (this.currentDevice != null)
 			{
-				foreach (DirectSoundDeviceInfo deviceInfo in this.cbAudioDevice.Items)
+				foreach (MMDevice device in this.cbAudioDevice.Items)
 				{
-					if (deviceInfo.Description == this.currentDevice.Name)
+					if (device.FriendlyName == this.currentDevice.Name)
 					{
-						this.cbAudioDevice.SelectedItem = deviceInfo;
+						this.cbAudioDevice.SelectedItem = device;
 						break;
 					}
 				}
@@ -165,8 +167,8 @@ namespace AudioMixer
 		{
 			if (this.internalChanges) return;
 
-			DirectSoundDeviceInfo deviceInfo = (DirectSoundDeviceInfo)this.cbAudioDevice.SelectedItem;
-			this.currentDevice.Name = deviceInfo.Description;
+			MMDevice deviceInfo = (MMDevice)this.cbAudioDevice.SelectedItem;
+			this.currentDevice.Name = deviceInfo.FriendlyName;
 			Settings.SaveAppearance();
 		}
 
@@ -191,8 +193,8 @@ namespace AudioMixer
 
 			if (this.player == null && this.pnlMixes.ActivatedMix != null)
 			{
-				DirectSoundDeviceInfo deviceInfo = (DirectSoundDeviceInfo)this.cbAudioDevice.SelectedItem;
-				if (deviceInfo == null)
+				MMDevice device = (MMDevice)this.cbAudioDevice.SelectedItem;
+				if (device == null)
 				{
 					UIHelper.ShowError("Необходимо выбрать аудио-устройство.");
 					return;
@@ -201,7 +203,7 @@ namespace AudioMixer
 				this.currentMachine.LastMixID = this.pnlMixes.ActivatedMix.ID;
 				Settings.SaveAppearance();
 
-				this.player = new Player(deviceInfo, this.pnlMixes.ActivatedMix, this.currentMachine.Volume);
+				this.player = new Player(device, this.pnlMixes.ActivatedMix, this.currentMachine.Volume);
 				this.player.Play();
 			}
 
