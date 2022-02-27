@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using CommonWinForms;
-using CommonWinForms.Extensions;
 using CSCore;
 using CSCore.Codecs;
 using CSCore.CoreAudioAPI;
@@ -54,6 +53,11 @@ namespace AudioMixer
 				this.checkPauseThread = new Thread(this.CheckPause);
 				this.checkPauseThread.Start();
 			}
+		}
+
+		public bool IsPaused()
+		{
+			return this.isPaused;
 		}
 
 		private void CheckPause()
@@ -114,6 +118,7 @@ namespace AudioMixer
 					if (WasapiOut.IsSupportedOnCurrentPlatform)
 					{
 						WasapiOut wasapiOut = new WasapiOut();
+						wasapiOut.StreamRoutingOptions = StreamRoutingOptions.All;
 						wasapiOut.Device = device;
 						this.soundOut = wasapiOut;
 					}
@@ -138,6 +143,7 @@ namespace AudioMixer
 				if (this.soundOut != null)
 				{
 					this.soundOut.Stop();
+					this.soundOut.WaitForStopped();
 					this.soundOut.Dispose();
 				}
 

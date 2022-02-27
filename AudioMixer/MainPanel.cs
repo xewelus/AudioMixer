@@ -5,8 +5,6 @@ using System.Windows.Forms;
 using CommonWinForms;
 using CommonWinForms.Extensions;
 using CSCore.CoreAudioAPI;
-using CSCore.DirectSound;
-using CSCore.SoundOut;
 
 namespace AudioMixer
 {
@@ -167,9 +165,22 @@ namespace AudioMixer
 		{
 			if (this.internalChanges) return;
 
-			MMDevice deviceInfo = (MMDevice)this.cbAudioDevice.SelectedItem;
-			this.currentDevice.Name = deviceInfo.FriendlyName;
+			MMDevice device = (MMDevice)this.cbAudioDevice.SelectedItem;
+			this.currentDevice.Name = device.FriendlyName;
 			Settings.SaveAppearance();
+
+			if (this.player != null)
+			{
+				bool isPaused = this.player.IsPaused();
+
+				this.player.Dispose();
+				this.player = null;
+
+				if (!isPaused)
+				{
+					this.pnlMixes_ItemActivated(null, null);
+				}
+			}
 		}
 
 		private void pnlMixes_ItemActivated(object sender, EventArgs e)
