@@ -39,6 +39,11 @@
 			this.miSysTrayQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.clickDelayTimer = new System.Windows.Forms.Timer(this.components);
 			this.mainPanel = new AudioMixer.MainPanel();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.miSysTrayVolume100 = new System.Windows.Forms.ToolStripMenuItem();
+			this.miSysTrayVolume25 = new System.Windows.Forms.ToolStripMenuItem();
+			this.miSysTrayVolume50 = new System.Windows.Forms.ToolStripMenuItem();
+			this.miSysTrayVolume75 = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmSysTray.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -57,30 +62,35 @@
             this.toolStripSeparator2,
             this.miSysTrayPlay,
             this.miSysTrayStop,
+            this.toolStripSeparator3,
+            this.miSysTrayVolume25,
+            this.miSysTrayVolume50,
+            this.miSysTrayVolume75,
+            this.miSysTrayVolume100,
             this.toolStripSeparator1,
             this.miSysTrayQuit});
 			this.cmSysTray.Name = "cmSysTray";
-			this.cmSysTray.Size = new System.Drawing.Size(158, 104);
+			this.cmSysTray.Size = new System.Drawing.Size(181, 220);
 			this.cmSysTray.Opening += new System.ComponentModel.CancelEventHandler(this.cmSysTray_Opening);
 			// 
 			// miOpenForm
 			// 
 			this.miOpenForm.Image = global::AudioMixer.Properties.Resources.app_png;
 			this.miOpenForm.Name = "miOpenForm";
-			this.miOpenForm.Size = new System.Drawing.Size(157, 22);
+			this.miOpenForm.Size = new System.Drawing.Size(180, 22);
 			this.miOpenForm.Text = "Открыть";
 			this.miOpenForm.Click += new System.EventHandler(this.miOpenForm_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
 			// 
 			// miSysTrayPlay
 			// 
 			this.miSysTrayPlay.Image = global::AudioMixer.Properties.Resources.play;
 			this.miSysTrayPlay.Name = "miSysTrayPlay";
-			this.miSysTrayPlay.Size = new System.Drawing.Size(157, 22);
+			this.miSysTrayPlay.Size = new System.Drawing.Size(180, 22);
 			this.miSysTrayPlay.Text = "Воспроизвести";
 			this.miSysTrayPlay.Click += new System.EventHandler(this.miSysTrayPlay_Click);
 			// 
@@ -88,19 +98,19 @@
 			// 
 			this.miSysTrayStop.Image = global::AudioMixer.Properties.Resources.pause2;
 			this.miSysTrayStop.Name = "miSysTrayStop";
-			this.miSysTrayStop.Size = new System.Drawing.Size(157, 22);
+			this.miSysTrayStop.Size = new System.Drawing.Size(180, 22);
 			this.miSysTrayStop.Text = "Остановить";
 			this.miSysTrayStop.Click += new System.EventHandler(this.miSysTrayStop_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
 			// 
 			// miSysTrayQuit
 			// 
 			this.miSysTrayQuit.Name = "miSysTrayQuit";
-			this.miSysTrayQuit.Size = new System.Drawing.Size(157, 22);
+			this.miSysTrayQuit.Size = new System.Drawing.Size(180, 22);
 			this.miSysTrayQuit.Text = "Выход";
 			this.miSysTrayQuit.Click += new System.EventHandler(this.miSysTrayQuit_Click);
 			// 
@@ -117,6 +127,39 @@
 			this.mainPanel.Size = new System.Drawing.Size(655, 483);
 			this.mainPanel.TabIndex = 1;
 			this.mainPanel.PlayStateChanged += new System.EventHandler(this.mainPanel_PlayStateChanged);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+			// 
+			// miSysTrayVolume100
+			// 
+			this.miSysTrayVolume100.Name = "miSysTrayVolume100";
+			this.miSysTrayVolume100.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayVolume100.Text = "Громкость 100%";
+			this.miSysTrayVolume100.Click += new System.EventHandler(this.miSysTrayVolume100_Click);
+			// 
+			// miSysTrayVolume25
+			// 
+			this.miSysTrayVolume25.Name = "miSysTrayVolume25";
+			this.miSysTrayVolume25.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayVolume25.Text = "Громкость 25%";
+			this.miSysTrayVolume25.Click += new System.EventHandler(this.miSysTrayVolume25_Click);
+			// 
+			// miSysTrayVolume50
+			// 
+			this.miSysTrayVolume50.Name = "miSysTrayVolume50";
+			this.miSysTrayVolume50.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayVolume50.Text = "Громкость 50%";
+			this.miSysTrayVolume50.Click += new System.EventHandler(this.miSysTrayVolume50_Click);
+			// 
+			// miSysTrayVolume75
+			// 
+			this.miSysTrayVolume75.Name = "miSysTrayVolume75";
+			this.miSysTrayVolume75.Size = new System.Drawing.Size(180, 22);
+			this.miSysTrayVolume75.Text = "Громкость 75%";
+			this.miSysTrayVolume75.Click += new System.EventHandler(this.miSysTrayVolume75_Click);
 			// 
 			// MainForm
 			// 
@@ -145,6 +188,11 @@
 		private System.Windows.Forms.ToolStripMenuItem miOpenForm;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.Timer clickDelayTimer;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem miSysTrayVolume25;
+		private System.Windows.Forms.ToolStripMenuItem miSysTrayVolume50;
+		private System.Windows.Forms.ToolStripMenuItem miSysTrayVolume75;
+		private System.Windows.Forms.ToolStripMenuItem miSysTrayVolume100;
 	}
 }
 
