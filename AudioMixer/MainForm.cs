@@ -127,6 +127,11 @@ namespace AudioMixer
 		{
 			this.miSysTrayPlay.Enabled = this.pnlMixes.ActivatedMix == null && this.pnlMixes.SelectedMix != null;
 			this.miSysTrayStop.Enabled = this.pnlMixes.ActivatedMix != null;
+
+			this.miSysTrayVolume25.Checked = this.mainPanel.Volume == 25;
+			this.miSysTrayVolume50.Checked = this.mainPanel.Volume == 50;
+			this.miSysTrayVolume75.Checked = this.mainPanel.Volume == 75;
+			this.miSysTrayVolume100.Checked = this.mainPanel.Volume == 100;
 		}
 
 		private void miSysTrayPlay_Click(object sender, EventArgs e)
@@ -159,6 +164,26 @@ namespace AudioMixer
 		{
 			this.clickDelayTimer.Stop();
 			this.pnlMixes.PlayChange();
+		}
+
+		private void miSysTrayVolume25_Click(object sender, EventArgs e)
+		{
+			this.mainPanel.Volume = 25;
+		}
+
+		private void miSysTrayVolume50_Click(object sender, EventArgs e)
+		{
+			this.mainPanel.Volume = 50;
+		}
+
+		private void miSysTrayVolume75_Click(object sender, EventArgs e)
+		{
+			this.mainPanel.Volume = 75;
+		}
+
+		private void miSysTrayVolume100_Click(object sender, EventArgs e)
+		{
+			this.mainPanel.Volume = 100;
 		}
 	}
 }

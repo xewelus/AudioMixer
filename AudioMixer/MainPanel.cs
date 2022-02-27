@@ -35,6 +35,18 @@ namespace AudioMixer
 			}
 		}
 
+		public int Volume
+		{
+			get
+			{
+				return this.tbVolume.Value;
+			}
+			set
+			{
+				this.tbVolume.Value = value;
+			}
+		}
+
 		public event EventHandler PlayStateChanged;
 
 		public MainPanel()
