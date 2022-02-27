@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows.Forms;
 using AudioMixer.Properties;
 using Common;
@@ -76,13 +74,7 @@ namespace AudioMixer
 
 		protected override void OnClosed(EventArgs e)
 		{
-			try
-			{
-				this.mainPanel.OnClosed();
-			}
-			catch
-			{
-			}
+			this.mainPanel.OnClosed();
 			base.OnClosed(e);
 		}
 
