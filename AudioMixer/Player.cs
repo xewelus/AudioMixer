@@ -105,6 +105,7 @@ namespace AudioMixer
 			private readonly SoundInfo soundInfo;
 			private readonly IWaveSource waveSource;
 			private readonly ISoundOut soundOut;
+			private bool disposed;
 
 			public PlayerItem(MMDevice device, SoundInfo soundInfo)
 			{
@@ -124,12 +125,11 @@ namespace AudioMixer
 					}
 					else
 					{
-						DirectSoundOut directSoundOut = new DirectSoundOut();
-						directSoundOut.Device = new Guid(device.DeviceID);
-						this.soundOut = directSoundOut;
+						throw new NotSupportedException(nameof(DirectSoundOut));
 					}
 
 					this.soundOut.Initialize(this.waveSource);
+					this.soundOut.Stopped += this.SoundOut_Stopped;
 				}
 				catch
 				{
@@ -138,8 +138,17 @@ namespace AudioMixer
 				}
 			}
 
+			private void SoundOut_Stopped(object sender, PlaybackStoppedEventArgs e)
+			{
+				if (this.disposed) return;
+
+				this.waveSource.Position = 0;
+				this.soundOut.Play();
+			}
+
 			public void Dispose()
 			{
+				this.disposed = true;
 				if (this.soundOut != null)
 				{
 					this.soundOut.Stop();
