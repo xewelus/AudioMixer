@@ -72,9 +72,9 @@ namespace AudioMixer
 						{
 							item.Pause();
 						}
-
-						Thread.Sleep(50);
 					}
+
+					Thread.Sleep(50);
 				}
 			}
 			catch (Exception ex)
