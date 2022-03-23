@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Forms;
 using CommonWinForms;
 using CommonWinForms.Extensions;
@@ -13,7 +11,6 @@ namespace AudioMixer
 		private MixPanel mixPanel;
 		private Player player;
 		private bool internalChanges;
-		private DeviceInfo currentDevice;
 		private Machine currentMachine;
 		private WindowController windowController;
 
@@ -64,9 +61,9 @@ namespace AudioMixer
 			{
 				this.internalChanges = true;
 
-				this.InitDevice();
+				this.cbAudioDevice.Init(machine);
 
-				this.tbVolume.Value = (int)(this.currentMachine.Volume * 100);
+				this.tbVolume.Value = (int)(machine.Volume * 100);
 				this.tbVolume_ValueChanged(null, null);
 
 				this.pnlMixes.PanelOrientation = this.splitContainer.Orientation;
@@ -79,55 +76,6 @@ namespace AudioMixer
 			finally
 			{
 				this.internalChanges = false;
-			}
-		}
-
-		private void InitDevice()
-		{
-			StringBuilder sb = new StringBuilder();
-			foreach (MMDevice device in MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active))
-			{
-				this.cbAudioDevice.Items.Add(device);
-
-				if (sb.Length > 0)
-				{
-					sb.AppendLine();
-				}
-				sb.Append(device.FriendlyName);
-			}
-
-			byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
-			SHA256 sha = SHA256.Create();
-			byte[] hashBytes = sha.ComputeHash(bytes);
-			string hash = Convert.ToBase64String(hashBytes);
-
-			foreach (DeviceInfo deviceInfo in this.currentMachine.AudioDevices)
-			{
-				if (deviceInfo.Hash == hash)
-				{
-					this.currentDevice = deviceInfo;
-					break;
-				}
-			}
-
-			if (this.currentDevice == null)
-			{
-				this.currentDevice = new DeviceInfo();
-				this.currentDevice.Hash = hash;
-				this.currentMachine.AudioDevices.Add(this.currentDevice);
-				Settings.SaveAppearance();
-			}
-
-			if (this.currentDevice != null)
-			{
-				foreach (MMDevice device in this.cbAudioDevice.Items)
-				{
-					if (device.FriendlyName == this.currentDevice.Name)
-					{
-						this.cbAudioDevice.SelectedItem = device;
-						break;
-					}
-				}
 			}
 		}
 
@@ -177,10 +125,6 @@ namespace AudioMixer
 		{
 			if (this.internalChanges) return;
 
-			MMDevice device = (MMDevice)this.cbAudioDevice.SelectedItem;
-			this.currentDevice.Name = device.FriendlyName;
-			Settings.SaveAppearance();
-
 			if (this.player != null)
 			{
 				bool isPaused = this.player.IsPaused();
@@ -216,7 +160,7 @@ namespace AudioMixer
 
 			if (this.player == null && this.pnlMixes.ActivatedMix != null)
 			{
-				MMDevice device = (MMDevice)this.cbAudioDevice.SelectedItem;
+				MMDevice device = this.cbAudioDevice.SelectedDevice;
 				if (device == null)
 				{
 					UIHelper.ShowError("Необходимо выбрать аудио-устройство.");

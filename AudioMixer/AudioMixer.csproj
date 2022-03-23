@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioDeviceComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -143,7 +143,6 @@ namespace AudioMixer
 	[Serializable]
 	public class DeviceInfo
 	{
-		public string Hash;
 		public string Name;
 	}
 
@@ -171,6 +170,6 @@ namespace AudioMixer
 		public int? LastMixID;
 		public WindowSettings Window = new WindowSettings();
 		public DockSettings Dock = new DockSettings();
-		public List<DeviceInfo> AudioDevices = new List<DeviceInfo>();
+		public DeviceInfo AudioDevice = new DeviceInfo();
 	}
 }
