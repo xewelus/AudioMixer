@@ -38,10 +38,13 @@ namespace AudioMixer
 
 		public void Play()
 		{
-			this.isPaused = false;
-			foreach (PlayerItem item in this.items)
+			lock (this.items)
 			{
-				item.Play();
+				this.isPaused = false;
+				foreach (PlayerItem item in this.items)
+				{
+					item.Play();
+				}
 			}
 		}
 
@@ -66,11 +69,14 @@ namespace AudioMixer
 			{
 				while (true)
 				{
-					if (this.isPaused)
+					lock (this.items)
 					{
-						foreach (PlayerItem item in this.items)
+						if (this.isPaused)
 						{
-							item.Pause();
+							foreach (PlayerItem item in this.items)
+							{
+								item.Pause();
+							}
 						}
 					}
 
@@ -85,19 +91,25 @@ namespace AudioMixer
 
 		public void UpdateVolume(float globalVolume)
 		{
-			foreach (PlayerItem readerInfo in this.items)
+			lock (this.items)
 			{
-				readerInfo.UpdateVolume(this.Mix.Volume * globalVolume);
+				foreach (PlayerItem readerInfo in this.items)
+				{
+					readerInfo.UpdateVolume(this.Mix.Volume * globalVolume);
+				}
 			}
 		}
 
 		public void Dispose()
 		{
-			foreach (PlayerItem item in this.items)
+			lock (this.items)
 			{
-				item.Dispose();
+				foreach (PlayerItem item in this.items)
+				{
+					item.Dispose();
+				}
+				this.items.Clear();
 			}
-			this.items.Clear();
 		}
 
 		private class PlayerItem : IDisposable
