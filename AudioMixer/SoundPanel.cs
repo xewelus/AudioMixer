@@ -33,6 +33,8 @@ namespace AudioMixer
 		public event EventHandler DeleteButtonClick;
 		public event EventHandler VolumeChanged;
 		public event EventHandler PlayChanged;
+		public event EventHandler ContentChanged;
+
 		private readonly bool internalChanges;
 
 		private void btnDelete_Click(object sender, EventArgs e)
@@ -144,7 +146,13 @@ namespace AudioMixer
 		private void RefreshFileState()
 		{
 			string path = this.GetFilePath();
-			this.tbFile.ForeColor = File.Exists(path) ? DefaultForeColor : Color.Red;
+			bool exists = File.Exists(path);
+			this.tbFile.ForeColor = exists ? DefaultForeColor : Color.Red;
+
+			if (exists)
+			{
+				this.ContentChanged?.Invoke(this, EventArgs.Empty);
+			}
 		}
 	}
 }

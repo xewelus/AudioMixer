@@ -94,6 +94,7 @@ namespace AudioMixer
 				this.mixPanel.NameChanged += this.MixPanelOnNameChanged;
 				this.mixPanel.VolumeChanged += this.MixPanelOnVolumeChanged;
 				this.mixPanel.PlayChanged += this.MixPanelOnPlayChanged;
+				this.mixPanel.ContentChanged += MixPanelOnContentChanged;
 				this.splitContainer.Panel2.Controls.Add(this.mixPanel);
 			}
 		}
@@ -121,6 +122,11 @@ namespace AudioMixer
 			this.pnlMixes.PlayChange();
 		}
 
+		private void MixPanelOnContentChanged(object sender, EventArgs e)
+		{
+			this.Play(false);
+		}
+
 		private void cbAudioDevice_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (this.internalChanges) return;
@@ -141,17 +147,36 @@ namespace AudioMixer
 
 		private void pnlMixes_ItemActivated(object sender, EventArgs e)
 		{
+			this.Play(true);
+		}
+
+		private void Play(bool toggleMode)
+		{
 			if (this.player != null)
 			{
-				if (this.pnlMixes.ActivatedMix == null)
+				bool needDispose = false;
+
+				if (toggleMode)
 				{
-					this.player.Pause();
-				}
-				else if (this.pnlMixes.ActivatedMix == this.player.Mix)
-				{
-					this.player.Play();
+					if (this.pnlMixes.ActivatedMix == null)
+					{
+						this.player.Pause();
+					}
+					else if (this.pnlMixes.ActivatedMix == this.player.Mix)
+					{
+						this.player.Play();
+					}
+					else
+					{
+						needDispose = true;
+					}
 				}
 				else
+				{
+					needDispose = true;
+				}
+
+				if (needDispose)
 				{
 					this.player.Dispose();
 					this.player = null;
