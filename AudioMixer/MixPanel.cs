@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Common;
 using CommonWinForms;
@@ -42,8 +37,10 @@ namespace AudioMixer
 		public event EventHandler NameChanged;
 		public event EventHandler VolumeChanged;
 		public event EventHandler PlayChanged;
+		public event EventHandler ContentChanged;
+
 		private readonly MixInfo mixInfo;
-		private bool internalChanges;
+		private readonly bool internalChanges;
 
 		public string MixName
 		{
@@ -117,6 +114,7 @@ namespace AudioMixer
 			soundPanel.DeleteButtonClick += this.SoundPanel_DeleteButtonClick;
 			soundPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
 			soundPanel.PlayChanged += this.SoundPanel_PlayChanged;
+			soundPanel.ContentChanged += SoundPanelOnContentChanged;
 
 			Panel panel = new Panel();
 			panel.Height = soundPanel.Height;
@@ -130,14 +128,13 @@ namespace AudioMixer
 			this.AdjustHeights();
 
 			this.lines.Add(soundPanel, line);
+
+			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void SoundPanel_VolumeChanged(object sender, EventArgs e)
 		{
-			if (this.VolumeChanged != null)
-			{
-				this.VolumeChanged.Invoke(this, EventArgs.Empty);
-			}
+			this.VolumeChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void SoundPanel_DeleteButtonClick(object sender, EventArgs eventArgs)
@@ -156,14 +153,13 @@ namespace AudioMixer
 
 			this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
 			Settings.SetNeedSave();
+
+			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void SoundPanel_PlayChanged(object sender, EventArgs e)
 		{
-			if (this.PlayChanged != null)
-			{
-				this.PlayChanged.Invoke(this, EventArgs.Empty);
-			}
+			this.PlayChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void AdjustHeights()
@@ -197,6 +193,11 @@ namespace AudioMixer
 
 				Settings.SetNeedSave();
 			}
+		}
+
+		private void SoundPanelOnContentChanged(object sender, EventArgs e)
+		{
+			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void controls_KeyDown(object sender, KeyEventArgs e)
