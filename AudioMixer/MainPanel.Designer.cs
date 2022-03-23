@@ -34,7 +34,7 @@
 			this.lblVolume = new System.Windows.Forms.Label();
 			this.tbVolume = new CommonWinForms.Controls.XwTrackBar();
 			this.btnSave = new System.Windows.Forms.Button();
-			this.cbAudioDevice = new System.Windows.Forms.ComboBox();
+			this.cbAudioDevice = new AudioDeviceComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
@@ -162,7 +162,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox cbAudioDevice;
+		private AudioDeviceComboBox cbAudioDevice;
 		private MixesListPanel pnlMixes;
 		private System.Windows.Forms.Button btnSave;
 		private System.Windows.Forms.Label lblVolume;
