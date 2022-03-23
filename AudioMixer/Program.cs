@@ -1,6 +1,6 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using Common;
 using CommonWinForms;
 
@@ -24,6 +24,8 @@ namespace AudioMixer
 
 			UIHelper.SetUnhandledExceptionSafe();
 
+			ExcHandler.OnError = OnError;
+
 			try
 			{
 				Settings.Load();
@@ -35,6 +37,12 @@ namespace AudioMixer
 			}
 
 			Application.Run(UIHelper.MainForm);
+		}
+
+		private static void OnError(Exception exception)
+		{
+			string path = FS.GetAppPath("errors.log");
+			File.AppendAllText(path, $"[{DateTime.Now:dd.MM.yyyy HH:mm:ss.fff}] {exception}\r\n\r\n");
 		}
 	}
 }
