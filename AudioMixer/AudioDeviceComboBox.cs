@@ -9,6 +9,7 @@ namespace AudioMixer
 	{
 		private Machine currentMachine;
 		private bool internalChanges = true;
+		private ItemInfo prev;
 
 		public MMDevice SelectedDevice
 		{
@@ -24,18 +25,26 @@ namespace AudioMixer
 		public void Init(Machine machine)
 		{
 			this.currentMachine = machine;
+			this.RefreshDevices();
+		}
 
+		private void RefreshDevices()
+		{
+			this.internalChanges = true;
+
+			this.Items.Clear();
 			foreach (MMDevice device in MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active))
 			{
 				this.Items.Add(new ItemInfo(device));
 			}
 
-			if (machine.AudioDevice?.Name != null)
+			if (this.currentMachine.AudioDevice?.Name != null)
 			{
 				foreach (ItemInfo info in this.Items)
 				{
-					if (info.Device.FriendlyName == machine.AudioDevice.Name)
+					if (info.Device.FriendlyName == this.currentMachine.AudioDevice.Name)
 					{
+						this.prev = info;
 						this.SelectedItem = info;
 						break;
 					}
@@ -45,37 +54,52 @@ namespace AudioMixer
 			this.internalChanges = false;
 		}
 
+		protected override void OnDropDown(EventArgs e)
+		{
+			base.OnDropDown(e);
+
+			this.RefreshDevices();
+		}
+
 		protected override void OnSelectedIndexChanged(EventArgs e)
 		{
-			base.OnSelectedIndexChanged(e);
-
-			if (this.internalChanges) return;
-
 			ItemInfo info = (ItemInfo)this.SelectedItem;
-			this.currentMachine.AudioDevice.Name = info.Device.FriendlyName;
-			Settings.SaveAppearance();
+			if (this.prev != info)
+			{
+				this.prev = info;
+
+				base.OnSelectedIndexChanged(e);
+
+				if (this.internalChanges) return;
+
+				this.currentMachine.AudioDevice.Name = info.Device.FriendlyName;
+				Settings.SaveAppearance();
+			}
 		}
 
 		private class ItemInfo
 		{
 			public readonly MMDevice Device;
+			private readonly string name;
 
 			public ItemInfo(MMDevice device)
 			{
 				this.Device = device;
-			}
 
-			public override string ToString()
-			{
 				try
 				{
-					return this.Device.ToString();
+					this.name = device.ToString();
 				}
 				catch (Exception ex)
 				{
 					ExcHandler.Catch(ex);
-					return $"<{ex.Message}>";
+					this.name = $"<{ex.Message}>";
 				}
+			}
+
+			public override string ToString()
+			{
+				return this.name;
 			}
 		}
 	}
