@@ -154,7 +154,11 @@ namespace AudioMixer
 				if (this.disposed) return;
 
 				this.waveSource.Position = 0;
-				this.soundOut.Play();
+
+				lock (this.soundOut)
+				{
+					this.soundOut.Play();
+				}
 			}
 
 			public void Dispose()
@@ -175,17 +179,26 @@ namespace AudioMixer
 
 			public void Play()
 			{
-				this.soundOut.Play();
+				lock (this.soundOut)
+				{
+					this.soundOut.Play();
+				}
 			}
 
 			public void Pause()
 			{
-				this.soundOut.Pause();
+				lock (this.soundOut)
+				{
+					this.soundOut.Pause();
+				}
 			}
 
 			public void UpdateVolume(float globalVolume)
 			{
-				this.soundOut.Volume = globalVolume * this.soundInfo.Volume;
+				lock (this.soundOut)
+				{
+					this.soundOut.Volume = globalVolume * this.soundInfo.Volume;
+				}
 			}
 		}
 	}
