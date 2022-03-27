@@ -5,7 +5,6 @@ using System.Threading;
 using CommonWinForms;
 using CSCore;
 using CSCore.Codecs;
-using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 
 namespace AudioMixer
@@ -17,7 +16,7 @@ namespace AudioMixer
 		private Thread checkPauseThread;
 		private bool isPaused;
 
-		public Player(MMDevice device, MixInfo mixInfo, float globalVolume)
+		public Player(Device device, MixInfo mixInfo, float globalVolume)
 		{
 			this.Mix = mixInfo;
 
@@ -119,7 +118,7 @@ namespace AudioMixer
 			private readonly ISoundOut soundOut;
 			private bool disposed;
 
-			public PlayerItem(MMDevice device, SoundInfo soundInfo)
+			public PlayerItem(Device device, SoundInfo soundInfo)
 			{
 				try
 				{
@@ -132,7 +131,7 @@ namespace AudioMixer
 					{
 						WasapiOut wasapiOut = new WasapiOut();
 						wasapiOut.StreamRoutingOptions = StreamRoutingOptions.All;
-						wasapiOut.Device = device;
+						wasapiOut.Device = device.GetDevice();
 						this.soundOut = wasapiOut;
 					}
 					else
