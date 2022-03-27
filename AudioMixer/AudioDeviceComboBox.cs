@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using CommonWinForms;
 using CSCore.CoreAudioAPI;
 
 namespace AudioMixer
@@ -9,16 +8,13 @@ namespace AudioMixer
 	{
 		private Machine currentMachine;
 		private bool internalChanges = true;
-		private ItemInfo prev;
+		private Device prev;
 
-		public MMDevice SelectedDevice
+		public Device SelectedDevice
 		{
 			get
 			{
-				ItemInfo info = (ItemInfo)this.SelectedItem;
-				if (info == null) return null;
-
-				return info.Device;
+				return (Device)this.SelectedItem;
 			}
 		}
 
@@ -33,16 +29,16 @@ namespace AudioMixer
 			this.internalChanges = true;
 
 			this.Items.Clear();
-			foreach (MMDevice device in MMDeviceEnumerator.EnumerateDevices(DataFlow.Render, DeviceState.Active))
+			foreach (MMDevice device in Device.GetDevices())
 			{
-				this.Items.Add(new ItemInfo(device));
+				this.Items.Add(new Device(device));
 			}
 
 			if (this.currentMachine.AudioDevice?.Name != null)
 			{
-				foreach (ItemInfo info in this.Items)
+				foreach (Device info in this.Items)
 				{
-					if (info.Device.FriendlyName == this.currentMachine.AudioDevice.Name)
+					if (info.Name == this.currentMachine.AudioDevice.Name)
 					{
 						this.prev = info;
 						this.SelectedItem = info;
@@ -54,6 +50,8 @@ namespace AudioMixer
 			this.internalChanges = false;
 		}
 
+		
+
 		protected override void OnDropDown(EventArgs e)
 		{
 			base.OnDropDown(e);
@@ -63,7 +61,7 @@ namespace AudioMixer
 
 		protected override void OnSelectedIndexChanged(EventArgs e)
 		{
-			ItemInfo info = (ItemInfo)this.SelectedItem;
+			Device info = (Device)this.SelectedItem;
 			if (this.prev != info)
 			{
 				this.prev = info;
@@ -72,35 +70,11 @@ namespace AudioMixer
 
 				if (this.internalChanges) return;
 
-				this.currentMachine.AudioDevice.Name = info.Device.FriendlyName;
+				this.currentMachine.AudioDevice.Name = info.Name;
 				Settings.SaveAppearance();
 			}
 		}
 
-		private class ItemInfo
-		{
-			public readonly MMDevice Device;
-			private readonly string name;
-
-			public ItemInfo(MMDevice device)
-			{
-				this.Device = device;
-
-				try
-				{
-					this.name = device.ToString();
-				}
-				catch (Exception ex)
-				{
-					ExcHandler.Catch(ex);
-					this.name = $"<{ex.Message}>";
-				}
-			}
-
-			public override string ToString()
-			{
-				return this.name;
-			}
-		}
+	
 	}
 }

@@ -58,6 +58,7 @@
     <Compile Include="AudioDeviceComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DeviceInfo.cs" />
     <Compile Include="MainPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

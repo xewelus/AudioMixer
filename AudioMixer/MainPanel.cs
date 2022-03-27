@@ -185,7 +185,7 @@ namespace AudioMixer
 
 			if (this.player == null && this.pnlMixes.ActivatedMix != null)
 			{
-				MMDevice device = this.cbAudioDevice.SelectedDevice;
+				Device device = this.cbAudioDevice.SelectedDevice;
 				if (device == null)
 				{
 					UIHelper.ShowError("Необходимо выбрать аудио-устройство.");
