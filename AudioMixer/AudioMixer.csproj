@@ -43,8 +43,11 @@
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +56,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioDeviceComboBox.cs">
@@ -95,6 +100,9 @@
       <DependentUpon>SoundPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="WindowController.cs" />
+    <Compile Include="WpfSoundPanel.xaml.cs">
+      <DependentUpon>WpfSoundPanel.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainPanel.resx">
       <DependentUpon>MainPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,6 +185,12 @@
     <None Include="Resources\dock-top.png" />
     <None Include="Resources\dock-left.png" />
     <None Include="Resources\save.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="WpfSoundPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
