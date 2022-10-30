@@ -8,3 +8,4 @@ code/UpgradeLog.htm
 _ReSharper.Caches/
 *.suo
 /packages/
+*.csproj.user

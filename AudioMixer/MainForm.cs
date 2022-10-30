@@ -1,12 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 using AudioMixer.Properties;
 using Common;
 using CommonWinForms;
+using CommonWpf.Classes.UI;
 using MouseKeyboardLibrary;
+using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
+using KeyEventHandler = System.Windows.Forms.KeyEventHandler;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 namespace AudioMixer
 {
@@ -89,6 +93,11 @@ namespace AudioMixer
 		public static bool IsPlayChangeKey(KeyEventArgs e)
 		{
 			return e.KeyData.In(Keys.Enter, Keys.Space);
+		}
+
+		public static bool IsPlayChangeKey(Key key)
+		{
+			return key.In(Key.Enter, Key.Space);
 		}
 
 		protected override void OnResize(EventArgs e)
@@ -215,7 +224,7 @@ namespace AudioMixer
 			}
 			catch (Exception ex)
 			{
-				ExcHandler.Catch(ex);
+				ExceptionHandler.Catch(ex);
 			}
 		}
 	}

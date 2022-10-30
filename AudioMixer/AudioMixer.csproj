@@ -97,12 +97,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="SoundPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SoundPanel.Designer.cs">
-      <DependentUpon>SoundPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="WindowController.cs" />
     <Compile Include="WpfSoundPanel.xaml.cs">
       <DependentUpon>WpfSoundPanel.xaml</DependentUpon>
@@ -129,9 +123,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SoundPanel.resx">
-      <DependentUpon>SoundPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -144,13 +135,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\close.png" />
+    <Resource Include="Resources\close.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\minus.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\open.gif" />
+    <Resource Include="Resources\open.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pause.png" />
@@ -171,6 +162,10 @@
     <ProjectReference Include="..\Common\CommonWinForms\CommonWinForms.csproj">
       <Project>{4d3558c4-c9aa-4025-848e-68d14ff106a2}</Project>
       <Name>CommonWinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\CommonWpf\CommonWpf.csproj">
+      <Project>{afa2d8dc-4b60-4928-9dfb-c2f27da53c62}</Project>
+      <Name>CommonWpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common\Common.csproj">
       <Project>{f611885d-38b2-4c9c-b736-08312c0f19dd}</Project>

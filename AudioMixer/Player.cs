@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using CommonWinForms;
+using CommonWpf.Classes.UI;
 using CSCore;
 using CSCore.Codecs;
 using CSCore.SoundOut;
@@ -84,7 +85,7 @@ namespace AudioMixer
 			}
 			catch (Exception ex)
 			{
-				UIHelper.MainForm.BeginInvoke(() => ExcHandler.Catch(ex));
+				UIHelper.MainForm.BeginInvoke(() => ExceptionHandler.Catch(ex));
 			}
 		}
 
