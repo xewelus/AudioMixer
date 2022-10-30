@@ -1,9 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AudioMixer.Properties;
 using Common;
 using CommonWinForms;
+using MouseKeyboardLibrary;
 
 namespace AudioMixer
 {
@@ -11,6 +14,7 @@ namespace AudioMixer
 	{
 		private readonly Machine currentMachine;
 		private readonly WindowController windowController;
+		private readonly KeyboardHook keyboardHook = new KeyboardHook();
 
 		private readonly MixesListPanel pnlMixes;
 
@@ -34,6 +38,9 @@ namespace AudioMixer
 			this.windowController.Init();
 
 			this.mainPanel.Init(this.currentMachine, this.windowController);
+
+			this.keyboardHook.KeyDown += new KeyEventHandler(this.keyboardHook_KeyDown);
+			this.keyboardHook.Start();
 		}
 
 		private static Machine InitMachine()
@@ -74,6 +81,7 @@ namespace AudioMixer
 
 		protected override void OnClosed(EventArgs e)
 		{
+			this.keyboardHook.Stop();
 			this.mainPanel.OnClosed();
 			base.OnClosed(e);
 		}
@@ -184,6 +192,31 @@ namespace AudioMixer
 		private void miSysTrayVolume100_Click(object sender, EventArgs e)
 		{
 			this.mainPanel.Volume = 100;
+		}
+
+		private Stopwatch keySw;
+		private void keyboardHook_KeyDown(object sender, KeyEventArgs e)
+		{
+			try
+			{
+				if (e.KeyCode != Keys.F2) return;
+
+				if (this.keySw == null)
+				{
+					this.keySw = Stopwatch.StartNew();
+					return;
+				}
+
+				if (this.keySw.ElapsedMilliseconds < 500)
+				{
+					this.pnlMixes.PlayChange();
+				}
+				this.keySw = null;
+			}
+			catch (Exception ex)
+			{
+				ExcHandler.Catch(ex);
+			}
 		}
 	}
 }
