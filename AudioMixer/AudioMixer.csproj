@@ -59,6 +59,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DeviceInfo.cs" />
+    <Compile Include="MouseKeyboardLibrary\GlobalHook.cs" />
+    <Compile Include="MouseKeyboardLibrary\KeyboardHook.cs" />
+    <Compile Include="MouseKeyboardLibrary\KeyboardSimulator.cs" />
+    <Compile Include="MouseKeyboardLibrary\StandardShortcut.cs" />
     <Compile Include="MainPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -178,5 +182,6 @@
     <None Include="Resources\dock-left.png" />
     <None Include="Resources\save.gif" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
