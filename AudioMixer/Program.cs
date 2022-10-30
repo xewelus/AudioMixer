@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Common;
 using CommonWinForms;
+using CommonWpf.Classes.UI;
 
 namespace AudioMixer
 {
@@ -33,7 +34,7 @@ namespace AudioMixer
 			}
 			catch (Exception ex)
 			{
-				ExcHandler.Catch(ex);
+				ExceptionHandler.Catch(ex);
 			}
 
 			Application.Run(UIHelper.MainForm);

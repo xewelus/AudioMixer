@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using Common;
 using CommonWinForms;
 using CommonWinForms.Extensions;
@@ -85,7 +86,7 @@ namespace AudioMixer
 			return null;
 		}
 
-		private readonly Dictionary<SoundPanel, Control> lines = new Dictionary<SoundPanel, Control>();
+		private readonly Dictionary<WpfSoundPanel, Control> lines = new Dictionary<WpfSoundPanel, Control>();
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			List<string> files = AskFiles();
@@ -109,21 +110,23 @@ namespace AudioMixer
 		{
 			Control line = this.AddLine();
 
-			SoundPanel soundPanel = new SoundPanel(soundInfo);
-			soundPanel.Dock = DockStyle.Top;
+			WpfSoundPanel soundPanel = new WpfSoundPanel(soundInfo);
 			soundPanel.DeleteButtonClick += this.SoundPanel_DeleteButtonClick;
 			soundPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
 			soundPanel.PlayChanged += this.SoundPanel_PlayChanged;
 			soundPanel.ContentChanged += SoundPanelOnContentChanged;
 
-			Panel panel = new Panel();
-			panel.Height = soundPanel.Height;
-			panel.Dock = DockStyle.Top;
-			panel.Padding = new Padding(20, 0, 0, 0);
-			panel.Controls.Add(soundPanel);
+			ElementHost elementHost = new ElementHost();
+			elementHost.Dock = DockStyle.Top;
+			elementHost.Child = soundPanel;
+			soundPanel.Tag = elementHost;
 
-			this.pnlSounds.Controls.Add(panel);
-			this.pnlSounds.Controls.SetChildIndex(panel, 0);
+			elementHost.Height = 64;
+			elementHost.Dock = DockStyle.Top;
+			elementHost.Padding = new Padding(20, 0, 0, 0);
+
+			this.pnlSounds.Controls.Add(elementHost);
+			this.pnlSounds.Controls.SetChildIndex(elementHost, 0);
 
 			this.AdjustHeights();
 
@@ -139,8 +142,9 @@ namespace AudioMixer
 
 		private void SoundPanel_DeleteButtonClick(object sender, EventArgs eventArgs)
 		{
-			SoundPanel soundPanel = (SoundPanel)sender;
-			this.pnlSounds.Controls.Remove(soundPanel.Parent);
+			WpfSoundPanel soundPanel = (WpfSoundPanel)sender;
+			ElementHost elementHost = (ElementHost)soundPanel.Tag;
+			this.pnlSounds.Controls.Remove(elementHost);
 
 			Control line = this.lines.Get(soundPanel);
 			if (line != null)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommonWinForms;
+using CommonWpf.Classes.UI;
 using CSCore.CoreAudioAPI;
 
 namespace AudioMixer;
@@ -18,7 +18,7 @@ public class Device
 		}
 		catch (Exception ex)
 		{
-			ExcHandler.Catch(ex);
+			ExceptionHandler.Catch(ex);
 			this.Name = $"<{ex.Message}>";
 		}
 	}
