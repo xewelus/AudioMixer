@@ -224,7 +224,7 @@ namespace AudioMixer
 
 		private void lvMixes_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (MainForm.IsPlayChangeKey(e))
+			if (WpfMainForm.IsPlayChangeKey(e))
 			{
 				this.PlayChange();
 			}

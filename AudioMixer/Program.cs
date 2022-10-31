@@ -34,7 +34,7 @@ namespace AudioMixer
 			try
 			{
 				Settings.Load();
-				UIHelper.MainForm = new MainForm();
+				//UIHelper.MainForm = new MainForm();
 			}
 			catch (Exception ex)
 			{

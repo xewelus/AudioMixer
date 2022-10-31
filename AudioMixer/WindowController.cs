@@ -1,20 +1,21 @@
-﻿using System.Windows.Forms;
+﻿using System.Windows;
+using System.Windows.Forms;
 
 namespace AudioMixer
 {
 	public class WindowController
 	{
-		private readonly MainForm form;
+		private readonly Window form;
 		private readonly WindowSettings window;
 		private readonly DockSettings dock;
 		private readonly SplitContainer splitContainer;
 
 		private bool internalChanges;
-		private FormWindowState prevFormState;
+		private WindowState prevFormState;
 
 		public bool IgnoreSplitterMoved;
 
-		public WindowController(MainForm form, SplitContainer splitContainer, WindowSettings window, DockSettings dock)
+		public WindowController(Window form, SplitContainer splitContainer, WindowSettings window, DockSettings dock)
 		{
 			this.form = form;
 			this.splitContainer = splitContainer;
@@ -29,12 +30,14 @@ namespace AudioMixer
 			{
 				this.internalChanges = true;
 
-				this.form.Location = this.window.Location;
-				this.form.Size = this.window.Size;
+				this.form.Left = this.window.Location.X;
+				this.form.Top = this.window.Location.Y;
+				this.form.Width = this.window.Size.Width;
+				this.form.Height = this.window.Size.Height;
 
 				if (this.window.IsMaximized)
 				{
-					this.form.WindowState = FormWindowState.Maximized;
+					this.form.WindowState = WindowState.Maximized;
 				}
 
 				this.SetupOrientation();
@@ -62,27 +65,29 @@ namespace AudioMixer
 
 		public void OnResize()
 		{
-			FormWindowState windowState = this.form.WindowState;
-			this.form.ShowInTaskbar = windowState != FormWindowState.Minimized;
+			WindowState windowState = this.form.WindowState;
+			this.form.ShowInTaskbar = windowState != WindowState.Minimized;
 
 			bool save = false;
-			if (windowState != FormWindowState.Minimized)
+			if (windowState != WindowState.Minimized)
 			{
 				if (this.prevFormState != windowState)
 				{
 					this.prevFormState = windowState;
-					this.window.IsMaximized = windowState == FormWindowState.Maximized;
+					this.window.IsMaximized = windowState == WindowState.Maximized;
 					save = true;
 
-					if (windowState != FormWindowState.Maximized)
+					if (windowState != WindowState.Maximized)
 					{
-						this.form.Location = this.window.Location;
+						this.form.Left = this.window.Location.X;
+						this.form.Top = this.window.Location.Y;
 					}
 				}
 
-				if (this.form.WindowState == FormWindowState.Normal && this.window.Size != this.form.Size)
+				System.Drawing.Size formSize = new System.Drawing.Size((int)this.form.Width, (int)this.form.Height);
+				if (this.form.WindowState == WindowState.Normal && this.window.Size != formSize)
 				{
-					this.window.Size = this.form.Size;
+					this.window.Size = formSize;
 					save = true;
 				}
 			}
@@ -126,11 +131,12 @@ namespace AudioMixer
 		public void LocationChanged()
 		{
 			if (this.internalChanges) return;
-			if (this.form.WindowState != FormWindowState.Normal) return;
+			if (this.form.WindowState != WindowState.Normal) return;
 
-			if (this.window.Location != this.form.Location)
+			System.Drawing.Point location = new System.Drawing.Point((int)this.form.Left, (int)this.form.Top);
+			if (this.window.Location != location)
 			{
-				this.window.Location = this.form.Location;
+				this.window.Location = location;
 				Settings.SaveAppearance();
 			}
 		}
