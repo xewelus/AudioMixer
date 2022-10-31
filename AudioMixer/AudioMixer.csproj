@@ -141,7 +141,7 @@
     <None Include="Resources\pause2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\play.gif" />
+    <Resource Include="Resources\play.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\plus.png" />
