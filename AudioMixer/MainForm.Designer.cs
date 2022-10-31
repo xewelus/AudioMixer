@@ -38,7 +38,6 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.miSysTrayQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.clickDelayTimer = new System.Windows.Forms.Timer(this.components);
-			this.mainPanel = new AudioMixer.MainPanel();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.miSysTrayVolume100 = new System.Windows.Forms.ToolStripMenuItem();
 			this.miSysTrayVolume25 = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,16 +117,6 @@
 			// 
 			this.clickDelayTimer.Tick += new System.EventHandler(this.clickDelayTimer_Tick);
 			// 
-			// mainPanel
-			// 
-			this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mainPanel.Location = new System.Drawing.Point(0, 0);
-			this.mainPanel.Margin = new System.Windows.Forms.Padding(0);
-			this.mainPanel.Name = "mainPanel";
-			this.mainPanel.Size = new System.Drawing.Size(655, 483);
-			this.mainPanel.TabIndex = 1;
-			this.mainPanel.PlayStateChanged += new System.EventHandler(this.mainPanel_PlayStateChanged);
-			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -166,7 +155,6 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(655, 483);
-			this.Controls.Add(this.mainPanel);
 			this.Name = "MainForm";
 			this.ShowIcon = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
@@ -184,7 +172,6 @@
 		private System.Windows.Forms.ToolStripMenuItem miSysTrayStop;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem miSysTrayQuit;
-		private MainPanel mainPanel;
 		private System.Windows.Forms.ToolStripMenuItem miOpenForm;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.Timer clickDelayTimer;

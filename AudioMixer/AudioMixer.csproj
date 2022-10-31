@@ -60,20 +60,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioDeviceComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="AudioDeviceComboBox.cs" />
     <Compile Include="DeviceInfo.cs" />
     <Compile Include="MouseKeyboardLibrary\GlobalHook.cs" />
     <Compile Include="MouseKeyboardLibrary\KeyboardHook.cs" />
     <Compile Include="MouseKeyboardLibrary\KeyboardSimulator.cs" />
     <Compile Include="MouseKeyboardLibrary\StandardShortcut.cs" />
-    <Compile Include="MainPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MainPanel.Designer.cs">
-      <DependentUpon>MainPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,9 +90,6 @@
     <Compile Include="WpfSoundPanel.xaml.cs">
       <DependentUpon>WpfSoundPanel.xaml</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="MainPanel.resx">
-      <DependentUpon>MainPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,7 +163,7 @@
     <None Include="Resources\copy.png" />
     <Resource Include="Resources\dock-top.png" />
     <Resource Include="Resources\dock-left.png" />
-    <None Include="Resources\save.gif" />
+    <Resource Include="Resources\save.gif" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="WpfMixesListPanel.xaml">

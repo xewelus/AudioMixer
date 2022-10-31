@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:audioMixer="clr-namespace:AudioMixer"
              mc:Ignorable="d" d:DesignWidth="400">
 	<DockPanel>
 		<Grid Margin="3" DockPanel.Dock="Top" Background="Silver">
@@ -25,7 +26,8 @@
 			        IsMoveToPointEnabled="True" IsManipulationEnabled="True" ValueChanged="tbVolume_ValueChanged" SmallChange="1" LargeChange="5" />
 		</Grid>
 		<DockPanel x:Name="pnlSounds" DockPanel.Dock="Top">
-			<Label>pnlSounds</Label>
+			<audioMixer:WpfSoundPanel DockPanel.Dock="Top" />
+			<audioMixer:WpfSoundPanel DockPanel.Dock="Top" />
 		</DockPanel>
 		<StackPanel DockPanel.Dock="Top" >
 			<Button Width="16" Height="16" Margin="0,0,3,0" HorizontalAlignment="Right" Click="btnAdd_Click">

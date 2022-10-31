@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Windows.Controls;
 using CSCore.CoreAudioAPI;
 
 namespace AudioMixer
@@ -50,23 +50,22 @@ namespace AudioMixer
 			this.internalChanges = false;
 		}
 
-		
-
-		protected override void OnDropDown(EventArgs e)
+		protected override void OnDropDownOpened(EventArgs e)
 		{
-			base.OnDropDown(e);
-
+			base.OnDropDownOpened(e);
 			this.RefreshDevices();
 		}
 
-		protected override void OnSelectedIndexChanged(EventArgs e)
+		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
+			base.OnSelectionChanged(e);
+
 			Device info = (Device)this.SelectedItem;
 			if (this.prev != info)
 			{
 				this.prev = info;
 
-				base.OnSelectedIndexChanged(e);
+				base.OnSelectionChanged(e);
 
 				if (this.internalChanges) return;
 
