@@ -28,7 +28,7 @@ namespace AudioMixer
 
 			using (this.pnlSounds.Dispatcher.DisableProcessing())
 			{
-				this.pnlSounds.Children.RemoveAt(0);
+				this.pnlSounds.Children.Clear();
 
 				foreach (SoundInfo soundInfo in mixInfo.Sounds)
 				{

@@ -21,6 +21,7 @@ namespace AudioMixer
 		private readonly KeyboardHook keyboardHook = new KeyboardHook();
 
 		private readonly WpfMixesListPanel pnlMixes;
+		private WpfMainPanel mainPanel;
 
 		public MainForm()
 		{
