@@ -9,3 +9,4 @@ _ReSharper.Caches/
 *.suo
 /packages/
 *.csproj.user
+/AudioMixer/obj/*
