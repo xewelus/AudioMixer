@@ -52,7 +52,7 @@ namespace AudioMixer
 
 		private static string AskFile()
 		{
-			List<string> files = MixPanel.AskFiles(false);
+			List<string> files = WpfMixPanel.AskFiles(false);
 			if (files == null || files.Count == 0)
 			{
 				return null;

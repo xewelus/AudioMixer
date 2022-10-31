@@ -20,12 +20,15 @@ namespace AudioMixer
 				return;
 			}
 
+			//AppInitializer.Initialize();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			UIHelper.SetUnhandledExceptionSafe();
 
 			ExcHandler.OnError = OnError;
+			//ExceptionHandler.OnError = OnError;
 
 			try
 			{

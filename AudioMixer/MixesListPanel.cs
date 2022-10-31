@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -137,7 +136,7 @@ namespace AudioMixer
 
 		private void btnMixAdd_Click(object sender, EventArgs e)
 		{
-			List<string> files = MixPanel.AskFiles();
+			List<string> files = WpfMixPanel.AskFiles();
 			if (files == null)
 			{
 				return;

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using CommonWinForms;
 using CommonWinForms.Extensions;
-using CSCore.CoreAudioAPI;
 
 namespace AudioMixer
 {
 	public sealed partial class MainPanel : UserControl
 	{
-		private MixPanel mixPanel;
+		private WpfMixPanel mixPanel;
 		private Player player;
 		private bool internalChanges;
 		private Machine currentMachine;
@@ -83,19 +83,23 @@ namespace AudioMixer
 		{
 			if (this.mixPanel != null)
 			{
-				this.mixPanel.Remove(true);
+				this.mixPanel.Remove();
 				this.mixPanel = null;
 			}
 
 			if (this.pnlMixes.SelectedMix != null)
 			{
-				this.mixPanel = new MixPanel(this.pnlMixes.SelectedMix);
-				this.mixPanel.Dock = DockStyle.Fill;
+				this.mixPanel = new WpfMixPanel(this.pnlMixes.SelectedMix);
 				this.mixPanel.NameChanged += this.MixPanelOnNameChanged;
 				this.mixPanel.VolumeChanged += this.MixPanelOnVolumeChanged;
 				this.mixPanel.PlayChanged += this.MixPanelOnPlayChanged;
-				this.mixPanel.ContentChanged += MixPanelOnContentChanged;
-				this.splitContainer.Panel2.Controls.Add(this.mixPanel);
+				this.mixPanel.ContentChanged += this.MixPanelOnContentChanged;
+
+				ElementHost host = new ElementHost();
+				host.Dock = DockStyle.Fill;
+				host.Child = this.mixPanel;
+
+				this.splitContainer.Panel2.Controls.Add(host);
 			}
 		}
 
