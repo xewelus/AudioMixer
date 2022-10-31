@@ -89,6 +89,9 @@
     <Compile Include="WpfMixesListPanel.xaml.cs">
       <DependentUpon>WpfMixesListPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfMainPanel.xaml.cs">
+      <DependentUpon>WpfMainPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfMixPanel.xaml.cs">
       <DependentUpon>WpfMixPanel.xaml</DependentUpon>
     </Compile>
@@ -175,6 +178,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="WpfMixesListPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfMainPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
