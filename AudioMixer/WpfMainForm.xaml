@@ -4,10 +4,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:audioMixer="clr-namespace:AudioMixer"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+             UseLayoutRounding="True" 
+             Title="AudioMixer" Icon="Resources/app_play.ico" 
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400" MinWidth="456" MinHeight="150"
              SizeChanged="WpfMainForm_OnSizeChanged"
-             LocationChanged="MainForm_LocationChanged">
+             LocationChanged="MainForm_LocationChanged"
+             Closing="WpfMainForm_OnClosing"
+             Closed="WpfMainForm_OnClosed">
 	<Grid>
-		<audioMixer:WpfMainPanel />
+		<audioMixer:WpfMainPanel x:Name="mainPanel" />
 	</Grid>
 </Window>

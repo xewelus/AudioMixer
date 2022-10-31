@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Common;
 using CommonWpf;
+using CommonWpf.Classes.UI;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace AudioMixer
@@ -57,11 +58,18 @@ namespace AudioMixer
 
 		private void tbName_TextChanged(object sender, EventArgs e)
 		{
-			if (this.internalChanges) return;
-
-			if (this.NameChanged != null)
+			try
 			{
-				this.NameChanged.Invoke(this, EventArgs.Empty);
+				if (this.internalChanges) return;
+
+				if (this.NameChanged != null)
+				{
+					this.NameChanged.Invoke(this, EventArgs.Empty);
+				}
+			}
+			catch (Exception ex)
+			{
+				ExceptionHandler.Catch(ex);
 			}
 		}
 
@@ -91,20 +99,27 @@ namespace AudioMixer
 		private readonly Dictionary<WpfSoundPanel, Control> lines = new Dictionary<WpfSoundPanel, Control>();
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			List<string> files = AskFiles();
-			if (files == null)
+			try
 			{
-				return;
+				List<string> files = AskFiles();
+				if (files == null)
+				{
+					return;
+				}
+
+				foreach (string file in files)
+				{
+					SoundInfo soundInfo = new SoundInfo();
+					soundInfo.Path = file;
+					this.mixInfo.Sounds.Add(soundInfo);
+					Settings.SetNeedSave();
+
+					this.AddSound(soundInfo);
+				}
 			}
-
-			foreach (string file in files)
+			catch (Exception ex)
 			{
-				SoundInfo soundInfo = new SoundInfo();
-				soundInfo.Path = file;
-				this.mixInfo.Sounds.Add(soundInfo);
-				Settings.SetNeedSave();
-
-				this.AddSound(soundInfo);
+				ExceptionHandler.Catch(ex);
 			}
 		}
 
@@ -131,32 +146,53 @@ namespace AudioMixer
 
 		private void SoundPanel_VolumeChanged(object sender, EventArgs e)
 		{
-			this.VolumeChanged?.Invoke(this, EventArgs.Empty);
+			try
+			{
+				this.VolumeChanged?.Invoke(this, EventArgs.Empty);
+			}
+			catch (Exception ex)
+			{
+				ExceptionHandler.Catch(ex);
+			}
 		}
 
 		private void SoundPanel_DeleteButtonClick(object sender, EventArgs eventArgs)
 		{
-			WpfSoundPanel soundPanel = (WpfSoundPanel)sender;
-			this.pnlSounds.Children.Remove(soundPanel);
-
-			Control line = this.lines.Get(soundPanel);
-			if (line != null)
+			try
 			{
-				this.pnlSounds.Children.Remove(line);
-				this.lines.Remove(soundPanel);
+				WpfSoundPanel soundPanel = (WpfSoundPanel)sender;
+				this.pnlSounds.Children.Remove(soundPanel);
+
+				Control line = this.lines.Get(soundPanel);
+				if (line != null)
+				{
+					this.pnlSounds.Children.Remove(line);
+					this.lines.Remove(soundPanel);
+				}
+
+				this.AdjustHeights();
+
+				this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
+				Settings.SetNeedSave();
+
+				this.ContentChanged?.Invoke(this, EventArgs.Empty);
 			}
-
-			this.AdjustHeights();
-
-			this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
-			Settings.SetNeedSave();
-
-			this.ContentChanged?.Invoke(this, EventArgs.Empty);
+			catch (Exception ex)
+			{
+				ExceptionHandler.Catch(ex);
+			}
 		}
 
 		private void SoundPanel_PlayChanged(object sender, EventArgs e)
 		{
-			this.PlayChanged?.Invoke(this, EventArgs.Empty);
+			try
+			{
+				this.PlayChanged?.Invoke(this, EventArgs.Empty);
+			}
+			catch (Exception ex)
+			{
+				ExceptionHandler.Catch(ex);
+			}
 		}
 
 		private void AdjustHeights()
@@ -176,34 +212,55 @@ namespace AudioMixer
 
 		private void tbVolume_ValueChanged(object sender, EventArgs e)
 		{
-			this.lblVolume.Content = string.Format("Громкость ({0:0}%):", this.tbVolume.Value);
-
-			if (!this.internalChanges)
+			try
 			{
-				this.mixInfo.Volume = (float)(this.tbVolume.Value / 100f);
+				this.lblVolume.Content = string.Format("Громкость ({0:0}%):", this.tbVolume.Value);
 
-				if (this.VolumeChanged != null)
+				if (!this.internalChanges)
 				{
-					this.VolumeChanged.Invoke(this, EventArgs.Empty);
-				}
+					this.mixInfo.Volume = (float)(this.tbVolume.Value / 100f);
 
-				Settings.SetNeedSave();
+					if (this.VolumeChanged != null)
+					{
+						this.VolumeChanged.Invoke(this, EventArgs.Empty);
+					}
+
+					Settings.SetNeedSave();
+				}
+			}
+			catch (Exception ex)
+			{
+				ExceptionHandler.Catch(ex);
 			}
 		}
 
 		private void SoundPanelOnContentChanged(object sender, EventArgs e)
 		{
-			this.ContentChanged?.Invoke(this, EventArgs.Empty);
+			try
+			{
+				this.ContentChanged?.Invoke(this, EventArgs.Empty);
+			}
+			catch (Exception ex)
+			{
+				ExceptionHandler.Catch(ex);
+			}
 		}
 
 		private void controls_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (WpfMainForm.IsPlayChangeKey(e.Key))
+			try
 			{
-				if (this.PlayChanged != null)
+				if (WpfMainForm.IsPlayChangeKey(e.Key))
 				{
-					this.PlayChanged.Invoke(this, EventArgs.Empty);
+					if (this.PlayChanged != null)
+					{
+						this.PlayChanged.Invoke(this, EventArgs.Empty);
+					}
 				}
+			}
+			catch (Exception ex)
+			{
+				ExceptionHandler.Catch(ex);
 			}
 		}
 	}

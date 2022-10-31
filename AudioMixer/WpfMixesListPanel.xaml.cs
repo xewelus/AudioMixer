@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using System.Windows.Media.Imaging;
 using CommonWinForms.Extensions;
 using CommonWpf;
 using Application = System.Windows.Forms.Application;
-using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using Orientation = System.Windows.Forms.Orientation;
 
@@ -74,10 +71,9 @@ namespace AudioMixer
 
 		public void UpdateName(string name)
 		{
-			ListViewItem item = (ListViewItem)this.lvMixes.SelectedItems[0];
+			MixInfoItem item = (MixInfoItem)this.lvMixes.SelectedItems[0];
 
-			MixInfo mixInfo = (MixInfo)item.Tag;
-			mixInfo.Name = name;
+			item.MixInfo.Name = name;
 			Settings.SetNeedSave();
 
 			//item.Text = name;
@@ -90,11 +86,11 @@ namespace AudioMixer
 			this.lvMixes_ItemActivate(null, null);
 		}
 
-		private ListViewItem lastActivated;
+		private MixInfoItem lastActivated;
 		private void lvMixes_ItemActivate(object sender, System.EventArgs e)
 		{
-			object item = this.lvMixes.SelectedItems.Count == 0 ? null : this.lvMixes.SelectedItems[0];
-			this.ActivateItem((ListViewItem)item);
+			MixInfoItem item = (MixInfoItem)(this.lvMixes.SelectedItems.Count == 0 ? null : this.lvMixes.SelectedItems[0]);
+			this.ActivateItem(item);
 		}
 
 		public void SelectItemByID(int mixID)
@@ -110,12 +106,12 @@ namespace AudioMixer
 			}
 		}
 
-		private void ActivateItem(ListViewItem item)
+		private void ActivateItem(MixInfoItem item)
 		{
 			if (this.lastActivated != null)
 			{
 				//this.lastActivated.ImageIndex = IMAGE_DEFAULT;
-				this.lastActivated.FontWeight = FontWeights.Normal;
+				//this.lastActivated.FontWeight = FontWeights.Normal;
 			}
 
 			if (this.lastActivated == item)
@@ -127,7 +123,7 @@ namespace AudioMixer
 				if (item != null)
 				{
 					//item.ImageIndex = IMAGE_PLAY;
-					item.FontWeight = FontWeights.Bold;
+					//item.FontWeight = FontWeights.Bold;
 				}
 				this.lastActivated = item;
 			}
@@ -136,7 +132,7 @@ namespace AudioMixer
 
 			Application.DoEvents();
 
-			this.activatedItem = (MixInfoItem)(this.lastActivated == null ? null : this.lastActivated.Tag);
+			this.activatedItem = this.lastActivated;
 			if (this.ItemActivated != null)
 			{
 				this.ItemActivated.Invoke(this, EventArgs.Empty);
@@ -194,9 +190,9 @@ namespace AudioMixer
 
 		private void btnMixDelete_Click(object sender, EventArgs e)
 		{
-			foreach (ListViewItem item in this.lvMixes.SelectedItems)
+			foreach (MixInfoItem item in this.lvMixes.SelectedItems)
 			{
-				MixInfo mixInfo = (MixInfo)item.Tag;
+				MixInfo mixInfo = (MixInfo)item.MixInfo;
 				if (UIHelper.AskYesNo(string.Format("Вы уверены, что хотите удалить микс '{0}'?", mixInfo.Name)))
 				{
 					if (this.lastActivated == item)

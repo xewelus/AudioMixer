@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Controls;
 using CommonWpf;
 using CommonWinForms.Extensions;
 using System.Windows.Forms;
@@ -54,6 +55,8 @@ namespace AudioMixer
 			if (this.InRuntime())
 			{
 				Settings.OnNeedSave += this.OnNeedSave;
+
+				this.mixPanelContainer.Children.Clear();
 			}
 		}
 
@@ -136,7 +139,7 @@ namespace AudioMixer
 			this.Play(false);
 		}
 
-		private void cbAudioDevice_SelectedIndexChanged(object sender, EventArgs e)
+		private void cbAudioDevice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (this.internalChanges) return;
 

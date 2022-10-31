@@ -23,7 +23,6 @@ namespace AudioMixer
 			AppInitializer.Initialize();
 			CommonWpf.UIHelper.InRuntime = true;
 
-			ExcHandler.OnError = OnError;
 			ExceptionHandler.OnError = OnError;
 
 			try
@@ -32,7 +31,7 @@ namespace AudioMixer
 			}
 			catch (Exception ex)
 			{
-				ExcHandler.Catch(ex);
+				ExceptionHandler.Catch(ex);
 			}
 		}
 
