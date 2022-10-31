@@ -1,192 +1,40 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{010DE1EE-1C8D-4E51-8766-714B55405E57}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>AudioMixer</RootNamespace>
-    <AssemblyName>AudioMixer</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>app.ico</ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
-      <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AudioDeviceComboBox.cs" />
-    <Compile Include="DeviceInfo.cs" />
-    <Compile Include="MouseKeyboardLibrary\GlobalHook.cs" />
-    <Compile Include="MouseKeyboardLibrary\KeyboardHook.cs" />
-    <Compile Include="MouseKeyboardLibrary\KeyboardSimulator.cs" />
-    <Compile Include="MouseKeyboardLibrary\StandardShortcut.cs" />
-    <Compile Include="MixIdsCollection.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="WindowController.cs" />
-    <Compile Include="WpfMixesListPanel.xaml.cs">
-      <DependentUpon>WpfMixesListPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WpfMainPanel.xaml.cs">
-      <DependentUpon>WpfMainPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WpfMainForm.xaml.cs">
-      <DependentUpon>WpfMainForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WpfMixPanel.xaml.cs">
-      <DependentUpon>WpfMixPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WpfSoundPanel.xaml.cs">
-      <DependentUpon>WpfSoundPanel.xaml</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\minus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\open.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pause.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pause2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\play.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\plus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\stop.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\CommonWinForms\CommonWinForms.csproj">
-      <Project>{4d3558c4-c9aa-4025-848e-68d14ff106a2}</Project>
-      <Name>CommonWinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\CommonWpf\CommonWpf.csproj">
-      <Project>{afa2d8dc-4b60-4928-9dfb-c2f27da53c62}</Project>
-      <Name>CommonWpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common\Common.csproj">
-      <Project>{f611885d-38b2-4c9c-b736-08312c0f19dd}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\music.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="app.ico" />
-    <Content Include="Resources\app_play.ico" />
-    <None Include="Resources\app_png.png" />
-    <Content Include="Resources\app_stop.ico" />
-    <None Include="Resources\copy.png" />
-    <Resource Include="Resources\dock-top.png" />
-    <Resource Include="Resources\dock-left.png" />
-    <Resource Include="Resources\save.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="WpfMixesListPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WpfMainPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WpfMainForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WpfMixPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WpfSoundPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<OutputType>Library</OutputType>
+		<RootNamespace>CommonWpf</RootNamespace>
+		<AssemblyName>CommonWpf</AssemblyName>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UseWPF>true</UseWPF>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Common\CommonWinForms\CommonWinForms.csproj" />
+	  <ProjectReference Include="..\Common\CommonWpf\CommonWpf.csproj" />
+	  <ProjectReference Include="..\Common\Common\Common.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
+		  <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
+		</Reference>
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Xaml" />
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Deployment" />
+		<Reference Include="System.Drawing" />
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="System.Xml" />
+		<Reference Include="WindowsBase" />
+		<Reference Include="WindowsFormsIntegration" />
+	</ItemGroup>
 </Project>
