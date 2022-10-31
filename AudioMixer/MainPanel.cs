@@ -66,6 +66,10 @@ namespace AudioMixer
 				this.tbVolume.Value = (int)(machine.Volume * 100);
 				this.tbVolume_ValueChanged(null, null);
 
+				this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
+				this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
+				this.pnlMixes.DockButtonClick += new System.EventHandler(this.pnlMixes_DockButtonClick);
+
 				this.pnlMixes.PanelOrientation = this.splitContainer.Orientation;
 
 				if (machine.LastMixID != null)

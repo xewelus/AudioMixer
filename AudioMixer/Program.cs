@@ -21,6 +21,7 @@ namespace AudioMixer
 			}
 
 			//AppInitializer.Initialize();
+			CommonWpf.UIHelper.InRuntime = true;
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
@@ -37,7 +38,7 @@ namespace AudioMixer
 			}
 			catch (Exception ex)
 			{
-				ExceptionHandler.Catch(ex);
+				ExcHandler.Catch(ex);
 			}
 
 			Application.Run(UIHelper.MainForm);

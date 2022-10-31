@@ -75,7 +75,7 @@
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal">
 						<CheckBox Background="Aqua" Style="{StaticResource checkboxStyle}" />
-						<TextBlock Margin="6,0,3,0" Text="{Binding ItemName}" d:Text="{Binding .}" />
+						<TextBlock Margin="6,0,3,0" Text="{Binding Name}" d:Text="{Binding .}" />
 					</StackPanel>
 				</DataTemplate>
 			</ListView.ItemTemplate>

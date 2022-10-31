@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -10,6 +11,7 @@ using System.Windows.Media.Imaging;
 using CommonWinForms.Extensions;
 using CommonWpf;
 using Application = System.Windows.Forms.Application;
+using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using Orientation = System.Windows.Forms.Orientation;
 
@@ -23,21 +25,35 @@ namespace AudioMixer
 
 			if (this.InRuntime())
 			{
-				this.Items = Settings.Current.Mixes;
+				this.DataContext = this;
+				this.Items = Settings.Current.Mixes.Select(m => new MixInfoItem(m)).ToList();
+				//this.lvMixes.GetBindingExpression(ListView.ItemsSourceProperty)?.UpdateTarget();
 			}
 		}
 
-		public List<MixInfo> Items { get; set; }
+		public List<MixInfoItem> Items { get; set; }
 
 		public event EventHandler ItemSelected;
 		public event EventHandler ItemActivated;
 		public event EventHandler DockButtonClick;
-		public MixInfo SelectedMix;
-		public MixInfo ActivatedMix;
 
-		private const int IMAGE_PLAY = 0;
-		private const int IMAGE_DEFAULT = 1;
-		private const int IMAGE_PAUSE = 2;
+		private MixInfoItem selectedItem;
+		public MixInfo SelectedMix
+		{
+			get
+			{
+				return this.selectedItem?.MixInfo;
+			}
+		}
+
+		private MixInfoItem activatedItem;
+		public MixInfo ActivatedMix
+		{
+			get
+			{
+				return this.activatedItem?.MixInfo;
+			}
+		}
 
 		private Orientation panelOrientation = Orientation.Vertical;
 		[DefaultValue(Orientation.Vertical)]
@@ -51,8 +67,8 @@ namespace AudioMixer
 			{
 				this.panelOrientation = value;
 
-				string res = value == Orientation.Vertical ? "Resources/dock-top.png" : "Resources/dock-dock_left.png";
-				this.imgDock.Source = new BitmapImage(new Uri(res));
+				//string res = value == Orientation.Vertical ? "Resources/dock-top.png" : "Resources/dock-dock_left.png";
+				//this.imgDock.Source = new BitmapImage(new Uri(res));
 			}
 		}
 
@@ -120,7 +136,7 @@ namespace AudioMixer
 
 			Application.DoEvents();
 
-			this.ActivatedMix = (MixInfo)(this.lastActivated == null ? null : this.lastActivated.Tag);
+			this.activatedItem = (MixInfoItem)(this.lastActivated == null ? null : this.lastActivated.Tag);
 			if (this.ItemActivated != null)
 			{
 				this.ItemActivated.Invoke(this, EventArgs.Empty);
@@ -162,12 +178,12 @@ namespace AudioMixer
 			if (this.lvMixes.SelectedItems.Count == 0)
 			{
 				this.btnMixDelete.IsEnabled = false;
-				this.SelectedMix = null;
+				this.selectedItem = null;
 			}
 			else
 			{
 				this.btnMixDelete.IsEnabled = true;
-				this.SelectedMix = (MixInfo)this.lvMixes.SelectedItems[0];
+				this.selectedItem = (MixInfoItem)this.lvMixes.SelectedItems[0];
 			}
 
 			if (this.ItemSelected != null)
@@ -306,6 +322,24 @@ namespace AudioMixer
 		private void miPause_Click(object sender, EventArgs e)
 		{
 			this.lvMixes_ItemActivate(this, EventArgs.Empty);
+		}
+
+		public class MixInfoItem
+		{
+			public readonly MixInfo MixInfo;
+
+			public string Name
+			{
+				get
+				{
+					return this.MixInfo.Name;
+				}
+			}
+
+			public MixInfoItem(MixInfo mixInfo)
+			{
+				this.MixInfo = mixInfo;
+			}
 		}
 	}
 }
