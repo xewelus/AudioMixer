@@ -1,13 +1,6 @@
-﻿using System.Collections.Generic;
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Common;
+﻿using System;
 using CommonWpf;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using CommonWinForms.Extensions;
-using System.Windows.Forms.Integration;
 using System.Windows.Forms;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
@@ -57,7 +50,11 @@ namespace AudioMixer
 		public WpfMainPanel()
 		{
 			this.InitializeComponent();
-			Settings.OnNeedSave += this.OnNeedSave;
+
+			if (this.InRuntime())
+			{
+				Settings.OnNeedSave += this.OnNeedSave;
+			}
 		}
 
 		public void Init(Machine machine, WindowController wc)
@@ -262,7 +259,7 @@ namespace AudioMixer
 
 		private void tbVolume_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (MainForm.IsPlayChangeKey(e.Key))
+			if (WpfMainForm.IsPlayChangeKey(e.Key))
 			{
 				this.UpdateVolume();
 			}

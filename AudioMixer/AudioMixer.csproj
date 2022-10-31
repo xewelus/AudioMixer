@@ -66,12 +66,6 @@
     <Compile Include="MouseKeyboardLibrary\KeyboardHook.cs" />
     <Compile Include="MouseKeyboardLibrary\KeyboardSimulator.cs" />
     <Compile Include="MouseKeyboardLibrary\StandardShortcut.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MixIdsCollection.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -84,15 +78,15 @@
     <Compile Include="WpfMainPanel.xaml.cs">
       <DependentUpon>WpfMainPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfMainForm.xaml.cs">
+      <DependentUpon>WpfMainForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfMixPanel.xaml.cs">
       <DependentUpon>WpfMixPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfSoundPanel.xaml.cs">
       <DependentUpon>WpfSoundPanel.xaml</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -171,6 +165,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="WpfMainPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfMainForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

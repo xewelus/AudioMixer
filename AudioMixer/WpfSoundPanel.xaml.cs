@@ -118,7 +118,7 @@ namespace AudioMixer
 
 		private void controls_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (MainForm.IsPlayChangeKey(e.Key))
+			if (WpfMainForm.IsPlayChangeKey(e.Key))
 			{
 				if (this.PlayChanged != null)
 				{
