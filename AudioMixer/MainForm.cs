@@ -20,7 +20,7 @@ namespace AudioMixer
 		private readonly WindowController windowController;
 		private readonly KeyboardHook keyboardHook = new KeyboardHook();
 
-		private readonly MixesListPanel pnlMixes;
+		private readonly WpfMixesListPanel pnlMixes;
 
 		public MainForm()
 		{

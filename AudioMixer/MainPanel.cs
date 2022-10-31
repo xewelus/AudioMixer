@@ -24,7 +24,7 @@ namespace AudioMixer
 			}
 		}
 
-		public MixesListPanel MixesListPanel
+		public WpfMixesListPanel MixesListPanel
 		{
 			get
 			{
