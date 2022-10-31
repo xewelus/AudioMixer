@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Common;
 using CommonWpf;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using MouseKeyboardLibrary;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,7 +21,6 @@ namespace AudioMixer
 		private readonly KeyboardHook keyboardHook = new KeyboardHook();
 
 		private readonly WpfMixesListPanel pnlMixes;
-		private WpfMainPanel mainPanel;
 
 		public WpfMainForm()
 		{
@@ -33,13 +29,10 @@ namespace AudioMixer
 
 			this.pnlMixes = this.mainPanel.MixesListPanel;
 
-			//this.Icon = Resources.app;
-			//this.ShowIcon = true;
-
-			//this.Text = string.Format("{0} ({1})", this.Text, AssemblyInfo.VERSION);
+			this.Title = string.Format("{0} ({1})", this.Title, AssemblyInfo.VERSION);
 
 			this.notifyIcon.Icon = Properties.Resources.app_play;
-			//this.notifyIcon.Text = this.Text;
+			this.notifyIcon.Text = this.Title;
 
 			this.currentMachine = InitMachine();
 
@@ -70,7 +63,7 @@ namespace AudioMixer
 			return newMachine;
 		}
 
-		protected override void OnClosing(CancelEventArgs e)
+		private void WpfMainForm_OnClosing(object sender, CancelEventArgs e)
 		{
 			if (this.mainPanel.NeedSave)
 			{
@@ -84,15 +77,12 @@ namespace AudioMixer
 					this.mainPanel.Save();
 				}
 			}
-
-			base.OnClosing(e);
 		}
 
-		protected override void OnClosed(EventArgs e)
+		private void WpfMainForm_OnClosed(object sender, EventArgs e)
 		{
 			this.keyboardHook.Stop();
 			this.mainPanel.OnClosed();
-			base.OnClosed(e);
 		}
 
 		public static bool IsPlayChangeKey(KeyEventArgs e)

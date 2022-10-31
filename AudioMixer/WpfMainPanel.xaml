@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:audioMixer="clr-namespace:AudioMixer"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500">
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500" MinWidth="437">
 	<DockPanel>
 		<Grid Margin="3" DockPanel.Dock="Top" >
 			<Grid.ColumnDefinitions>
@@ -19,18 +19,20 @@
 
 			<Label Grid.Column="0" Grid.Row="0" Padding="0,1,0,0">Аудио-устройство:</Label>
 
-			<audioMixer:AudioDeviceComboBox x:Name="cbAudioDevice" Grid.Column="1" Grid.Row="0" Height="20" HorizontalAlignment="Stretch" 
+			<audioMixer:AudioDeviceComboBox x:Name="cbAudioDevice" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" 
 			                     HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Top"
-			                     SelectionChanged="cbAudioDevice_SelectedIndexChanged">tbName</audioMixer:AudioDeviceComboBox>
+								 MaxWidth="300"
+			                     SelectionChanged="cbAudioDevice_OnSelectionChanged" />
 
-			<Button x:Name="btnSave" Grid.Column="2" Grid.Row="0" Width="16" Height="16" Margin="0,0,3,0" HorizontalAlignment="Right" Click="btnSave_Click">
+			<Button x:Name="btnSave" Grid.Column="2" Grid.Row="0" Width="20" Height="20" Margin="0,0,3,0" 
+			        HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnSave_Click">
 				<Image Source="Resources/save.gif" />
 			</Button>
 
 			<Label x:Name="lblVolume" Padding="0" Grid.Column="0" Grid.Row="1">Громкость:</Label>
 
 			<Slider x:Name="tbVolume" Grid.Column="1" Grid.Row="1" TickPlacement="BottomRight" Maximum="100" TickFrequency="5" 
-			        IsMoveToPointEnabled="True" IsManipulationEnabled="True" SmallChange="1" LargeChange="5" 
+			        IsMoveToPointEnabled="True" IsManipulationEnabled="True" SmallChange="1" LargeChange="5" Margin="0,0,1,0"
 			        ValueChanged="tbVolume_ValueChanged" KeyDown="tbVolume_KeyDown" />
 
 		</Grid>
