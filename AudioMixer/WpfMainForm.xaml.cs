@@ -3,13 +3,12 @@ using System.Windows;
 using System.Windows.Input;
 using Common;
 using CommonWpf;
-using MouseKeyboardLibrary;
+using Common.InputHooks;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using CommonWpf.Classes.UI;
 using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
-using KeyEventHandler = System.Windows.Forms.KeyEventHandler;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 namespace AudioMixer
@@ -18,7 +17,6 @@ namespace AudioMixer
 	{
 		private readonly Machine currentMachine;
 		private readonly WindowController windowController;
-		private readonly KeyboardHook keyboardHook = new KeyboardHook();
 
 		private readonly WpfMixesListPanel pnlMixes;
 
@@ -41,8 +39,7 @@ namespace AudioMixer
 
 			this.mainPanel.Init(this.currentMachine, this.windowController);
 
-			this.keyboardHook.KeyDown += new KeyEventHandler(this.keyboardHook_KeyDown);
-			this.keyboardHook.Start();
+			KeyboardHook.Current.KeyDown += this.keyboardHook_KeyDown;
 		}
 
 		private static Machine InitMachine()
@@ -81,7 +78,6 @@ namespace AudioMixer
 
 		private void WpfMainForm_OnClosed(object sender, EventArgs e)
 		{
-			this.keyboardHook.Stop();
 			this.mainPanel.OnClosed();
 		}
 
@@ -198,11 +194,11 @@ namespace AudioMixer
 		}
 
 		private Stopwatch keySw;
-		private void keyboardHook_KeyDown(object sender, KeyEventArgs e)
+		private void keyboardHook_KeyDown(KeyboardHook sender, KeyHandlerEventArgs e)
 		{
 			try
 			{
-				if (e.KeyCode != Keys.F2) return;
+				if (e.KeyCode != (int)Keys.F2) return;
 
 				if (this.keySw == null)
 				{
@@ -371,8 +367,6 @@ namespace AudioMixer
 			// 
 			this.cmSysTray.ResumeLayout(false);
 		}
-
-
 
 		#endregion
 	}
