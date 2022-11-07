@@ -1,8 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Windows;
-using Common;
-using CommonWinForms;
 using CommonWpf.Classes;
 using CommonWpf.Classes.UI;
 
@@ -11,19 +7,16 @@ namespace AudioMixer
 	/// <summary>
 	/// Interaction logic for App.xaml
 	/// </summary>
-	public partial class App : Application
+	public partial class App
 	{
 		public App()
 		{
-			if (Misc.IsAlreadyStarted("0A2E00D5-8D96-467B-8E0F-2B032EA916EA"))
-			{
-				return;
-			}
+			bool ok = AppInitializer.Initialize(
+				needFileLog: true,
+				singleInstance: true,
+				needKeyboardHook: true);
 
-			AppInitializer.Initialize();
-			CommonWpf.UIHelper.InRuntime = true;
-
-			ExceptionHandler.OnError = OnError;
+			if (!ok) return;
 
 			try
 			{
@@ -33,12 +26,6 @@ namespace AudioMixer
 			{
 				ExceptionHandler.Catch(ex);
 			}
-		}
-
-		private static void OnError(Exception exception)
-		{
-			string path = FS.GetAppPath("errors.log");
-			File.AppendAllText(path, $"[{DateTime.Now:dd.MM.yyyy HH:mm:ss.fff}] {exception}\r\n\r\n");
 		}
 	}
 }
