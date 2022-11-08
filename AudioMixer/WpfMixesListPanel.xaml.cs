@@ -3,14 +3,11 @@ using System.ComponentModel;
 using System;
 using System.IO;
 using System.Linq;
-using System.Windows;
+using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Forms;
-using CommonWinForms.Extensions;
+using System.Windows.Input;
 using CommonWpf;
-using Application = System.Windows.Forms.Application;
-using ListViewItem = System.Windows.Controls.ListViewItem;
-using Orientation = System.Windows.Forms.Orientation;
+using CommonWpf.Extensions;
 
 namespace AudioMixer
 {
@@ -81,7 +78,7 @@ namespace AudioMixer
 			this.AdjustList(true);
 		}
 
-		public void PlayChange()
+		public async Task PlayChange()
 		{
 			this.lvMixes_ItemActivate(null, null);
 		}
@@ -129,8 +126,6 @@ namespace AudioMixer
 			}
 
 			this.AdjustList(true);
-
-			Application.DoEvents();
 
 			this.activatedItem = this.lastActivated;
 			if (this.ItemActivated != null)

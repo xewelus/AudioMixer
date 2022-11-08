@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Input;
 using CommonWpf;
-using CommonWinForms.Extensions;
-using System.Windows.Forms;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using CommonWpf.Extensions;
 
 namespace AudioMixer
 {
@@ -252,13 +251,13 @@ namespace AudioMixer
 			this.pnlMixes.PanelOrientation = this.SplitContainer.Orientation;
 		}
 
-		private void splitContainer_SplitterMoved(object sender, SplitterEventArgs e)
-		{
-			if (this.windowController != null)
-			{
-				this.windowController.SplitterMoved();
-			}
-		}
+		//private void splitContainer_SplitterMoved(object sender, SplitterEventArgs e)
+		//{
+		//	if (this.windowController != null)
+		//	{
+		//		this.windowController.SplitterMoved();
+		//	}
+		//}
 
 		private void tbVolume_KeyDown(object sender, KeyEventArgs e)
 		{
