@@ -64,6 +64,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DeviceInfo.cs" />
+    <Compile Include="MouseKeyboardLibrary\GlobalHook.cs" />
+    <Compile Include="MouseKeyboardLibrary\KeyboardHook.cs" />
+    <Compile Include="MouseKeyboardLibrary\KeyboardSimulator.cs" />
+    <Compile Include="MouseKeyboardLibrary\StandardShortcut.cs" />
     <Compile Include="MainPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
