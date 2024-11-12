@@ -14,10 +14,12 @@ namespace AudioMixer
 		[STAThread]
 		static void Main()
 		{
-			if (Misc.IsAlreadyStarted("0A2E00D5-8D96-467B-8E0F-2B032EA916EA"))
-			{
-				return;
-			}
+			//todo: [high] restore mutex behaviour
+
+			//if (Misc.IsAlreadyStarted("0A2E00D5-8D96-467B-8E0F-2B032EA916EA"))
+			//{
+			//	return;
+			//}
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

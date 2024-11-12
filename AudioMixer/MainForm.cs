@@ -7,6 +7,7 @@ using AudioMixer.Properties;
 using Common;
 using CommonWinForms;
 using MouseKeyboardLibrary;
+using System.Reflection;
 
 namespace AudioMixer
 {
@@ -27,7 +28,8 @@ namespace AudioMixer
 			this.Icon = Resources.app;
 			this.ShowIcon = true;
 
-			this.Text = string.Format("{0} ({1})", this.Text, AssemblyInfo.VERSION);
+			string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			this.Text = string.Format("{0} ({1})", this.Text, assemblyVersion);
 
 			this.notifyIcon.Icon = Resources.app_play;
 			this.notifyIcon.Text = this.Text;
