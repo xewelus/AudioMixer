@@ -10,6 +10,7 @@ namespace AudioMixer
 	[Serializable]
 	public class Settings
 	{
+		private static XmlSerializer xs = new XmlSerializer(typeof(Settings));
 		private static Settings previuos;
 		private static Settings current = new Settings();
 		public static Settings Current
@@ -55,11 +56,10 @@ namespace AudioMixer
 		{
 			lock (locker)
 			{
-				XmlSerializer xs = new XmlSerializer(typeof(Settings));
 				using (FileStream fs = new FileStream(PATH, FileMode.OpenOrCreate, FileAccess.Write))
 				{
 					fs.SetLength(0);
-					xs.Serialize(fs, this);
+					xs.Serialize(fs, current);
 				}
 			}
 		}
@@ -70,7 +70,6 @@ namespace AudioMixer
 			{
 				if (!File.Exists(PATH)) return;
 
-				XmlSerializer xs = new XmlSerializer(typeof(Settings));
 				using (FileStream fs = new FileStream(PATH, FileMode.Open, FileAccess.Read))
 				{
 					current = (Settings)xs.Deserialize(fs);
@@ -97,6 +96,16 @@ namespace AudioMixer
 				}
 			}
 			return updated;
+		}
+
+		public Settings DeepCopy()
+		{
+			using (MemoryStream memoryStream = new MemoryStream())
+			{
+				xs.Serialize(memoryStream, this);
+				memoryStream.Position = 0; // Reset the stream position for reading
+				return (Settings)xs.Deserialize(memoryStream);
+			}
 		}
 	}
 
