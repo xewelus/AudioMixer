@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
     <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+    <NoWarn>NU1603</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyTitle>AudioMixer</AssemblyTitle>
@@ -22,7 +23,11 @@
     <AssemblyFileVersion>1.5.0.0</AssemblyFileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CSCore" Version="1.2.1.2" />
+    <PackageReference Include="CSCore" Version="1.2.1.2">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Common\CommonWinForms\CommonWinForms.csproj" />
     <ProjectReference Include="..\Common\Common\Common.csproj" />
   </ItemGroup>
