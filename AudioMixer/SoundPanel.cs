@@ -14,7 +14,7 @@ namespace AudioMixer
 			this.InitializeComponent();
 		}
 
-		public SoundPanel(SoundInfo soundInfo) : this()
+		public void SetSoundInfo(SoundInfo soundInfo)
 		{
 			this.SoundInfo = soundInfo;
 
@@ -29,13 +29,13 @@ namespace AudioMixer
 			this.internalChanges = false;
 		}
 
-		public readonly SoundInfo SoundInfo;
+		public SoundInfo SoundInfo { get; private set; }
 		public event EventHandler DeleteButtonClick;
 		public event EventHandler VolumeChanged;
 		public event EventHandler PlayChanged;
 		public event EventHandler ContentChanged;
 
-		private readonly bool internalChanges;
+		private bool internalChanges;
 
 		private void btnDelete_Click(object sender, EventArgs e)
 		{

@@ -81,22 +81,43 @@ namespace AudioMixer
 
 		private void pnlMixes_ItemSelected(object sender, EventArgs e)
 		{
-			if (this.mixPanel != null)
-			{
-				this.mixPanel.Remove(true);
-				this.mixPanel = null;
-			}
+			var container = this.splitContainer.Panel2;
+			container.SuspendLayout();
 
-			if (this.pnlMixes.SelectedMix != null)
+			if (this.mixPanel == null)
 			{
-				this.mixPanel = new MixPanel(this.pnlMixes.SelectedMix);
+				this.mixPanel = new MixPanel();
 				this.mixPanel.Dock = DockStyle.Fill;
 				this.mixPanel.NameChanged += this.MixPanelOnNameChanged;
 				this.mixPanel.VolumeChanged += this.MixPanelOnVolumeChanged;
 				this.mixPanel.PlayChanged += this.MixPanelOnPlayChanged;
 				this.mixPanel.ContentChanged += MixPanelOnContentChanged;
-				this.splitContainer.Panel2.Controls.Add(this.mixPanel);
 			}
+			else
+			{
+				this.mixPanel.ClearSoundPanels();
+			}
+
+			if (this.pnlMixes.SelectedMix == null)
+			{
+				if (this.mixPanel.Parent != null)
+				{
+					container.Controls.Remove(this.mixPanel);
+				}
+			}
+			else
+			{
+				this.mixPanel.SetMixInfo(this.pnlMixes.SelectedMix);
+
+				if (this.mixPanel.Parent == null)
+				{
+					container.Controls.Add(this.mixPanel);
+				}
+
+				this.mixPanel.Visible = true;
+			}
+
+			container.ResumeLayout();
 		}
 
 		private void MixPanelOnNameChanged(object sender, EventArgs eventArgs)

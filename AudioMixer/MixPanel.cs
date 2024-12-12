@@ -14,7 +14,7 @@ namespace AudioMixer
 			this.InitializeComponent();
 		}
 
-		public MixPanel(MixInfo mixInfo) : this()
+		public void SetMixInfo(MixInfo mixInfo)
 		{
 			this.mixInfo = mixInfo;
 
@@ -39,8 +39,8 @@ namespace AudioMixer
 		public event EventHandler PlayChanged;
 		public event EventHandler ContentChanged;
 
-		private readonly MixInfo mixInfo;
-		private readonly bool internalChanges;
+		private MixInfo mixInfo;
+		private bool internalChanges;
 
 		public string MixName
 		{
@@ -85,7 +85,6 @@ namespace AudioMixer
 			return null;
 		}
 
-		private readonly Dictionary<SoundPanel, Control> lines = new Dictionary<SoundPanel, Control>();
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			List<string> files = AskFiles();
@@ -105,31 +104,82 @@ namespace AudioMixer
 			}
 		}
 
+		private readonly Stack<PooledSoundPanel> soundPanelsPool = new Stack<PooledSoundPanel>();
+		private readonly List<PooledSoundPanel> soundPanels = new List<PooledSoundPanel>();
+
+		private class PooledSoundPanel
+		{
+			public SoundPanel SoundPanel;
+			public Panel Container;
+			public GroupBox Line;
+		}
+
 		private void AddSound(SoundInfo soundInfo)
 		{
-			Control line = this.AddLine();
+			GroupBox line;
 
-			SoundPanel soundPanel = new SoundPanel(soundInfo);
-			soundPanel.Dock = DockStyle.Top;
-			soundPanel.DeleteButtonClick += this.SoundPanel_DeleteButtonClick;
-			soundPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
-			soundPanel.PlayChanged += this.SoundPanel_PlayChanged;
-			soundPanel.ContentChanged += SoundPanelOnContentChanged;
+			PooledSoundPanel pooledSoundPanel;
+			SoundPanel soundPanel;
+			Panel panel;
+			if (this.soundPanelsPool.Count == 0)
+			{
+				pooledSoundPanel = new PooledSoundPanel();
 
-			Panel panel = new Panel();
-			panel.Height = soundPanel.Height;
-			panel.Dock = DockStyle.Top;
-			panel.Padding = new Padding(20, 0, 0, 0);
-			panel.Controls.Add(soundPanel);
+				line = new GroupBox();
+				line.Height = 2;
+				line.Dock = DockStyle.Top;
 
+				pooledSoundPanel.Line = line;
+
+				soundPanel = new SoundPanel();
+				soundPanel.Dock = DockStyle.Top;
+				soundPanel.DeleteButtonClick += this.SoundPanel_DeleteButtonClick;
+				soundPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
+				soundPanel.PlayChanged += this.SoundPanel_PlayChanged;
+				soundPanel.ContentChanged += SoundPanelOnContentChanged;
+
+				panel = new Panel();
+				panel.Height = soundPanel.Height;
+				panel.Dock = DockStyle.Top;
+				panel.Padding = new Padding(20, 0, 0, 0);
+				panel.Controls.Add(soundPanel);
+
+				pooledSoundPanel.SoundPanel = soundPanel;
+				pooledSoundPanel.Container = panel;
+			}
+			else
+			{
+				pooledSoundPanel = this.soundPanelsPool.Pop();
+				soundPanel = pooledSoundPanel.SoundPanel;
+				panel = pooledSoundPanel.Container;
+				line = pooledSoundPanel.Line;
+			}
+
+			this.soundPanels.Add(pooledSoundPanel);
+
+			// delimeter line
+			this.pnlSounds.Controls.Add(line);
+			this.pnlSounds.Controls.SetChildIndex(line, 0);
+
+			// sound panel
+			soundPanel.SetSoundInfo(soundInfo);
 			this.pnlSounds.Controls.Add(panel);
 			this.pnlSounds.Controls.SetChildIndex(panel, 0);
 
 			this.AdjustHeights();
 
-			this.lines.Add(soundPanel, line);
-
 			this.ContentChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		public void ClearSoundPanels()
+		{
+			foreach (PooledSoundPanel pooledSoundPanel in this.soundPanels)
+			{
+				this.pnlSounds.Controls.Remove(pooledSoundPanel.Container);
+				this.pnlSounds.Controls.Remove(pooledSoundPanel.Line);
+				this.soundPanelsPool.Push(pooledSoundPanel);
+			}
+			this.soundPanels.Clear();
 		}
 
 		private void SoundPanel_VolumeChanged(object sender, EventArgs e)
@@ -140,13 +190,15 @@ namespace AudioMixer
 		private void SoundPanel_DeleteButtonClick(object sender, EventArgs eventArgs)
 		{
 			SoundPanel soundPanel = (SoundPanel)sender;
-			this.pnlSounds.Controls.Remove(soundPanel.Parent);
+			PooledSoundPanel pooled = this.soundPanels.Find(p => p.SoundPanel == soundPanel);
+			if (pooled == null) throw new Exception(nameof(pooled));
 
-			Control line = this.lines.Get(soundPanel);
+			this.pnlSounds.Controls.Remove(pooled.Container);
+
+			Control line = pooled.Line;
 			if (line != null)
 			{
 				this.pnlSounds.Controls.Remove(line);
-				this.lines.Remove(soundPanel);
 			}
 
 			this.AdjustHeights();
@@ -166,16 +218,6 @@ namespace AudioMixer
 		{
 			this.pnlSounds.SetPreferredHeight();
 			this.SetPreferredHeight();
-		}
-
-		private Control AddLine()
-		{
-			GroupBox line = new GroupBox();
-			line.Height = 2;
-			line.Dock = DockStyle.Top;
-			this.pnlSounds.Controls.Add(line);
-			this.pnlSounds.Controls.SetChildIndex(line, 0);
-			return line;
 		}
 
 		private void tbVolume_ValueChanged(object sender, EventArgs e)
