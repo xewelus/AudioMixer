@@ -67,7 +67,7 @@ namespace AudioMixer
 
 		private void tbVolume_ValueChanged(object sender, EventArgs e)
 		{
-			this.lblVolume.Text = string.Format("Громкость ({0}%):", this.tbVolume.Value);
+			this.lblVolume.Text = string.Format("Volume ({0}%):", this.tbVolume.Value);
 			if (!this.internalChanges)
 			{
 				this.SoundInfo.Volume = this.tbVolume.Value / 100f;

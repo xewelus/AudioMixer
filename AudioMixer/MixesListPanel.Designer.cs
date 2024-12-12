@@ -125,7 +125,7 @@
 			this.miNew.Image = global::AudioMixer.Properties.Resources.plus;
 			this.miNew.Name = "miNew";
 			this.miNew.Size = new System.Drawing.Size(157, 22);
-			this.miNew.Text = "Новый";
+			this.miNew.Text = "New";
 			this.miNew.Click += new System.EventHandler(this.miNew_Click);
 			// 
 			// miCopy
@@ -133,7 +133,7 @@
 			this.miCopy.Image = global::AudioMixer.Properties.Resources.copy;
 			this.miCopy.Name = "miCopy";
 			this.miCopy.Size = new System.Drawing.Size(157, 22);
-			this.miCopy.Text = "Дублировать";
+			this.miCopy.Text = "Duplicate";
 			this.miCopy.Click += new System.EventHandler(this.miCopy_Click);
 			// 
 			// miDelete
@@ -141,7 +141,7 @@
 			this.miDelete.Image = global::AudioMixer.Properties.Resources.close;
 			this.miDelete.Name = "miDelete";
 			this.miDelete.Size = new System.Drawing.Size(157, 22);
-			this.miDelete.Text = "Удалить";
+			this.miDelete.Text = "Delete";
 			this.miDelete.Click += new System.EventHandler(this.miDelete_Click);
 			// 
 			// miPlay
@@ -149,7 +149,7 @@
 			this.miPlay.Image = global::AudioMixer.Properties.Resources.play;
 			this.miPlay.Name = "miPlay";
 			this.miPlay.Size = new System.Drawing.Size(157, 22);
-			this.miPlay.Text = "Воспроизвести";
+			this.miPlay.Text = "Play";
 			this.miPlay.Click += new System.EventHandler(this.miPlay_Click);
 			// 
 			// miPause
@@ -157,7 +157,7 @@
 			this.miPause.Image = global::AudioMixer.Properties.Resources.pause2;
 			this.miPause.Name = "miPause";
 			this.miPause.Size = new System.Drawing.Size(157, 22);
-			this.miPause.Text = "Остановить";
+			this.miPause.Text = "Stop";
 			this.miPause.Click += new System.EventHandler(this.miPause_Click);
 			// 
 			// btnMixDelete
@@ -168,7 +168,7 @@
 			this.btnMixDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnMixDelete.Name = "btnMixDelete";
 			this.btnMixDelete.Size = new System.Drawing.Size(23, 22);
-			this.btnMixDelete.Text = "Удалить";
+			this.btnMixDelete.Text = "Delete";
 			this.btnMixDelete.Click += new System.EventHandler(this.btnMixDelete_Click);
 			// 
 			// btnMixAdd
@@ -178,7 +178,7 @@
 			this.btnMixAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnMixAdd.Name = "btnMixAdd";
 			this.btnMixAdd.Size = new System.Drawing.Size(23, 22);
-			this.btnMixAdd.Text = "Новый";
+			this.btnMixAdd.Text = "New";
 			this.btnMixAdd.Click += new System.EventHandler(this.btnMixAdd_Click);
 			// 
 			// btnDock
@@ -188,7 +188,7 @@
 			this.btnDock.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnDock.Name = "btnDock";
 			this.btnDock.Size = new System.Drawing.Size(23, 22);
-			this.btnDock.Text = "Изменить расположение окна";
+			this.btnDock.Text = "Change window position";
 			this.btnDock.Click += new System.EventHandler(this.btnDock_Click);
 			// 
 			// MixesListPanel

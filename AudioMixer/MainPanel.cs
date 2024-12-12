@@ -209,7 +209,7 @@ namespace AudioMixer
 				Device device = this.cbAudioDevice.SelectedDevice;
 				if (device == null)
 				{
-					UIHelper.ShowError("Необходимо выбрать аудио-устройство.");
+					UIHelper.ShowError("You must select an audio device.");
 					return;
 				}
 
@@ -279,7 +279,7 @@ namespace AudioMixer
 
 		private void tbVolume_ValueChanged(object sender, EventArgs e)
 		{
-			this.lblVolume.Text = string.Format("Громкость ({0}%):", this.tbVolume.Value);
+			this.lblVolume.Text = string.Format("Volume ({0}%):", this.tbVolume.Value);
 
 			if (!this.internalChanges)
 			{

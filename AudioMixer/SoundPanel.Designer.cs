@@ -48,7 +48,7 @@
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(39, 13);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "Файл:";
+			this.label1.Text = "File:";
 			// 
 			// tbFile
 			// 
@@ -95,7 +95,7 @@
 			this.lblVolume.Name = "lblVolume";
 			this.lblVolume.Size = new System.Drawing.Size(65, 13);
 			this.lblVolume.TabIndex = 4;
-			this.lblVolume.Text = "Громкость:";
+			this.lblVolume.Text = "Volume:";
 			// 
 			// groupBox1
 			// 

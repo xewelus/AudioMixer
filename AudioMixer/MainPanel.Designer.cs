@@ -92,7 +92,7 @@
 			this.lblVolume.Name = "lblVolume";
 			this.lblVolume.Size = new System.Drawing.Size(65, 13);
 			this.lblVolume.TabIndex = 5;
-			this.lblVolume.Text = "Громкость:";
+			this.lblVolume.Text = "Volume:";
 			// 
 			// tbVolume
 			// 
@@ -137,7 +137,7 @@
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(100, 13);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "Аудио-устройство:";
+			this.label1.Text = "Audio device:";
 			// 
 			// MainPanel
 			// 

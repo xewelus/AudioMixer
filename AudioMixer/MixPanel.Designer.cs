@@ -49,7 +49,7 @@
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(99, 13);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "Наименование:";
+			this.label1.Text = "Name:";
 			// 
 			// tbName
 			// 
@@ -98,7 +98,7 @@
 			this.lblVolume.Name = "lblVolume";
 			this.lblVolume.Size = new System.Drawing.Size(75, 13);
 			this.lblVolume.TabIndex = 2;
-			this.lblVolume.Text = "Громкость:";
+			this.lblVolume.Text = "Volume:";
 			// 
 			// pnlSounds
 			// 
