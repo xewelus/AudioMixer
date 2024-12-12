@@ -8,7 +8,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyTitle>AudioMixer</AssemblyTitle>
-    <AssemblyDescription>Программа для одновременного воспроизведения нескольких треков на произвольных аудио-устройствах.</AssemblyDescription>
+    <AssemblyDescription>Program for simultaneous playback of multiple tracks on arbitrary audio devices.</AssemblyDescription>
     <AssemblyConfiguration></AssemblyConfiguration>
     <AssemblyCompany>xewee</AssemblyCompany>
     <AssemblyProduct>AudioMixer</AssemblyProduct>
