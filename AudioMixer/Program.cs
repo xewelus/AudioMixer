@@ -45,6 +45,13 @@ namespace AudioMixer
 
 		private static void OnError(Exception exception)
 		{
+			#if DEBUG
+			string exePath = Application.ExecutablePath;
+			string projPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(exePath), "../../../../"));
+			string logPath = Path.Combine(projPath, "last_error.log");
+			File.WriteAllText(logPath, $"[{DateTime.Now:dd.MM.yyyy HH:mm:ss.fff}]\r\n{exception}\r\n\r\n");
+			#endif
+
 			string path = FS.GetAppPath("errors.log");
 			File.AppendAllText(path, $"[{DateTime.Now:dd.MM.yyyy HH:mm:ss.fff}] {exception}\r\n\r\n");
 		}

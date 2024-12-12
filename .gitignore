@@ -10,3 +10,4 @@ _ReSharper.Caches/
 /packages/
 *.csproj.user
 /*/obj/
+last_error.log
