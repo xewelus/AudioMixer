@@ -21,6 +21,8 @@ namespace AudioMixer
 			//	return;
 			//}
 
+			UIHelper.IsDarkMode = true;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
