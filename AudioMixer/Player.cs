@@ -42,7 +42,7 @@ namespace AudioMixer
 				this.isPaused = false;
 				foreach (PlayerItem item in this.items)
 				{
-					item.Play();
+					Task.Run(() => item.Play());
 				}
 			}
 		}
