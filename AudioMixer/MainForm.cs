@@ -8,6 +8,7 @@ using Common;
 using CommonWinForms;
 using MouseKeyboardLibrary;
 using System.Reflection;
+using DarkModeForms;
 
 namespace AudioMixer
 {
@@ -18,10 +19,17 @@ namespace AudioMixer
 		private readonly KeyboardHook keyboardHook = new KeyboardHook();
 
 		private readonly MixesListPanel pnlMixes;
+		private DarkModeCS dm = null;
 
 		public MainForm()
 		{
 			this.InitializeComponent();
+
+			dm = new DarkModeCS(this)
+			{
+				//[Optional] Choose your preferred color mode here:
+				ColorMode = DarkModeCS.DisplayMode.SystemDefault
+			};
 
 			this.pnlMixes = this.mainPanel.MixesListPanel;
 
