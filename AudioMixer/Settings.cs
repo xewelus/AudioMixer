@@ -169,6 +169,7 @@ namespace AudioMixer
 		public Point Location = new Point(100, 100);
 		public Size Size = new Size(600, 600);
 		public bool IsMaximized;
+		public bool IsDarkMode;
 	}
 
 	[Serializable]

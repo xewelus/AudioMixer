@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using DarkModeForms;
 
 namespace AudioMixer
 {
@@ -8,6 +9,7 @@ namespace AudioMixer
 		private readonly WindowSettings window;
 		private readonly DockSettings dock;
 		private readonly SplitContainer splitContainer;
+		private DarkModeCS darkMode;
 
 		private bool internalChanges;
 		private FormWindowState prevFormState;
@@ -38,6 +40,7 @@ namespace AudioMixer
 				}
 
 				this.SetupOrientation();
+				this.SetupTheme();
 			}
 			finally
 			{
@@ -133,6 +136,37 @@ namespace AudioMixer
 				this.window.Location = this.form.Location;
 				Settings.SaveAppearance();
 			}
+		}
+
+		public void SetupTheme()
+		{
+			if (this.window.IsDarkMode)
+			{
+				if (this.darkMode == null)
+				{
+					this.darkMode = new DarkModeCS(this.form)
+					{
+						ColorMode = DarkModeCS.DisplayMode.SystemDefault
+					};
+				}
+				this.darkMode.ApplyTheme(true);
+			}
+			else
+			{
+				this.darkMode?.ApplyTheme(false);
+			}
+		}
+
+		public void SwitchTheme()
+		{
+			this.window.IsDarkMode = !this.window.IsDarkMode;
+			this.SetupTheme();
+			Settings.SaveAppearance();
+		}
+
+		public Color GetDefaultTextColor()
+		{
+			return this.darkMode?.OScolors?.TextActive ?? Control.DefaultForeColor;
 		}
 	}
 }

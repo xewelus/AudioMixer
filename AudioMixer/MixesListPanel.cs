@@ -35,6 +35,7 @@ namespace AudioMixer
 		public event EventHandler ItemSelected;
 		public event EventHandler ItemActivated;
 		public event EventHandler DockButtonClick;
+		public event EventHandler ThemeButtonClick;
 		public MixInfo SelectedMix;
 		public MixInfo ActivatedMix;
 
@@ -315,5 +316,14 @@ namespace AudioMixer
 		{
 			this.lvMixes_ItemActivate(this, EventArgs.Empty);
 		}
+
+		private void btnDarkMode_Click(object sender, EventArgs e)
+		{
+			if (this.ThemeButtonClick != null)
+			{
+				this.ThemeButtonClick(this, EventArgs.Empty);
+			}
+		}
 	}
 }
+

@@ -261,6 +261,11 @@ namespace AudioMixer
 			this.pnlMixes.PanelOrientation = this.splitContainer.Orientation;
 		}
 
+		private void pnlMixes_ThemeButtonClick(object sender, EventArgs e)
+		{
+			this.windowController.SwitchTheme();
+		}
+
 		private void splitContainer_SplitterMoved(object sender, SplitterEventArgs e)
 		{
 			if (this.windowController != null)

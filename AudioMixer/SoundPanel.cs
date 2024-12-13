@@ -157,7 +157,7 @@ namespace AudioMixer
 
 		private static Color GetDefaultTextColor()
 		{
-			return MainForm.Instance?.DarkMode?.OScolors?.TextActive ?? DefaultForeColor;
+			return MainForm.GetDefaultTextColor();
 		}
 	}
 }

@@ -1,14 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using AudioMixer.Properties;
 using Common;
 using CommonWinForms;
 using MouseKeyboardLibrary;
 using System.Reflection;
-using DarkModeForms;
 
 namespace AudioMixer
 {
@@ -20,16 +16,10 @@ namespace AudioMixer
 		private readonly KeyboardHook keyboardHook = new KeyboardHook();
 
 		private readonly MixesListPanel pnlMixes;
-		public readonly DarkModeCS DarkMode;
 
 		public MainForm()
 		{
 			Instance = this;
-
-			this.DarkMode = new DarkModeCS(this)
-			{
-				ColorMode = DarkModeCS.DisplayMode.SystemDefault
-			};
 
 			this.InitializeComponent();
 
@@ -46,7 +36,12 @@ namespace AudioMixer
 
 			this.currentMachine = InitMachine();
 
-			this.windowController = new WindowController(this, this.mainPanel.SplitContainer, this.currentMachine.Window, this.currentMachine.Dock);
+			this.windowController = new WindowController(
+				form: this,
+				splitContainer: this.mainPanel.SplitContainer,
+				window: this.currentMachine.Window,
+				dock: this.currentMachine.Dock);
+
 			this.windowController.Init();
 
 			this.mainPanel.Init(this.currentMachine, this.windowController);
@@ -101,6 +96,11 @@ namespace AudioMixer
 		public static bool IsPlayChangeKey(KeyEventArgs e)
 		{
 			return e.KeyData.In(Keys.Enter, Keys.Space);
+		}
+
+		public static Color GetDefaultTextColor()
+		{
+			return Instance?.windowController.GetDefaultTextColor() ?? Control.DefaultForeColor;
 		}
 
 		protected override void OnResize(EventArgs e)

@@ -44,6 +44,7 @@
 			btnMixAdd = new ToolStripButton();
 			toolStripSeparator1 = new ToolStripSeparator();
 			btnDock = new ToolStripButton();
+			btnDarkMode = new ToolStripButton();
 			cmList.SuspendLayout();
 			tsMixes.SuspendLayout();
 			SuspendLayout();
@@ -137,7 +138,7 @@
 			// tsMixes
 			// 
 			tsMixes.GripStyle = ToolStripGripStyle.Hidden;
-			tsMixes.Items.AddRange(new ToolStripItem[] { btnMixDelete, btnMixAdd, toolStripSeparator1, btnDock });
+			tsMixes.Items.AddRange(new ToolStripItem[] { btnMixDelete, btnMixAdd, toolStripSeparator1, btnDock, btnDarkMode });
 			tsMixes.Location = new Point(0, 0);
 			tsMixes.Name = "tsMixes";
 			tsMixes.RightToLeft = RightToLeft.Yes;
@@ -180,6 +181,16 @@
 			btnDock.Text = "Change window position";
 			btnDock.Click += btnDock_Click;
 			// 
+			// btnDarkMode
+			// 
+			btnDarkMode.DisplayStyle = ToolStripItemDisplayStyle.Image;
+			btnDarkMode.Image = Properties.Resources.icons8_moon_symbol_16;
+			btnDarkMode.ImageTransparentColor = Color.Magenta;
+			btnDarkMode.Name = "btnDarkMode";
+			btnDarkMode.Size = new Size(23, 22);
+			btnDarkMode.Text = "Switch theme";
+			btnDarkMode.Click += btnDarkMode_Click;
+			// 
 			// MixesListPanel
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -213,5 +224,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem miPlay;
 		private System.Windows.Forms.ToolStripMenuItem miPause;
+		private ToolStripButton btnDarkMode;
 	}
 }

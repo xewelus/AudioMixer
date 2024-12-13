@@ -71,6 +71,7 @@
 			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
 			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
 			this.pnlMixes.DockButtonClick += new System.EventHandler(this.pnlMixes_DockButtonClick);
+			this.pnlMixes.ThemeButtonClick += new System.EventHandler(this.pnlMixes_ThemeButtonClick);
 			// 
 			// panel1
 			// 
