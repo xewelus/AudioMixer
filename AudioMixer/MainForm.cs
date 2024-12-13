@@ -14,22 +14,24 @@ namespace AudioMixer
 {
 	public sealed partial class MainForm : Form
 	{
+		public static MainForm Instance { get; private set; }
 		private readonly Machine currentMachine;
 		private readonly WindowController windowController;
 		private readonly KeyboardHook keyboardHook = new KeyboardHook();
 
 		private readonly MixesListPanel pnlMixes;
-		private DarkModeCS dm = null;
+		public readonly DarkModeCS DarkMode;
 
 		public MainForm()
 		{
-			this.InitializeComponent();
+			Instance = this;
 
-			dm = new DarkModeCS(this)
+			this.DarkMode = new DarkModeCS(this)
 			{
-				//[Optional] Choose your preferred color mode here:
 				ColorMode = DarkModeCS.DisplayMode.SystemDefault
 			};
+
+			this.InitializeComponent();
 
 			this.pnlMixes = this.mainPanel.MixesListPanel;
 

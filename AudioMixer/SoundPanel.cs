@@ -147,12 +147,17 @@ namespace AudioMixer
 		{
 			string path = this.GetFilePath();
 			bool exists = File.Exists(path);
-			this.tbFile.ForeColor = exists ? DefaultForeColor : Color.Red;
+			this.tbFile.ForeColor = exists ? GetDefaultTextColor() : Color.Red;
 
 			if (exists)
 			{
 				this.ContentChanged?.Invoke(this, EventArgs.Empty);
 			}
+		}
+
+		private static Color GetDefaultTextColor()
+		{
+			return MainForm.Instance?.DarkMode?.OScolors?.TextActive ?? DefaultForeColor;
 		}
 	}
 }
