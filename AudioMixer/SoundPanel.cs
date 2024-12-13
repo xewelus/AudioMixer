@@ -149,7 +149,7 @@ namespace AudioMixer
 			bool exists = File.Exists(path);
 			this.tbFile.ForeColor = exists ? GetDefaultTextColor() : Color.Red;
 
-			if (exists)
+			if (!this.internalChanges && exists)
 			{
 				this.ContentChanged?.Invoke(this, EventArgs.Empty);
 			}

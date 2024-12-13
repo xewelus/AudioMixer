@@ -102,6 +102,8 @@ namespace AudioMixer
 
 				this.AddSound(soundInfo);
 			}
+
+			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private readonly Stack<PooledSoundPanel> soundPanelsPool = new Stack<PooledSoundPanel>();
@@ -167,8 +169,6 @@ namespace AudioMixer
 			this.pnlSounds.Controls.SetChildIndex(panel, 0);
 
 			this.AdjustHeights();
-
-			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void ClearSoundPanels()
