@@ -59,7 +59,7 @@ namespace AudioMixer
 				using (FileStream fs = new FileStream(PATH, FileMode.OpenOrCreate, FileAccess.Write))
 				{
 					fs.SetLength(0);
-					xs.Serialize(fs, current);
+					xs.Serialize(fs, this);
 				}
 			}
 		}
