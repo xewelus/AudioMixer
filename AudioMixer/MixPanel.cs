@@ -50,6 +50,12 @@ namespace AudioMixer
 			}
 		}
 
+		public void RefreshContent()
+		{
+			this.ClearSoundPanels();
+			this.SetMixInfo(this.mixInfo);
+		}
+
 		private void tbName_TextChanged(object sender, EventArgs e)
 		{
 			if (this.internalChanges) return;
@@ -107,11 +113,14 @@ namespace AudioMixer
 		}
 
 		private readonly Stack<PooledSoundPanel> soundPanelsPool = new Stack<PooledSoundPanel>();
+		private readonly Stack<PooledSoundPanel> submixPanelsPool = new Stack<PooledSoundPanel>();
 		private readonly List<PooledSoundPanel> soundPanels = new List<PooledSoundPanel>();
+		
 
 		private class PooledSoundPanel
 		{
 			public SoundPanel SoundPanel;
+			public SubmixPanel SubmixPanel;
 			public Panel Container;
 			public GroupBox Line;
 		}
@@ -120,10 +129,19 @@ namespace AudioMixer
 		{
 			GroupBox line;
 
+			Stack<PooledSoundPanel> pool;
+			if (soundInfo.Type == SoundInfo.Types.Mix)
+			{
+				pool = this.submixPanelsPool;
+			}
+			else
+			{
+				pool = this.soundPanelsPool;
+			}
+
 			PooledSoundPanel pooledSoundPanel;
-			SoundPanel soundPanel;
 			Panel panel;
-			if (this.soundPanelsPool.Count == 0)
+			if (pool.Count == 0)
 			{
 				pooledSoundPanel = new PooledSoundPanel();
 
@@ -133,26 +151,44 @@ namespace AudioMixer
 
 				pooledSoundPanel.Line = line;
 
-				soundPanel = new SoundPanel();
-				soundPanel.Dock = DockStyle.Top;
-				soundPanel.DeleteButtonClick += this.SoundPanel_DeleteButtonClick;
-				soundPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
-				soundPanel.PlayChanged += this.SoundPanel_PlayChanged;
-				soundPanel.ContentChanged += SoundPanelOnContentChanged;
-
 				panel = new Panel();
-				panel.Height = soundPanel.Height;
 				panel.Dock = DockStyle.Top;
 				panel.Padding = new Padding(20, 0, 0, 0);
-				panel.Controls.Add(soundPanel);
 
-				pooledSoundPanel.SoundPanel = soundPanel;
+				if (soundInfo.Type == SoundInfo.Types.Mix)
+				{
+					SubmixPanel submixPanel = new SubmixPanel();
+					submixPanel.Dock = DockStyle.Top;
+					panel.Height = submixPanel.Height;
+					panel.Controls.Add(submixPanel);
+
+					submixPanel.DeleteButtonClick += this.SoundPanel_DeleteButtonClick;
+					submixPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
+					submixPanel.PlayChanged += this.SoundPanel_PlayChanged;
+					submixPanel.ContentChanged += OnContentChanged;
+
+					pooledSoundPanel.SubmixPanel = submixPanel;
+				}
+				else
+				{
+					SoundPanel soundPanel = new SoundPanel();
+					soundPanel.Dock = DockStyle.Top;
+					panel.Height = soundPanel.Height;
+					panel.Controls.Add(soundPanel);
+
+					soundPanel.DeleteButtonClick += this.SoundPanel_DeleteButtonClick;
+					soundPanel.VolumeChanged += this.SoundPanel_VolumeChanged;
+					soundPanel.PlayChanged += this.SoundPanel_PlayChanged;
+					soundPanel.ContentChanged += OnContentChanged;
+
+					pooledSoundPanel.SoundPanel = soundPanel;
+				}
+
 				pooledSoundPanel.Container = panel;
 			}
 			else
 			{
-				pooledSoundPanel = this.soundPanelsPool.Pop();
-				soundPanel = pooledSoundPanel.SoundPanel;
+				pooledSoundPanel = pool.Pop();
 				panel = pooledSoundPanel.Container;
 				line = pooledSoundPanel.Line;
 			}
@@ -164,7 +200,14 @@ namespace AudioMixer
 			this.pnlSounds.Controls.SetChildIndex(line, 0);
 
 			// sound panel
-			soundPanel.SetSoundInfo(soundInfo);
+			if (soundInfo.Type == SoundInfo.Types.Mix)
+			{
+				pooledSoundPanel.SubmixPanel.SetSoundInfo(soundInfo, this.mixInfo);
+			}
+			else
+			{
+				pooledSoundPanel.SoundPanel.SetSoundInfo(soundInfo);
+			}
 			this.pnlSounds.Controls.Add(panel);
 			this.pnlSounds.Controls.SetChildIndex(panel, 0);
 
@@ -177,7 +220,15 @@ namespace AudioMixer
 			{
 				this.pnlSounds.Controls.Remove(pooledSoundPanel.Container);
 				this.pnlSounds.Controls.Remove(pooledSoundPanel.Line);
-				this.soundPanelsPool.Push(pooledSoundPanel);
+
+				if (pooledSoundPanel.SubmixPanel != null)
+				{
+					this.submixPanelsPool.Push(pooledSoundPanel);
+				}
+				else
+				{
+					this.soundPanelsPool.Push(pooledSoundPanel);
+				}
 			}
 			this.soundPanels.Clear();
 		}
@@ -237,11 +288,10 @@ namespace AudioMixer
 			}
 		}
 
-		private void SoundPanelOnContentChanged(object sender, EventArgs e)
+		private void OnContentChanged(object sender, EventArgs e)
 		{
 			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}
-
 		private void controls_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (MainForm.IsPlayChangeKey(e))
@@ -251,6 +301,18 @@ namespace AudioMixer
 					this.PlayChanged.Invoke(this, EventArgs.Empty);
 				}
 			}
+		}
+
+		private void btnAddMix_Click(object sender, EventArgs e)
+		{
+			SoundInfo soundInfo = new SoundInfo();
+			soundInfo.Type = SoundInfo.Types.Mix;
+			this.mixInfo.Sounds.Add(soundInfo);
+			Settings.SetNeedSave();
+
+			this.AddSound(soundInfo);
+
+			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

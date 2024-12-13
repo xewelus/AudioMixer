@@ -28,134 +28,144 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.splitContainer = new System.Windows.Forms.SplitContainer();
-			this.pnlMixes = new AudioMixer.MixesListPanel();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.lblVolume = new System.Windows.Forms.Label();
-			this.tbVolume = new CommonWinForms.Controls.XwTrackBar();
-			this.btnSave = new System.Windows.Forms.Button();
-			this.cbAudioDevice = new AudioDeviceComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
-			this.splitContainer.Panel1.SuspendLayout();
-			this.splitContainer.SuspendLayout();
-			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).BeginInit();
-			this.SuspendLayout();
+			splitContainer = new SplitContainer();
+			pnlMixes = new MixesListPanel();
+			panel1 = new Panel();
+			lblVolume = new Label();
+			tbVolume = new CommonWinForms.Controls.XwTrackBar();
+			btnSave = new Button();
+			cbAudioDevice = new AudioDeviceComboBox();
+			label1 = new Label();
+			((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
+			splitContainer.Panel1.SuspendLayout();
+			splitContainer.SuspendLayout();
+			panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)tbVolume).BeginInit();
+			SuspendLayout();
 			// 
 			// splitContainer
 			// 
-			this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer.Location = new System.Drawing.Point(0, 61);
-			this.splitContainer.Name = "splitContainer";
+			splitContainer.Dock = DockStyle.Fill;
+			splitContainer.Location = new Point(0, 70);
+			splitContainer.Margin = new Padding(4, 3, 4, 3);
+			splitContainer.Name = "splitContainer";
 			// 
 			// splitContainer.Panel1
 			// 
-			this.splitContainer.Panel1.Controls.Add(this.pnlMixes);
+			splitContainer.Panel1.Controls.Add(pnlMixes);
 			// 
 			// splitContainer.Panel2
 			// 
-			this.splitContainer.Panel2.AutoScroll = true;
-			this.splitContainer.Size = new System.Drawing.Size(655, 422);
-			this.splitContainer.SplitterDistance = 217;
-			this.splitContainer.TabIndex = 0;
-			this.splitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer_SplitterMoved);
+			splitContainer.Panel2.AutoScroll = true;
+			splitContainer.Size = new Size(764, 487);
+			splitContainer.SplitterDistance = 253;
+			splitContainer.SplitterWidth = 5;
+			splitContainer.TabIndex = 0;
+			splitContainer.SplitterMoved += splitContainer_SplitterMoved;
 			// 
 			// pnlMixes
 			// 
-			this.pnlMixes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlMixes.Location = new System.Drawing.Point(0, 0);
-			this.pnlMixes.Name = "pnlMixes";
-			this.pnlMixes.Size = new System.Drawing.Size(217, 422);
-			this.pnlMixes.TabIndex = 0;
-			this.pnlMixes.ItemSelected += new System.EventHandler(this.pnlMixes_ItemSelected);
-			this.pnlMixes.ItemActivated += new System.EventHandler(this.pnlMixes_ItemActivated);
-			this.pnlMixes.DockButtonClick += new System.EventHandler(this.pnlMixes_DockButtonClick);
-			this.pnlMixes.ThemeButtonClick += new System.EventHandler(this.pnlMixes_ThemeButtonClick);
+			pnlMixes.Dock = DockStyle.Fill;
+			pnlMixes.Location = new Point(0, 0);
+			pnlMixes.Margin = new Padding(5, 3, 5, 3);
+			pnlMixes.Name = "pnlMixes";
+			pnlMixes.Size = new Size(253, 487);
+			pnlMixes.TabIndex = 0;
+			pnlMixes.ItemSelected += pnlMixes_ItemSelected;
+			pnlMixes.ItemActivated += pnlMixes_ItemActivated;
+			pnlMixes.DockButtonClick += pnlMixes_DockButtonClick;
+			pnlMixes.ThemeButtonClick += pnlMixes_ThemeButtonClick;
+			pnlMixes.SelectedMixChanged += pnlMixes_SelectedMixChanged;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.lblVolume);
-			this.panel1.Controls.Add(this.tbVolume);
-			this.panel1.Controls.Add(this.btnSave);
-			this.panel1.Controls.Add(this.cbAudioDevice);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel1.Location = new System.Drawing.Point(0, 0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(655, 61);
-			this.panel1.TabIndex = 1;
+			panel1.Controls.Add(lblVolume);
+			panel1.Controls.Add(tbVolume);
+			panel1.Controls.Add(btnSave);
+			panel1.Controls.Add(cbAudioDevice);
+			panel1.Controls.Add(label1);
+			panel1.Dock = DockStyle.Top;
+			panel1.Location = new Point(0, 0);
+			panel1.Margin = new Padding(4, 3, 4, 3);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(764, 70);
+			panel1.TabIndex = 1;
 			// 
 			// lblVolume
 			// 
-			this.lblVolume.AutoSize = true;
-			this.lblVolume.Location = new System.Drawing.Point(9, 32);
-			this.lblVolume.Name = "lblVolume";
-			this.lblVolume.Size = new System.Drawing.Size(65, 13);
-			this.lblVolume.TabIndex = 5;
-			this.lblVolume.Text = "Volume:";
+			lblVolume.AutoSize = true;
+			lblVolume.Location = new Point(10, 37);
+			lblVolume.Margin = new Padding(4, 0, 4, 0);
+			lblVolume.Name = "lblVolume";
+			lblVolume.Size = new Size(50, 15);
+			lblVolume.TabIndex = 5;
+			lblVolume.Text = "Volume:";
 			// 
 			// tbVolume
 			// 
-			this.tbVolume.AutoSize = false;
-			this.tbVolume.LargeChange = 1;
-			this.tbVolume.Location = new System.Drawing.Point(111, 28);
-			this.tbVolume.Maximum = 100;
-			this.tbVolume.Name = "tbVolume";
-			this.tbVolume.Size = new System.Drawing.Size(366, 24);
-			this.tbVolume.TabIndex = 4;
-			this.tbVolume.Value = 100;
-			this.tbVolume.ValueChanged += new System.EventHandler(this.tbVolume_ValueChanged);
-			this.tbVolume.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbVolume_KeyDown);
+			tbVolume.AutoSize = false;
+			tbVolume.LargeChange = 1;
+			tbVolume.Location = new Point(130, 32);
+			tbVolume.Margin = new Padding(4, 3, 4, 3);
+			tbVolume.Maximum = 100;
+			tbVolume.Name = "tbVolume";
+			tbVolume.Size = new Size(427, 28);
+			tbVolume.TabIndex = 4;
+			tbVolume.Value = 100;
+			tbVolume.ValueChanged += tbVolume_ValueChanged;
+			tbVolume.KeyDown += tbVolume_KeyDown;
 			// 
 			// btnSave
 			// 
-			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSave.Enabled = false;
-			this.btnSave.Image = global::AudioMixer.Properties.Resources.save;
-			this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSave.Location = new System.Drawing.Point(629, 4);
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(23, 23);
-			this.btnSave.TabIndex = 2;
-			this.btnSave.UseVisualStyleBackColor = true;
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			btnSave.Enabled = false;
+			btnSave.Image = Properties.Resources.save;
+			btnSave.ImageAlign = ContentAlignment.MiddleLeft;
+			btnSave.Location = new Point(734, 5);
+			btnSave.Margin = new Padding(4, 3, 4, 3);
+			btnSave.Name = "btnSave";
+			btnSave.Size = new Size(27, 27);
+			btnSave.TabIndex = 2;
+			btnSave.UseVisualStyleBackColor = true;
+			btnSave.Click += btnSave_Click;
 			// 
 			// cbAudioDevice
 			// 
-			this.cbAudioDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbAudioDevice.FormattingEnabled = true;
-			this.cbAudioDevice.Location = new System.Drawing.Point(117, 6);
-			this.cbAudioDevice.Name = "cbAudioDevice";
-			this.cbAudioDevice.Size = new System.Drawing.Size(354, 21);
-			this.cbAudioDevice.TabIndex = 1;
-			this.cbAudioDevice.SelectedIndexChanged += new System.EventHandler(this.cbAudioDevice_SelectedIndexChanged);
+			cbAudioDevice.DropDownStyle = ComboBoxStyle.DropDownList;
+			cbAudioDevice.FormattingEnabled = true;
+			cbAudioDevice.Location = new Point(136, 7);
+			cbAudioDevice.Margin = new Padding(4, 3, 4, 3);
+			cbAudioDevice.Name = "cbAudioDevice";
+			cbAudioDevice.Size = new Size(412, 23);
+			cbAudioDevice.TabIndex = 1;
+			cbAudioDevice.SelectedIndexChanged += cbAudioDevice_SelectedIndexChanged;
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(9, 9);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Audio device:";
+			label1.AutoSize = true;
+			label1.Location = new Point(10, 10);
+			label1.Margin = new Padding(4, 0, 4, 0);
+			label1.Name = "label1";
+			label1.Size = new Size(79, 15);
+			label1.TabIndex = 0;
+			label1.Text = "Audio device:";
 			// 
 			// MainPanel
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.splitContainer);
-			this.Controls.Add(this.panel1);
-			this.Name = "MainPanel";
-			this.Size = new System.Drawing.Size(655, 483);
-			this.splitContainer.Panel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
-			this.splitContainer.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tbVolume)).EndInit();
-			this.ResumeLayout(false);
-
+			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleMode = AutoScaleMode.Font;
+			Controls.Add(splitContainer);
+			Controls.Add(panel1);
+			Margin = new Padding(4, 3, 4, 3);
+			Name = "MainPanel";
+			Size = new Size(764, 557);
+			splitContainer.Panel1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
+			splitContainer.ResumeLayout(false);
+			panel1.ResumeLayout(false);
+			panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)tbVolume).EndInit();
+			ResumeLayout(false);
 		}
 
 		#endregion

@@ -133,10 +133,16 @@ namespace AudioMixer
 	{
 		public string Path;
 		public float Volume = 1f;
+		public int? MixID;
+		public Types Type = Types.File;
 
 		public override string ToString()
 		{
-			return this.Path ?? "<пусто>";
+			if (MixID == null)
+			{
+				return $"File {this.Path ?? "<пусто>"}";
+			}
+			return $"Mix #{this.MixID}";
 		}
 
 		public string GetFullPath()
@@ -146,6 +152,12 @@ namespace AudioMixer
 				return System.IO.Path.GetFullPath(this.Path);
 			}
 			return System.IO.Path.GetFullPath(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.Path));
+		}
+
+		public enum Types
+		{
+			File,
+			Mix
 		}
 	}
 

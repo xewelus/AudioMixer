@@ -15,24 +15,70 @@ namespace AudioMixer
 		private readonly List<PlayerItem> items = new List<PlayerItem>();
 		private Thread checkPauseThread;
 		private bool isPaused;
+		private SoundHierarchy soundHierarchy = new SoundHierarchy();
 
 		public Player(Device device, MixInfo mixInfo, float globalVolume)
 		{
 			this.Mix = mixInfo;
+			var processedSounds = new HashSet<SoundInfo>();
 
 			foreach (SoundInfo soundInfo in mixInfo.Sounds)
 			{
-				string path = soundInfo.GetFullPath();
-				if (!File.Exists(path))
-				{
-					UIHelper.ShowError(string.Format("Не найден файл '{0}'.", path));
-					return;
-				}
-				PlayerItem readerInfo = new PlayerItem(device, soundInfo);
-				this.items.Add(readerInfo);
+				this.AddPlayerItemsRecursively(device, soundInfo, null, processedSounds);
 			}
 
 			this.UpdateVolume(globalVolume);
+		}
+
+		private void AddPlayerItemsRecursively(Device device, SoundInfo soundInfo, SoundInfo parentSoundInfo, HashSet<SoundInfo> processedSounds)
+		{
+			if (processedSounds.Contains(soundInfo))
+			{
+				return;
+			}
+			
+			processedSounds.Add(soundInfo);
+
+			if (soundInfo.Type == SoundInfo.Types.Mix)
+			{
+				if (soundInfo.MixID == null)
+				{
+					UIHelper.ShowError($"Mix not set.");
+					return;
+				}
+
+				MixInfo mix = Settings.Current.Mixes.FirstOrDefault(m => m.ID == soundInfo.MixID);
+				if (mix == null)
+				{
+					UIHelper.ShowError($"Mix '{soundInfo.MixID}' not found.");
+					return;
+				}
+				foreach (SoundInfo submixSound in mix.Sounds)
+				{
+					this.AddPlayerItemsRecursively(device, submixSound, soundInfo, processedSounds);
+				}
+			}
+			else
+			{
+				this.AddPlayerItem(device, soundInfo, parentSoundInfo);
+			}
+		}
+
+		private void AddPlayerItem(Device device, SoundInfo soundInfo, SoundInfo parentSoundInfo)
+		{
+			if (parentSoundInfo != null)
+			{
+				soundHierarchy.Add(soundInfo, parentSoundInfo);
+			}
+
+			string path = soundInfo.GetFullPath();
+			if (!File.Exists(path))
+			{
+				UIHelper.ShowError($"File '{path}' not found.");
+				return;
+			}
+			PlayerItem readerInfo = new PlayerItem(device, soundInfo, parentSoundInfo, this.soundHierarchy);
+			this.items.Add(readerInfo);
 		}
 
 		public void Play()
@@ -114,18 +160,22 @@ namespace AudioMixer
 		private class PlayerItem : IDisposable
 		{
 			private readonly SoundInfo soundInfo;
+			private readonly SoundInfo parentSoundInfo;
+			private readonly SoundHierarchy soundHierarchy;
 			private readonly IWaveSource waveSource;
 			private readonly ISoundOut soundOut;
 			private bool disposed;
 
-			public PlayerItem(Device device, SoundInfo soundInfo)
+			public PlayerItem(Device device, SoundInfo soundInfo, SoundInfo parentSoundInfo, SoundHierarchy soundHierarchy)
 			{
+				this.soundInfo = soundInfo;
+				this.parentSoundInfo = parentSoundInfo;
+				this.soundHierarchy = soundHierarchy;
+
 				try
 				{
-					this.soundInfo = soundInfo;
-
-					string file = soundInfo.GetFullPath();
-					this.waveSource = CodecFactory.Instance.GetCodec(file);
+					string path = this.soundInfo.GetFullPath();
+					this.waveSource = CodecFactory.Instance.GetCodec(path);
 
 					if (WasapiOut.IsSupportedOnCurrentPlatform)
 					{
@@ -202,11 +252,43 @@ namespace AudioMixer
 
 			public void UpdateVolume(float globalVolume)
 			{
+				float effectiveVolume = globalVolume * this.soundInfo.Volume;
+				effectiveVolume *= GetParentVolume(this.parentSoundInfo);
+
 				lock (this.soundOut)
 				{
-					this.soundOut.Volume = globalVolume * this.soundInfo.Volume;
+					this.soundOut.Volume = effectiveVolume;
 				}
+			}
+
+			private float GetParentVolume(SoundInfo parent)
+			{
+				if (parent == null) return 1.0f;
+				SoundInfo parentSound = this.soundHierarchy.GetParent(parent);
+				return parent.Volume * GetParentVolume(parentSound);
 			}
 		}
 	}
+	
+	public class SoundHierarchy
+	{
+		private readonly Dictionary<SoundInfo, SoundInfo> hierarchy = new Dictionary<SoundInfo, SoundInfo>();
+
+        public void Add(SoundInfo child, SoundInfo parent)
+        {
+            if (child != null && parent != null)
+            {
+                hierarchy[child] = parent;
+            }
+        }
+
+        public SoundInfo GetParent(SoundInfo soundInfo)
+        {
+            if (hierarchy.TryGetValue(soundInfo, out SoundInfo parent))
+            {
+                return parent;
+            }
+            return null; // No parent found
+        }
+    }
 }

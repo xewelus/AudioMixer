@@ -36,6 +36,7 @@ namespace AudioMixer
 		public event EventHandler ItemActivated;
 		public event EventHandler DockButtonClick;
 		public event EventHandler ThemeButtonClick;
+		public event EventHandler SelectedMixChanged;
 		public MixInfo SelectedMix;
 		public MixInfo ActivatedMix;
 
@@ -199,10 +200,34 @@ namespace AudioMixer
 
 					this.lvMixes.Items.Remove(item);
 					Settings.Current.Mixes.Remove(mixInfo);
+
+					bool hasDeletingMix = this.RemoveMixFromSubmixes(mixInfo);
+					if (hasDeletingMix)
+					{
+						this.SelectedMixChanged?.Invoke(this, EventArgs.Empty);
+					}
+
 					Settings.SetNeedSave();
 				}
 			}
 			this.AdjustList();
+		}
+
+		private bool RemoveMixFromSubmixes(MixInfo mixInfo)
+		{
+			bool hasDeletingMix = false;
+			foreach (MixInfo mix in Settings.Current.Mixes)
+			{
+				foreach (SoundInfo sound in mix.Sounds)
+				{
+					if (sound.MixID == mixInfo.ID)
+					{
+						mix.Sounds.Remove(sound);
+						hasDeletingMix = true;
+					}
+				}
+			}
+			return hasDeletingMix;
 		}
 
 		private void AdjustList(bool needSort = false)

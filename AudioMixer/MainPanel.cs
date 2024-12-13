@@ -303,5 +303,12 @@ namespace AudioMixer
 				this.player = null;
 			}
 		}
+
+		private void pnlMixes_SelectedMixChanged(object sender, EventArgs e)
+		{
+			// todo: refresh mix panel
+			this.mixPanel.RefreshContent();
+
+		}
 	}
 }
