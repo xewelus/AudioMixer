@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Common;
+using CommonWinForms;
 
 namespace AudioMixer
 {
@@ -90,17 +91,9 @@ namespace AudioMixer
 			}
 
 			this.cbRelativeIgnore = true;
-			if (Path.IsPathRooted(this.tbFile.Text))
-			{
-				this.cbRelative.Checked = false;
-				this.cbRelative.Enabled = !FS.IsAnotherDrive(this.tbFile.Text, AppDomain.CurrentDomain.BaseDirectory);
-			}
-			else
-			{
-				this.cbRelative.Checked = true;
-				this.cbRelative.Enabled = true;
-			}
+			this.cbRelative.Checked = !Path.IsPathRooted(this.tbFile.Text);
 			this.cbRelativeIgnore = false;
+
 			this.RefreshFileState();
 		}
 
@@ -124,6 +117,13 @@ namespace AudioMixer
 
 			if (this.cbRelative.Checked)
 			{
+				bool isAnotherDrive = FS.IsAnotherDrive(path, AppDomain.CurrentDomain.BaseDirectory);
+				if (isAnotherDrive)
+				{
+					UIHelper.ShowWarning($"The file '{path}' is located on a different drive than the application. Relative paths cannot be used in this case.");
+					return;
+				}
+
 				this.tbFile.Text = FS.GetRelativePath(path, AppDomain.CurrentDomain.BaseDirectory);
 			}
 			else
