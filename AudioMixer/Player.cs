@@ -189,7 +189,14 @@ namespace AudioMixer
 			{
 				lock (this.soundOut)
 				{
-					this.soundOut.Pause();
+					try
+					{
+						this.soundOut.Pause();
+					}
+					catch
+					{
+						// do nothing
+					}
 				}
 			}
 
