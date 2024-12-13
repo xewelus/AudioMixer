@@ -1,1 +1,3 @@
 Use "this" keyword to refer to the current object.
+Use explicit types declaration instead of using "var".
+Use string interpolation instead of string.Format for better readability.
