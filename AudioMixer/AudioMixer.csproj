@@ -19,8 +19,8 @@
     <AssemblyCopyright>xewee ©  2019</AssemblyCopyright>
     <AssemblyTrademark></AssemblyTrademark>
     <AssemblyCulture></AssemblyCulture>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <AssemblyFileVersion>1.5.0.0</AssemblyFileVersion>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
+    <AssemblyFileVersion>1.6.0.0</AssemblyFileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CSCore" Version="1.2.1.2">
