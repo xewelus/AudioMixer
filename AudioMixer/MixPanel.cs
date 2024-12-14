@@ -250,9 +250,28 @@ namespace AudioMixer
 
 		private void SoundPanel_DeleteButtonClick(object sender, EventArgs eventArgs)
 		{
-			SoundPanel soundPanel = (SoundPanel)sender;
-			PooledSoundPanel pooled = this.soundPanels.Find(p => p.SoundPanel == soundPanel);
-			if (pooled == null) throw new Exception(nameof(pooled));
+			PooledSoundPanel pooled;
+			if (sender is SoundPanel soundPanel)
+			{
+				pooled = this.soundPanels.Find(p => p.SoundPanel == soundPanel);
+				this.changedSounds.Add(soundPanel.SoundInfo);
+				this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
+			}
+			else if (sender is SubmixPanel submixPanel)
+			{
+				pooled = this.soundPanels.Find(p => p.SubmixPanel == submixPanel);
+				this.changedSounds.Add(submixPanel.SoundInfo);
+				this.mixInfo.Sounds.Remove(submixPanel.SoundInfo);
+			}
+			else
+			{
+				throw new ArgumentException($"Unexpected sender type: {sender.GetType()}", nameof(sender));
+			}
+
+			if (pooled == null)
+			{
+				throw new Exception("Pooled panel not found");
+			}
 
 			this.pnlSounds.Controls.Remove(pooled.Container);
 
@@ -263,9 +282,6 @@ namespace AudioMixer
 			}
 
 			this.AdjustHeights();
-
-			this.changedSounds.Add(soundPanel.SoundInfo);
-			this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
 			Settings.SetNeedSave();
 
 			this.ContentChanged?.Invoke(this, EventArgs.Empty);
