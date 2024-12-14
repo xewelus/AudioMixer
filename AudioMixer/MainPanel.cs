@@ -79,7 +79,7 @@ namespace AudioMixer
 			}
 		}
 
-		private void pnlMixes_ItemSelected(object sender, EventArgs e)
+		private async void pnlMixes_ItemSelected(object sender, EventArgs e)
 		{
 			var container = this.splitContainer.Panel2;
 			container.SuspendLayout();
@@ -107,7 +107,7 @@ namespace AudioMixer
 			}
 			else
 			{
-				this.mixPanel.SetMixInfo(this.pnlMixes.SelectedMix);
+				await this.mixPanel.SetMixInfoAsync(this.pnlMixes.SelectedMix);
 
 				if (this.mixPanel.Parent == null)
 				{
@@ -320,11 +320,10 @@ namespace AudioMixer
 			}
 		}
 
-		private void pnlMixes_SelectedMixChanged(object sender, EventArgs e)
+		private async void pnlMixes_SelectedMixChanged(object sender, EventArgs e)
 		{
 			// todo: refresh mix panel
-			this.mixPanel.RefreshContent();
-
+			await this.mixPanel.RefreshContentAsync();
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace AudioMixer
 			return result;
 		}
 
-		public void SetMixInfo(MixInfo mixInfo)
+		public async Task SetMixInfoAsync(MixInfo mixInfo)
 		{
 			this.mixInfo = mixInfo;
 
@@ -34,10 +34,8 @@ namespace AudioMixer
 			this.tbVolume_ValueChanged(null, null);
 
 			this.pnlSounds.SuspendLayout();
-			foreach (SoundInfo soundInfo in mixInfo.Sounds)
-			{
-				this.AddSound(soundInfo);
-			}
+			var tasks = mixInfo.Sounds.Select(soundInfo => this.AddSoundAsync(soundInfo));
+			await Task.WhenAll(tasks);
 			this.pnlSounds.ResumeLayout();
 
 			this.internalChanges = false;
@@ -59,10 +57,10 @@ namespace AudioMixer
 			}
 		}
 
-		public void RefreshContent()
+		public async Task RefreshContentAsync()
 		{
 			this.ClearSoundPanels();
-			this.SetMixInfo(this.mixInfo);
+			await this.SetMixInfoAsync(this.mixInfo);
 		}
 
 		private void tbName_TextChanged(object sender, EventArgs e)
@@ -100,7 +98,7 @@ namespace AudioMixer
 			return null;
 		}
 
-		private void btnAdd_Click(object sender, EventArgs e)
+		private async void btnAdd_Click(object sender, EventArgs e)
 		{
 			List<string> files = AskFiles();
 			if (files == null)
@@ -116,7 +114,7 @@ namespace AudioMixer
 				Settings.SetNeedSave();
 
 				this.changedSounds.Add(soundInfo);
-				this.AddSound(soundInfo);
+				await this.AddSoundAsync(soundInfo);
 			}
 
 			this.ContentChanged?.Invoke(this, EventArgs.Empty);
@@ -135,7 +133,7 @@ namespace AudioMixer
 			public GroupBox Line;
 		}
 
-		private void AddSound(SoundInfo soundInfo)
+		private async Task AddSoundAsync(SoundInfo soundInfo)
 		{
 			GroupBox line;
 
@@ -216,7 +214,7 @@ namespace AudioMixer
 			}
 			else
 			{
-				pooledSoundPanel.SoundPanel.SetSoundInfo(soundInfo);
+				await pooledSoundPanel.SoundPanel.SetSoundInfoAsync(soundInfo);
 			}
 			this.pnlSounds.Controls.Add(panel);
 			this.pnlSounds.Controls.SetChildIndex(panel, 0);
@@ -338,7 +336,7 @@ namespace AudioMixer
 			}
 		}
 
-		private void btnAddMix_Click(object sender, EventArgs e)
+		private async void btnAddMix_Click(object sender, EventArgs e)
 		{
 			SoundInfo soundInfo = new SoundInfo();
 			soundInfo.Type = SoundInfo.Types.Mix;
@@ -346,7 +344,7 @@ namespace AudioMixer
 			Settings.SetNeedSave();
 
 			this.changedSounds.Add(soundInfo);
-			this.AddSound(soundInfo);
+			await this.AddSoundAsync(soundInfo);
 
 			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}

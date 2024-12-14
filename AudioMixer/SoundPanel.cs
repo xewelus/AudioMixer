@@ -15,14 +15,14 @@ namespace AudioMixer
 			this.InitializeComponent();
 		}
 
-		public void SetSoundInfo(SoundInfo soundInfo)
+		public async Task SetSoundInfoAsync(SoundInfo soundInfo)
 		{
 			this.SoundInfo = soundInfo;
 
 			this.internalChanges = true;
 
 			this.tbFile.Text = soundInfo.Path;
-			this.RefreshFileState();
+			await this.RefreshFileStateAsync();
 
 			this.tbVolume.Value = (int)(soundInfo.Volume * 100);
 			this.tbVolume_ValueChanged(null, null);
@@ -56,13 +56,13 @@ namespace AudioMixer
 			return files[0];
 		}
 
-		private void btnOpen_Click(object sender, EventArgs e)
+		private async void btnOpen_Click(object sender, EventArgs e)
 		{
 			string file = AskFile();
 			if (file != null)
 			{
 				this.tbFile.Text = file;
-				this.RefreshFileState();
+				await this.RefreshFileStateAsync();
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace AudioMixer
 			}
 		}
 
-		private void tbFile_TextChanged(object sender, EventArgs e)
+		private async void tbFile_TextChanged(object sender, EventArgs e)
 		{
 			if (!this.internalChanges)
 			{
@@ -94,7 +94,7 @@ namespace AudioMixer
 			this.cbRelative.Checked = !Path.IsPathRooted(this.tbFile.Text);
 			this.cbRelativeIgnore = false;
 
-			this.RefreshFileState();
+			await this.RefreshFileStateAsync();
 		}
 
 		private void controls_KeyDown(object sender, KeyEventArgs e)
@@ -109,7 +109,7 @@ namespace AudioMixer
 		}
 
 		private bool cbRelativeIgnore;
-		private void cbRelative_CheckedChanged(object sender, EventArgs e)
+		private async void cbRelative_CheckedChanged(object sender, EventArgs e)
 		{
 			if (this.cbRelativeIgnore) return;
 
@@ -130,7 +130,7 @@ namespace AudioMixer
 			{
 				this.tbFile.Text = path;
 			}
-			this.RefreshFileState();
+			await this.RefreshFileStateAsync();
 		}
 
 		private string GetFilePath()
@@ -143,10 +143,10 @@ namespace AudioMixer
 			return path;
 		}
 
-		private void RefreshFileState()
+		private async Task RefreshFileStateAsync()
 		{
 			string path = this.GetFilePath();
-			bool exists = File.Exists(path);
+			bool exists = await Task.Run(() => File.Exists(path));
 			this.tbFile.ForeColor = exists ? GetDefaultTextColor() : Color.Red;
 
 			if (!this.internalChanges && exists)
