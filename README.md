@@ -11,3 +11,6 @@ An audio player that lets you mix and play multiple sounds simultaneously. Perfe
 - Quickly change the overall volume through the system tray.  
 - Supports both dark and light themes.  
 - Toggle playback on or off instantly by double-pressing the F2 key.  
+- Support for favorites; triple pressing the F2 key will cycle through favorites.
+- Support for submixes
+- Volume boost and normalization
