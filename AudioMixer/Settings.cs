@@ -116,6 +116,7 @@ namespace AudioMixer
 		public string Name;
 		public float Volume = 1f;
 		public List<SoundInfo> Sounds = new List<SoundInfo>();
+		public bool IsFavorite;
 
 		public static MixInfo Create()
 		{

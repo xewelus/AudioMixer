@@ -36,6 +36,9 @@
 			miCopy = new ToolStripMenuItem();
 			miDelete = new ToolStripMenuItem();
 			toolStripSeparator2 = new ToolStripSeparator();
+			miAddToFavorites = new ToolStripMenuItem();
+			miRemoveFromFavorites = new ToolStripMenuItem();
+			toolStripSeparator3 = new ToolStripSeparator();
 			miPlay = new ToolStripMenuItem();
 			miPause = new ToolStripMenuItem();
 			imageList = new ImageList(components);
@@ -79,7 +82,7 @@
 			// 
 			// cmList
 			// 
-			cmList.Items.AddRange(new ToolStripItem[] { miNew, miCopy, miDelete, toolStripSeparator2, miPlay, miPause });
+			cmList.Items.AddRange(new ToolStripItem[] { miNew, miCopy, miDelete, toolStripSeparator2, miAddToFavorites, miRemoveFromFavorites, toolStripSeparator3, miPlay, miPause });
 			cmList.Name = "cmList";
 			cmList.Size = new Size(125, 120);
 			cmList.Opening += cmList_Opening;
@@ -112,6 +115,27 @@
 			// 
 			toolStripSeparator2.Name = "toolStripSeparator2";
 			toolStripSeparator2.Size = new Size(121, 6);
+			// 
+			// miAddToFavorites
+			// 
+			miAddToFavorites.Name = "miAddToFavorites";
+			miAddToFavorites.Size = new Size(180, 22);
+			miAddToFavorites.Text = "Add to Favorites";
+			miAddToFavorites.Image = Properties.Resources.fav_star;
+			miAddToFavorites.Click += miAddToFavorites_Click;
+			// 
+			// miRemoveFromFavorites
+			// 
+			miRemoveFromFavorites.Name = "miRemoveFromFavorites";
+			miRemoveFromFavorites.Size = new Size(180, 22);
+			miRemoveFromFavorites.Text = "Remove from Favorites";
+			miRemoveFromFavorites.Image = Properties.Resources.fav_star;
+			miRemoveFromFavorites.Click += miRemoveFromFavorites_Click;
+			// 
+			// toolStripSeparator3
+			// 
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new Size(177, 6);
 			// 
 			// miPlay
 			// 
@@ -222,6 +246,9 @@
 		private System.Windows.Forms.ToolStripMenuItem miCopy;
 		private System.Windows.Forms.ToolStripMenuItem miDelete;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem miAddToFavorites;
+		private System.Windows.Forms.ToolStripMenuItem miRemoveFromFavorites;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem miPlay;
 		private System.Windows.Forms.ToolStripMenuItem miPause;
 		private ToolStripButton btnDarkMode;

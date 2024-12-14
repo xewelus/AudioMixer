@@ -5,6 +5,7 @@ using Common;
 using CommonWinForms;
 using MouseKeyboardLibrary;
 using System.Reflection;
+using System.Threading;
 
 namespace AudioMixer
 {
@@ -206,24 +207,44 @@ namespace AudioMixer
 			this.mainPanel.Volume = 100;
 		}
 
-		private Stopwatch keySw;
-		private void keyboardHook_KeyDown(object sender, KeyEventArgs e)
+		private Stopwatch keySw = Stopwatch.StartNew();
+		private int keyPressCount;
+
+		private void ExecuteKeyAction(int pressCount)
+		{
+			switch (pressCount)
+			{
+				case 2:
+					this.pnlMixes.PlayChange();
+					break;
+				case 3:
+					this.pnlMixes.SwitchToNextFavorite();
+					break;
+			}
+		}
+
+		private async void keyboardHook_KeyDown(object sender, KeyEventArgs e)
 		{
 			try
 			{
 				if (e.KeyCode != Keys.F2) return;
 
-				if (this.keySw == null)
-				{
-					this.keySw = Stopwatch.StartNew();
-					return;
-				}
+				long elapsed = this.keySw?.ElapsedMilliseconds ?? long.MaxValue;
+				this.keySw.Restart();
 
-				if (this.keySw.ElapsedMilliseconds < 500)
+				if (elapsed < 500)
 				{
-					this.pnlMixes.PlayChange();
+					this.keyPressCount++;
+					var pressCount = this.keyPressCount;
+
+					await Task.Delay(500);
+
+					if (this.keyPressCount == pressCount)
+					{
+						this.keyPressCount = 0;
+						ExecuteKeyAction(pressCount + 1);
+					}
 				}
-				this.keySw = null;
 			}
 			catch (Exception ex)
 			{

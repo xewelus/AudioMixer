@@ -20,6 +20,7 @@ namespace AudioMixer
 			this.imageList.Images.Add(Resources.play);
 			this.imageList.Images.Add(Resources.music);
 			this.imageList.Images.Add(Resources.pause);
+			this.imageList.Images.Add(Resources.fav_star);
 
 			this.lvMixes.BeginUpdate();
 			this.lvMixes.Items.Clear();
@@ -43,6 +44,7 @@ namespace AudioMixer
 		private const int IMAGE_PLAY = 0;
 		private const int IMAGE_DEFAULT = 1;
 		private const int IMAGE_PAUSE = 2;
+		private const int IMAGE_FAVORITE = 3;
 
 		private Orientation panelOrientation = Orientation.Vertical;
 		[DefaultValue(Orientation.Vertical)]
@@ -80,7 +82,7 @@ namespace AudioMixer
 		private ListViewItem AddListItem(MixInfo mixInfo)
 		{
 			ListViewItem item = this.lvMixes.Items.Add(mixInfo.Name);
-			item.ImageIndex = 1;
+			item.ImageIndex = mixInfo.IsFavorite ? IMAGE_FAVORITE : IMAGE_DEFAULT;
 			item.Tag = mixInfo;
 			return item;
 		}
@@ -191,7 +193,7 @@ namespace AudioMixer
 			foreach (ListViewItem item in this.lvMixes.SelectedItems)
 			{
 				MixInfo mixInfo = (MixInfo)item.Tag;
-				if (UIHelper.AskYesNo(string.Format("Вы уверены, что хотите удалить микс '{0}'?", mixInfo.Name)))
+				if (UIHelper.AskYesNo(string.Format("��ы уверены, что хотите удалить микс '{0}'?", mixInfo.Name)))
 				{
 					if (this.lastActivated == item)
 					{
@@ -256,6 +258,7 @@ namespace AudioMixer
 			{
 				if (item == null) throw new NullReferenceException(); // bad VS suggestion
 
+				MixInfo mixInfo = (MixInfo)item.Tag;
 				if (this.mouseItem == item)
 				{
 					if (item == this.lastActivated)
@@ -275,7 +278,7 @@ namespace AudioMixer
 					}
 					else
 					{
-						item.ImageIndex = IMAGE_DEFAULT;
+						item.ImageIndex = mixInfo.IsFavorite ? IMAGE_FAVORITE : IMAGE_DEFAULT;
 					}
 				}
 			}
@@ -304,6 +307,8 @@ namespace AudioMixer
 			this.miDelete.Enabled = selected;
 			this.miPlay.Enabled = selected && this.SelectedMix != this.ActivatedMix;
 			this.miPause.Enabled = selected && this.SelectedMix == this.ActivatedMix;
+			this.miAddToFavorites.Enabled = selected && !this.SelectedMix.IsFavorite;
+			this.miRemoveFromFavorites.Enabled = selected && this.SelectedMix.IsFavorite;
 		}
 
 		private void miNew_Click(object sender, EventArgs e)
@@ -349,6 +354,62 @@ namespace AudioMixer
 				this.ThemeButtonClick(this, EventArgs.Empty);
 			}
 		}
+
+		private void miAddToFavorites_Click(object sender, EventArgs e)
+		{
+			if (this.SelectedMix != null)
+			{
+				this.SelectedMix.IsFavorite = true;
+				Settings.SetNeedSave();
+				this.RefreshMixIcon(this.lvMixes.SelectedItems[0]);
+			}
+		}
+
+		private void miRemoveFromFavorites_Click(object sender, EventArgs e)
+		{
+			if (this.SelectedMix != null)
+			{
+				this.SelectedMix.IsFavorite = false;
+				Settings.SetNeedSave();
+				this.RefreshMixIcon(this.lvMixes.SelectedItems[0]);
+			}
+		}
+
+		private void RefreshMixIcon(ListViewItem item)
+		{
+			MixInfo mixInfo = (MixInfo)item.Tag;
+			if (item == this.lastActivated)
+			{
+				item.ImageIndex = IMAGE_PLAY;
+			}
+			else
+			{
+				item.ImageIndex = mixInfo.IsFavorite ? IMAGE_FAVORITE : IMAGE_DEFAULT;
+			}
+		}
+
+		public void SwitchToNextFavorite()
+		{
+			if (this.lvMixes.Items.Count == 0) return;
+
+			int startIndex = this.lvMixes.SelectedIndices.Count > 0 ? this.lvMixes.SelectedIndices[0] : -1;
+			int currentIndex = startIndex;
+
+			do
+			{
+				currentIndex = (currentIndex + 1) % this.lvMixes.Items.Count;
+				ListViewItem item = this.lvMixes.Items[currentIndex];
+				MixInfo mixInfo = (MixInfo)item.Tag;
+
+				if (mixInfo.IsFavorite)
+				{
+					item.Selected = true;
+					item.EnsureVisible();
+					
+					this.ActivateItem(item);
+					return;
+				}
+			} while (currentIndex != startIndex);
+		}
 	}
 }
-

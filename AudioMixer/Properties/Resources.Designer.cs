@@ -143,6 +143,16 @@ namespace AudioMixer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fav_star {
+            get {
+                object obj = ResourceManager.GetObject("fav_star", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_moon_symbol_16 {
             get {
                 object obj = ResourceManager.GetObject("icons8-moon-symbol-16", resourceCulture);
