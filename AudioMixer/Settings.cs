@@ -136,6 +136,7 @@ namespace AudioMixer
 		public float Volume = 1f;
 		public int? MixID;
 		public Types Type = Types.File;
+		public bool Boost;
 
 		public override string ToString()
 		{

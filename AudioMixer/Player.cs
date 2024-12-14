@@ -143,9 +143,20 @@ namespace AudioMixer
 		{
 			lock (this.items)
 			{
+				// Find the maximum potential volume among all sounds
+				float maxVolume = 0f;
+				foreach (PlayerItem item in this.items)
+				{
+					float itemVolume = item.GetEffectiveVolume(globalVolume * this.Mix.Volume);
+					maxVolume = Math.Max(maxVolume, itemVolume);
+				}
+
+				// Calculate normalization factor to prevent clipping
+				float normalizationFactor = maxVolume > 1.0f ? 1.0f / maxVolume : 1.0f;
+
 				foreach (PlayerItem readerInfo in this.items)
 				{
-					readerInfo.UpdateVolume(this.Mix.Volume * globalVolume);
+					readerInfo.UpdateVolume(this.Mix.Volume * globalVolume, normalizationFactor);
 				}
 			}
 		}
@@ -294,14 +305,27 @@ namespace AudioMixer
 				}
 			}
 
-			public void UpdateVolume(float globalVolume)
+			public float GetEffectiveVolume(float globalVolume)
 			{
 				float effectiveVolume = globalVolume * this.soundInfo.Volume;
 				effectiveVolume *= GetParentVolume(this.parentSoundInfo);
+				
+				if (this.soundInfo.Boost)
+				{
+					effectiveVolume *= 10f;
+				}
+
+				return effectiveVolume;
+			}
+
+			public void UpdateVolume(float globalVolume, float normalizationFactor)
+			{
+				float effectiveVolume = GetEffectiveVolume(globalVolume);
+				effectiveVolume *= normalizationFactor;
 
 				lock (this.soundOut)
 				{
-					this.soundOut.Volume = effectiveVolume;
+					this.soundOut.Volume = Math.Min(effectiveVolume, 1.0f);
 				}
 			}
 

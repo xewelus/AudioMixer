@@ -25,6 +25,7 @@ namespace AudioMixer
 			await this.RefreshFileStateAsync();
 
 			this.tbVolume.Value = (int)(soundInfo.Volume * 100);
+			this.cbBoost.Checked = soundInfo.Boost;
 			this.tbVolume_ValueChanged(null, null);
 
 			this.internalChanges = false;
@@ -68,10 +69,18 @@ namespace AudioMixer
 
 		private void tbVolume_ValueChanged(object sender, EventArgs e)
 		{
-			this.lblVolume.Text = string.Format("Volume ({0}%):", this.tbVolume.Value);
+			int displayValue = this.tbVolume.Value;
+			if (this.cbBoost.Checked)
+			{
+				displayValue = (int)(displayValue * 10);
+			}
+			this.lblVolume.Text = $"Volume ({displayValue}%):";
+			
 			if (!this.internalChanges)
 			{
-				this.SoundInfo.Volume = this.tbVolume.Value / 100f;
+				float volumeValue = this.tbVolume.Value / 100f;
+				this.SoundInfo.Volume = volumeValue;
+				this.SoundInfo.Boost = this.cbBoost.Checked;
 
 				if (this.VolumeChanged != null)
 				{
@@ -79,6 +88,25 @@ namespace AudioMixer
 				}
 
 				Settings.SetNeedSave();
+			}
+		}
+
+		private void cbBoost_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!this.internalChanges)
+			{
+				this.internalChanges = true;
+				if (this.cbBoost.Checked)
+				{
+					this.tbVolume.Value = Math.Max(1, (int)(this.tbVolume.Value / 10f));
+				}
+				else
+				{
+					this.tbVolume.Value = Math.Min(100, this.tbVolume.Value * 10);
+				}
+				this.internalChanges = false;
+				
+				this.tbVolume_ValueChanged(null, null);
 			}
 		}
 
