@@ -193,7 +193,7 @@ namespace AudioMixer
 			foreach (ListViewItem item in this.lvMixes.SelectedItems)
 			{
 				MixInfo mixInfo = (MixInfo)item.Tag;
-				if (UIHelper.AskYesNo(string.Format("��ы уверены, что хотите удалить микс '{0}'?", mixInfo.Name)))
+				if (UIHelper.AskYesNo(string.Format("Are you sure you want to delete mix '{0}'?", mixInfo.Name)))
 				{
 					if (this.lastActivated == item)
 					{

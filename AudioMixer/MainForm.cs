@@ -30,7 +30,7 @@ namespace AudioMixer
 			this.ShowIcon = true;
 
 			string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-			this.Text = string.Format("{0} ({1})", this.Text, assemblyVersion);
+			this.Text = string.Format("{0} ({1})", "Audio Mixer", assemblyVersion);
 
 			this.notifyIcon.Icon = Resources.app_play;
 			this.notifyIcon.Text = this.Text;
