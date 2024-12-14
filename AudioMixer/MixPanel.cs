@@ -9,9 +9,18 @@ namespace AudioMixer
 {
 	public partial class MixPanel : UserControl
 	{
+		private readonly HashSet<SoundInfo> changedSounds = new HashSet<SoundInfo>();
+
 		public MixPanel()
 		{
 			this.InitializeComponent();
+		}
+
+		public IEnumerable<SoundInfo> GetChangedSounds()
+		{
+			var result = new List<SoundInfo>(this.changedSounds);
+			this.changedSounds.Clear();
+			return result;
 		}
 
 		public void SetMixInfo(MixInfo mixInfo)
@@ -106,6 +115,7 @@ namespace AudioMixer
 				this.mixInfo.Sounds.Add(soundInfo);
 				Settings.SetNeedSave();
 
+				this.changedSounds.Add(soundInfo);
 				this.AddSound(soundInfo);
 			}
 
@@ -254,6 +264,7 @@ namespace AudioMixer
 
 			this.AdjustHeights();
 
+			this.changedSounds.Add(soundPanel.SoundInfo);
 			this.mixInfo.Sounds.Remove(soundPanel.SoundInfo);
 			Settings.SetNeedSave();
 
@@ -290,6 +301,14 @@ namespace AudioMixer
 
 		private void OnContentChanged(object sender, EventArgs e)
 		{
+			if (sender is SoundPanel soundPanel)
+			{
+				this.changedSounds.Add(soundPanel.SoundInfo);
+			}
+			else if (sender is SubmixPanel submixPanel)
+			{
+				this.changedSounds.Add(submixPanel.SoundInfo);
+			}
 			this.ContentChanged?.Invoke(this, EventArgs.Empty);
 		}
 		private void controls_KeyDown(object sender, KeyEventArgs e)
@@ -310,6 +329,7 @@ namespace AudioMixer
 			this.mixInfo.Sounds.Add(soundInfo);
 			Settings.SetNeedSave();
 
+			this.changedSounds.Add(soundInfo);
 			this.AddSound(soundInfo);
 
 			this.ContentChanged?.Invoke(this, EventArgs.Empty);

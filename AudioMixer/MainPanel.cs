@@ -145,7 +145,23 @@ namespace AudioMixer
 
 		private void MixPanelOnContentChanged(object sender, EventArgs e)
 		{
-			this.Play(false);
+			if (this.player != null && this.pnlMixes.ActivatedMix != null)
+			{
+				bool needsRestart = false;
+				foreach (SoundInfo sound in this.mixPanel.GetChangedSounds())
+				{
+					if (this.player.IsPlayingSound(sound))
+					{
+						needsRestart = true;
+						break;
+					}
+				}
+
+				if (needsRestart)
+				{
+					this.Play(false);
+				}
+			}
 		}
 
 		private void cbAudioDevice_SelectedIndexChanged(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Linq;
 using CommonWinForms;
 using CSCore;
 using CSCore.Codecs;
@@ -13,9 +14,12 @@ namespace AudioMixer
 	{
 		public readonly MixInfo Mix;
 		private readonly List<PlayerItem> items = new List<PlayerItem>();
+		private readonly List<SoundInfo> allSounds = new List<SoundInfo>();
 		private Thread checkPauseThread;
 		private bool isPaused;
 		private SoundHierarchy soundHierarchy = new SoundHierarchy();
+
+		public IReadOnlyList<SoundInfo> ActiveSounds => this.allSounds.AsReadOnly();
 
 		public Player(Device device, MixInfo mixInfo, float globalVolume)
 		{
@@ -38,6 +42,7 @@ namespace AudioMixer
 			}
 			
 			processedSounds.Add(soundInfo);
+			this.allSounds.Add(soundInfo);
 
 			if (soundInfo.Type == SoundInfo.Types.Mix)
 			{
@@ -155,6 +160,45 @@ namespace AudioMixer
 				}
 				this.items.Clear();
 			}
+		}
+
+		public bool IsPlayingSound(SoundInfo soundInfo)
+		{
+			// Direct match
+			if (this.allSounds.Contains(soundInfo))
+			{
+				return true;
+			}
+
+			// Check if any of our mixes match the changed mix
+			if (soundInfo.Type == SoundInfo.Types.Mix)
+			{
+				return this.allSounds.Any(s => s.Type == SoundInfo.Types.Mix && s.MixID == soundInfo.MixID);
+			}
+
+			// Check recursively in all submixes
+			return this.allSounds
+				.Where(s => s.Type == SoundInfo.Types.Mix)
+				.Any(mixSound => IsInMix(soundInfo, mixSound.MixID));
+		}
+
+		private bool IsInMix(SoundInfo soundInfo, int? mixId)
+		{
+			if (mixId == null) return false;
+
+			MixInfo mix = Settings.Current.Mixes.FirstOrDefault(m => m.ID == mixId);
+			if (mix == null) return false;
+
+			// Check direct containment
+			if (mix.Sounds.Contains(soundInfo))
+			{
+				return true;
+			}
+
+			// Check recursively in submixes
+			return mix.Sounds
+				.Where(s => s.Type == SoundInfo.Types.Mix)
+				.Any(submix => IsInMix(soundInfo, submix.MixID));
 		}
 
 		private class PlayerItem : IDisposable
